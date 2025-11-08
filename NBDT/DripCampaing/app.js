@@ -1,7 +1,101 @@
+/* eslint-disable no-use-before-define */
+const STRINGS = {
+  en: {
+    'title': 'Nayara Bocas del Toro - Drip Campaign Redesign',
+    'subtitle':
+      'Left: Findings and proposal. Right: New 6 email sequence in agent voice. Use the controls below each deck to move between slides.',
+    'language.toggle': 'Ver en español',
+    'welcome.title': 'Welcome!',
+    'welcome.intro': 'Select any text in the email deck to leave contextual comments. Please tell us who you are.',
+    'welcome.step1': 'Highlight any sentence or paragraph inside the emails.',
+    'welcome.step2': 'Use the floating “Add comment” button next to your selection.',
+    'welcome.step3': 'Hover the highlights to read saved notes from the team.',
+    'welcome.cta': 'Start exploring',
+    'welcome.firstName': 'First name',
+    'welcome.lastName': 'Last name',
+    'welcome.firstNamePlaceholder': 'First name',
+    'welcome.lastNamePlaceholder': 'Last name',
+    'comments.instructions':
+      '<strong>Comments:</strong> Select text in the emails and then click the floating button to add your note with first and last name. Hover any highlight to read saved comments.',
+    'comments.floatingButton': 'Add comment',
+    'comments.modalTitle': 'Add comment',
+    'comments.selectedTextLabel': 'Selected text:',
+    'comments.selectedTextNone': 'None',
+    'comments.firstName': 'First name',
+    'comments.lastName': 'Last name',
+    'comments.firstNamePlaceholder': 'First name',
+    'comments.lastNamePlaceholder': 'Last name',
+    'comments.commentLabel': 'Comment',
+    'comments.commentPlaceholder': 'What should we improve?',
+    'comments.save': 'Save',
+    'comments.cancel': 'Cancel',
+    'feedback.selectText': 'Select text inside the email column before saving a comment.',
+    'feedback.wrongColumn': 'You can comment only on the email slides.',
+    'feedback.saved': 'Comment saved successfully.',
+    'feedback.cancelled': 'Comment cancelled.',
+    'feedback.namesRequired': 'First and last name are required.',
+    'feedback.commentRequired': 'The comment cannot be empty.',
+    'deck.status': (current, total) => `Slide ${current} of ${total}`,
+  },
+  es: {
+    'title': 'Nayara Bocas del Toro - Rediseño del Drip Campaign',
+    'subtitle':
+      'Izquierda: hallazgos y propuesta. Derecha: nueva secuencia de 6 correos en voz del agente. Usa los controles para navegar entre las diapositivas.',
+    'language.toggle': 'Switch to English',
+    'welcome.title': '¡Bienvenido!',
+    'welcome.intro': 'Selecciona cualquier texto del deck para dejar comentarios contextuales. Cuéntanos quién eres.',
+    'welcome.step1': 'Resalta cualquier frase o párrafo dentro de los correos.',
+    'welcome.step2': 'Usa el botón flotante “Añadir comentario” junto a tu selección.',
+    'welcome.step3': 'Pasa el cursor sobre los resaltados para leer las notas guardadas del equipo.',
+    'welcome.cta': 'Comenzar',
+    'welcome.firstName': 'Nombre',
+    'welcome.lastName': 'Apellido',
+    'welcome.firstNamePlaceholder': 'Nombre',
+    'welcome.lastNamePlaceholder': 'Apellido',
+    'comments.instructions':
+      '<strong>Comentarios:</strong> Selecciona texto en los correos y luego haz clic en el botón flotante para añadir tu nota con nombre y apellido. Pasa el cursor sobre los resaltados para leer los comentarios guardados.',
+    'comments.floatingButton': 'Añadir comentario',
+    'comments.modalTitle': 'Añadir comentario',
+    'comments.selectedTextLabel': 'Texto seleccionado:',
+    'comments.selectedTextNone': 'Ninguno',
+    'comments.firstName': 'Nombre',
+    'comments.lastName': 'Apellido',
+    'comments.firstNamePlaceholder': 'Nombre',
+    'comments.lastNamePlaceholder': 'Apellido',
+    'comments.commentLabel': 'Comentario',
+    'comments.commentPlaceholder': '¿Qué deberíamos mejorar?',
+    'comments.save': 'Guardar',
+    'comments.cancel': 'Cancelar',
+    'feedback.selectText': 'Selecciona un texto dentro de la columna de correos antes de guardar un comentario.',
+    'feedback.wrongColumn': 'Sólo puedes comentar sobre los correos.',
+    'feedback.saved': 'Comentario guardado correctamente.',
+    'feedback.cancelled': 'Comentario cancelado.',
+    'feedback.namesRequired': 'Nombre y apellido son obligatorios.',
+    'feedback.commentRequired': 'El comentario no puede estar vacío.',
+    'deck.status': (current, total) => `Slide ${current} de ${total}`,
+  },
+};
+
+const STORAGE_KEYS = {
+  language: 'nbdt-language',
+  user: 'nbdt-user-profile',
+};
+
+const state = {
+  language: 'en',
+  user: null,
+};
+
 document.addEventListener('DOMContentLoaded', () => {
+  state.language = loadLanguage();
+  state.user = loadUser();
+  applyLanguage(state.language);
   setupDeck('deck-left');
   setupDeck('deck-right');
+  initLanguageToggle();
+  initWelcomeModal();
   initComments();
+  refreshDeckStatuses();
 });
 
 function setupDeck(deckId) {
@@ -32,9 +126,67 @@ function setupDeck(deckId) {
 }
 
 function updateDeckStatus(statusEl, index, total) {
-  if (statusEl) {
-    statusEl.textContent = `Slide ${index + 1} of ${total}`;
+  if (!statusEl) return;
+  statusEl.textContent = formatDeckStatus(index + 1, total);
+}
+
+function formatDeckStatus(current, total) {
+  const formatter = getString('deck.status');
+  if (typeof formatter === 'function') {
+    return formatter(current, total);
   }
+  if (typeof formatter === 'string') {
+    return formatter.replace('{current}', current).replace('{total}', total);
+  }
+  return `Slide ${current} of ${total}`;
+}
+
+function initLanguageToggle() {
+  const toggleBtn = document.getElementById('language-toggle');
+  if (!toggleBtn) return;
+  toggleBtn.addEventListener('click', () => {
+    const next = state.language === 'en' ? 'es' : 'en';
+    saveLanguage(next);
+    applyLanguage(next);
+  });
+}
+
+function initWelcomeModal() {
+  const modal = document.getElementById('welcome-modal');
+  const form = document.getElementById('welcome-form');
+  if (!modal || !form) return;
+
+  if (state.user) {
+    modal.hidden = true;
+    prefillCommentForm();
+  } else {
+    modal.hidden = false;
+    const firstInput = form.elements.firstName;
+    if (firstInput) firstInput.focus();
+  }
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const firstName = form.elements.firstName.value.trim();
+    const lastName = form.elements.lastName.value.trim();
+
+    if (!firstName || !lastName) {
+      alert(getString('feedback.namesRequired'));
+      return;
+    }
+
+    state.user = { firstName, lastName };
+    saveUser(state.user);
+    prefillCommentForm();
+    modal.hidden = true;
+  });
+}
+
+function prefillCommentForm() {
+  const commentForm = document.getElementById('comment-form');
+  if (!commentForm || !state.user) return;
+  commentForm.elements.firstName.value = state.user.firstName;
+  commentForm.elements.lastName.value = state.user.lastName;
 }
 
 function initComments() {
@@ -51,6 +203,7 @@ function initComments() {
     return;
   }
 
+  prefillCommentForm();
   let pendingSelection = null;
 
   const hideFloatingButton = () => {
@@ -70,22 +223,27 @@ function initComments() {
   const clearSelection = () => {
     window.getSelection().removeAllRanges();
     pendingSelection = null;
-    selectedTextBox.textContent = 'Ninguno';
+    selectedTextBox.textContent = getString('comments.selectedTextNone');
   };
 
   const openModal = () => {
     if (!pendingSelection) return;
     selectedTextBox.textContent = `"${pendingSelection.text}"`;
     commentModal.hidden = false;
-    commentForm.elements.author.focus();
-    announce(feedback, 'Completa tu nombre y comentario para guardarlo.');
+    commentForm.elements.firstName.focus();
+    commentForm.elements.firstName.value = state.user?.firstName ?? commentForm.elements.firstName.value;
+    commentForm.elements.lastName.value = state.user?.lastName ?? commentForm.elements.lastName.value;
+    announce(feedback, '', false);
   };
 
-  const closeModal = (message) => {
+  const closeModal = (messageKey, isError = false) => {
     commentModal.hidden = true;
     commentForm.reset();
-    if (message) announce(feedback, message);
-    else announce(feedback, '');
+    if (messageKey) {
+      announce(feedback, getString(messageKey), isError);
+    } else {
+      announce(feedback, '', false);
+    }
     hideFloatingButton();
     clearSelection();
   };
@@ -106,7 +264,7 @@ function initComments() {
     const slideEl = findSlideFromSelection(selection);
     if (!slideEl || !deckRight.contains(slideEl)) {
       hideFloatingButton();
-      announce(feedback, 'Sólo puedes comentar sobre los correos en la columna derecha.', true);
+      announce(feedback, getString('feedback.wrongColumn'), true);
       return;
     }
 
@@ -117,9 +275,17 @@ function initComments() {
       return;
     }
 
+    const rangeInfo = serializeRange(range, slideEl);
+    if (!rangeInfo) {
+      hideFloatingButton();
+      return;
+    }
+
     pendingSelection = {
       slideId: slideEl.dataset.slideId,
       text: selectionText,
+      rangeInfo,
+      range,
     };
     showFloatingButton(rect);
   };
@@ -132,56 +298,73 @@ function initComments() {
   commentForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (!pendingSelection) {
-      announce(feedback, 'Selecciona un texto antes de guardar un comentario.', true);
+      announce(feedback, getString('feedback.selectText'), true);
       return;
     }
 
-    const author = commentForm.elements.author.value.trim();
-    const comment = commentForm.elements.comment.value.trim();
+    const firstName = commentForm.elements.firstName.value.trim();
+    const lastName = commentForm.elements.lastName.value.trim();
+    const commentText = commentForm.elements.comment.value.trim();
 
-    if (!author || !comment) {
-      announce(feedback, 'El nombre y el comentario son obligatorios.', true);
+    if (!firstName || !lastName) {
+      announce(feedback, getString('feedback.namesRequired'), true);
       return;
     }
+    if (!commentText) {
+      announce(feedback, getString('feedback.commentRequired'), true);
+      return;
+    }
+
+    state.user = { firstName, lastName };
+    saveUser(state.user);
+
+    const fullName = `${firstName} ${lastName}`.trim();
+    const color = generateColor(fullName);
+    const payload = {
+      slideId: pendingSelection.slideId,
+      selectionText: pendingSelection.text,
+      range: pendingSelection.rangeInfo,
+      firstName,
+      lastName,
+      comment: commentText,
+      color,
+    };
 
     try {
       const response = await fetch('/comments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          slideId: pendingSelection.slideId,
-          selectionText: pendingSelection.text,
-          author,
-          comment,
-        }),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
         const error = await response.json().catch(() => ({}));
-        throw new Error(error.message || 'No fue posible guardar el comentario.');
+        throw new Error(error.message || getString('feedback.commentRequired'));
       }
 
       const savedComment = await response.json();
+      savedComment.color = savedComment.color || color;
+      savedComment.firstName = savedComment.firstName || firstName;
+      savedComment.lastName = savedComment.lastName || lastName;
+      savedComment.range = savedComment.range || payload.range;
+      if (pendingSelection.range) {
+        const immediateRange = pendingSelection.range.cloneRange();
+        wrapRangeWithMark(immediateRange, savedComment);
+      }
       applyCommentHighlight(savedComment);
-      closeModal('Comentario guardado correctamente.');
+      closeModal('feedback.saved');
     } catch (error) {
       console.error(error);
-      announce(feedback, error.message || 'Ocurrió un error al guardar el comentario.', true);
+      announce(feedback, error.message || getString('feedback.commentRequired'), true);
     }
   });
 
-  const cancelHandler = (message = 'Se canceló el registro del comentario.') => {
-    if (!commentModal.hidden) {
-      closeModal(message);
-    } else {
-      hideFloatingButton();
-      clearSelection();
-      if (message) announce(feedback, message);
-    }
+  const cancelHandler = () => {
+    closeModal('feedback.cancelled');
   };
 
-  cancelBtn?.addEventListener('click', () => cancelHandler());
-  modalCloseBtn?.addEventListener('click', () => cancelHandler());
+  cancelBtn?.addEventListener('click', cancelHandler);
+  modalCloseBtn?.addEventListener('click', cancelHandler);
 
   document.addEventListener('mouseup', handleSelectionChange);
   document.addEventListener('keyup', (event) => {
@@ -197,20 +380,22 @@ function initComments() {
     .then((res) => (res.ok ? res.json() : []))
     .then((comments) => {
       if (Array.isArray(comments)) {
-        comments.forEach(applyCommentHighlight);
+        comments.forEach((comment) => {
+          const fullName = `${comment.firstName || ''} ${comment.lastName || ''}`.trim();
+          comment.color = comment.color || generateColor(fullName);
+          applyCommentHighlight(comment);
+        });
       }
     })
     .catch((error) => {
-      console.warn('No se pudieron cargar los comentarios guardados.', error);
+      console.warn('Could not load saved comments.', error);
     });
 }
 
 function findSlideFromSelection(selection) {
   if (!selection) return null;
-
   const anchorSlide = findSlide(selection.anchorNode);
   const focusSlide = findSlide(selection.focusNode);
-
   if (!anchorSlide || !focusSlide) return null;
   return anchorSlide === focusSlide ? anchorSlide : null;
 }
@@ -219,7 +404,7 @@ function findSlide(node) {
   if (!node) return null;
   let current = node.nodeType === Node.TEXT_NODE ? node.parentNode : node;
   while (current && current !== document.body) {
-    if (current.classList && current.classList.contains('slide') && current.dataset.slideId) {
+    if (current.classList?.contains('slide') && current.dataset.slideId) {
       return current;
     }
     current = current.parentNode;
@@ -229,45 +414,189 @@ function findSlide(node) {
 
 function announce(element, message, isError = false) {
   if (!element) return;
-  element.textContent = message;
+  element.textContent = message || '';
   element.style.color = isError ? '#b91c1c' : '#047857';
 }
 
 function applyCommentHighlight(comment) {
-  if (!comment || !comment.slideId || !comment.selectionText) return;
+  if (!comment || !comment.slideId) return;
   if (document.querySelector(`mark.commented[data-comment-id="${comment.id}"]`)) {
-    return; // Already highlighted
+    return;
   }
   const slide = document.querySelector(`.slide[data-slide-id="${comment.slideId}"]`);
   if (!slide) return;
-  wrapSelectionInSlide(slide, comment.selectionText, comment);
+  const range = createRangeFromComment(slide, comment);
+  if (!range) return;
+  wrapRangeWithMark(range, comment);
 }
 
-function wrapSelectionInSlide(slideEl, text, comment) {
-  const walker = document.createTreeWalker(slideEl, NodeFilter.SHOW_TEXT, null);
-  const normalizedText = text.trim();
-  while (walker.nextNode()) {
-    const node = walker.currentNode;
-    const nodeValue = node.nodeValue;
-    if (!nodeValue) continue;
+function wrapRangeWithMark(range, comment) {
+  const mark = document.createElement('mark');
+  mark.className = 'commented';
+  mark.dataset.commentId = comment.id;
+  const fullName = `${comment.firstName || ''} ${comment.lastName || ''}`.trim();
+  mark.dataset.author = fullName || 'Reviewer';
+  mark.dataset.comment = comment.comment;
+  const color = comment.color || generateColor(fullName);
+  mark.style.backgroundColor = color;
+  mark.style.color = '#111827';
 
-    const startIndex = nodeValue.indexOf(normalizedText);
-    if (startIndex === -1) continue;
+  const fragment = range.extractContents();
+  mark.appendChild(fragment);
+  range.insertNode(mark);
+  range.detach();
+}
 
-    const range = document.createRange();
-    range.setStart(node, startIndex);
-    range.setEnd(node, startIndex + normalizedText.length);
-
-    const mark = document.createElement('mark');
-    mark.className = 'commented';
-    mark.dataset.commentId = comment.id;
-    mark.dataset.author = comment.author;
-    mark.dataset.comment = comment.comment;
-    mark.appendChild(range.extractContents());
-    range.insertNode(mark);
-    range.detach();
-    return true;
+function createRangeFromComment(slideEl, comment) {
+  if (!comment?.range) return null;
+  const { startPath, endPath, startOffset, endOffset } = comment.range;
+  if (!Array.isArray(startPath) || !Array.isArray(endPath)) {
+    return null;
   }
-  return false;
+  const startNode = resolveNodePath(slideEl, startPath);
+  const endNode = resolveNodePath(slideEl, endPath);
+  if (!startNode || !endNode) return null;
+  const range = document.createRange();
+  try {
+    range.setStart(startNode, clampOffset(startNode, startOffset));
+    range.setEnd(endNode, clampOffset(endNode, endOffset));
+  } catch (error) {
+    console.warn('Could not recreate range for comment', comment.id, error);
+    return null;
+  }
+  return range;
+}
+
+function clampOffset(node, offset = 0) {
+  if (node.nodeType === Node.TEXT_NODE) {
+    return Math.max(0, Math.min(offset, node.textContent?.length ?? 0));
+  }
+  return Math.max(0, Math.min(offset, node.childNodes?.length ?? 0));
+}
+
+function getNodePath(node, root) {
+  const path = [];
+  let current = node;
+  while (current && current !== root) {
+    const parent = current.parentNode;
+    if (!parent) break;
+    const index = Array.prototype.indexOf.call(parent.childNodes, current);
+    path.unshift(index);
+    current = parent;
+  }
+  return current === root ? path : null;
+}
+
+function resolveNodePath(root, path) {
+  let current = root;
+  for (const index of path) {
+    current = current?.childNodes?.[index];
+    if (!current) return null;
+  }
+  return current;
+}
+
+function generateColor(name) {
+  const input = (name || '').toLowerCase().trim() || 'reviewer';
+  let hash = 0;
+  for (let i = 0; i < input.length; i += 1) {
+    hash = input.charCodeAt(i) + ((hash << 5) - hash);
+    hash |= 0;
+  }
+  const hue = Math.abs(hash) % 360;
+  return `hsl(${hue}, 80%, 80%)`;
+}
+
+function loadLanguage() {
+  return window.localStorage.getItem(STORAGE_KEYS.language) || 'en';
+}
+
+function saveLanguage(lang) {
+  state.language = lang;
+  window.localStorage.setItem(STORAGE_KEYS.language, lang);
+}
+
+function loadUser() {
+  try {
+    const stored = window.localStorage.getItem(STORAGE_KEYS.user);
+    return stored ? JSON.parse(stored) : null;
+  } catch (error) {
+    console.warn('Could not parse stored user profile.', error);
+    return null;
+  }
+}
+
+function saveUser(user) {
+  state.user = user;
+  window.localStorage.setItem(STORAGE_KEYS.user, JSON.stringify(user));
+}
+
+function getString(key) {
+  const langStrings = STRINGS[state.language] || {};
+  if (langStrings[key] !== undefined) return langStrings[key];
+  const defaultStrings = STRINGS.en || {};
+  return defaultStrings[key];
+}
+
+function applyLanguage(lang) {
+  state.language = lang;
+  document.documentElement.lang = lang;
+
+  document.querySelectorAll('[data-i18n]').forEach((el) => {
+    const key = el.dataset.i18n;
+    const value = getString(key);
+    if (value === undefined || value === null) return;
+    if (typeof value === 'function') return;
+    if (/<\/?[a-z][\s\S]*>/i.test(value)) {
+      el.innerHTML = value;
+    } else {
+      el.textContent = value;
+    }
+  });
+
+  document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+    const key = el.dataset.i18nPlaceholder;
+    const value = getString(key);
+    if (value === undefined || value === null || typeof value === 'function') return;
+    el.setAttribute('placeholder', value);
+  });
+
+  const toggleBtn = document.getElementById('language-toggle');
+  if (toggleBtn) toggleBtn.textContent = getString('language.toggle');
+  const floatingBtn = document.getElementById('comment-floating-btn');
+  if (floatingBtn) floatingBtn.textContent = getString('comments.floatingButton');
+  const selectedValue = document.getElementById('selected-text');
+  if (selectedValue && (!selectedValue.textContent || selectedValue.textContent === 'None' || selectedValue.textContent === 'Ninguno')) {
+    selectedValue.textContent = getString('comments.selectedTextNone');
+  }
+  const modalClose = document.getElementById('comment-modal-close');
+  if (modalClose) modalClose.setAttribute('aria-label', getString('comments.cancel'));
+  refreshDeckStatuses();
+}
+
+function refreshDeckStatuses() {
+  document.querySelectorAll('.deck-controls').forEach((control) => {
+    const deckId = control.dataset.deck;
+    const deck = document.getElementById(deckId);
+    if (!deck) return;
+    const slides = deck.querySelectorAll('.slide');
+    if (!slides.length) return;
+    const activeIndex = Array.from(slides).findIndex((slide) => slide.classList.contains('active'));
+    const index = activeIndex >= 0 ? activeIndex : 0;
+    const statusEl = control.querySelector('.deck-status');
+    updateDeckStatus(statusEl, index, slides.length);
+  });
+}
+
+function serializeRange(range, root) {
+  const startPath = getNodePath(range.startContainer, root);
+  const endPath = getNodePath(range.endContainer, root);
+  if (!startPath || !endPath) return null;
+  return {
+    startPath,
+    startOffset: range.startOffset,
+    endPath,
+    endOffset: range.endOffset,
+  };
 }
 

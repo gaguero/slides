@@ -52,10 +52,12 @@
       padding: 20px;
       box-shadow: 0 18px 45px rgba(15, 23, 42, 0.35);
       backdrop-filter: blur(10px);
+      position: relative;
     }
     .page-title {
       text-align: center;
       margin-bottom: 20px;
+      position: relative;
     }
     .page-title h1 {
       font-size: 26px;
@@ -64,6 +66,104 @@
     .page-title p {
       font-size: 13px;
       color: #6b7280;
+    }
+    .language-toggle {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: #1f2937;
+      color: #f9fafb;
+      border: none;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .language-toggle:hover {
+      background: #111827;
+      transform: translateY(-1px);
+    }
+    .language-toggle:focus-visible {
+      outline: 2px solid #2563eb;
+      outline-offset: 2px;
+    }
+    .welcome-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 40;
+    }
+    .welcome-modal[hidden] {
+      display: none !important;
+    }
+    .welcome-content {
+      background: #ffffff;
+      border-radius: 18px;
+      width: min(520px, 100%);
+      padding: 24px;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.45);
+      display: grid;
+      gap: 18px;
+    }
+    .welcome-content h2 {
+      margin: 0;
+      font-size: 22px;
+      color: #0f172a;
+    }
+    .welcome-content p {
+      margin: 0;
+      font-size: 14px;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+    .welcome-steps {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 13px;
+      color: #374151;
+    }
+    .welcome-form {
+      display: grid;
+      gap: 12px;
+    }
+    .welcome-form label {
+      font-size: 12px;
+      color: #1f2937;
+      display: grid;
+      gap: 4px;
+    }
+    .welcome-form input {
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+    .welcome-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .welcome-actions button {
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .welcome-actions button:hover {
+      background: #1e4fd8;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
     }
     .columns {
       display: flex;
@@ -278,6 +378,15 @@
       display: grid;
       gap: 10px;
     }
+    .comment-name-fields {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
+    .comment-name-fields {
+      display: grid;
+      gap: 10px;
+    }
     .comment-form label {
       font-size: 12px;
       color: #1f2937;
@@ -405,6 +514,125 @@
     .comment-floating-btn[hidden] {
       display: none !important;
     }
+    .language-toggle {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      border: none;
+      border-radius: 999px;
+      background: #111827;
+      color: #f9fafb;
+      padding: 6px 14px;
+      font-size: 12px;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(17, 24, 39, 0.35);
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .language-toggle:hover {
+      background: #1f2937;
+      transform: translateY(-1px);
+    }
+    .welcome-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 40;
+    }
+    .welcome-modal[hidden] {
+      display: none !important;
+    }
+    .welcome-modal-content {
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 28px 70px rgba(15, 23, 42, 0.5);
+      padding: 26px;
+      max-width: 540px;
+      width: 100%;
+      display: grid;
+      gap: 16px;
+      position: relative;
+    }
+    .welcome-modal-content h2 {
+      margin: 0;
+      font-size: 22px;
+      color: #111827;
+    }
+    .welcome-modal-content p {
+      margin: 0;
+      font-size: 14px;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+    .welcome-example {
+      background: #f3f4f6;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 13px;
+      color: #4b5563;
+      display: grid;
+      gap: 6px;
+    }
+    .welcome-form {
+      display: grid;
+      gap: 12px;
+    }
+    .welcome-form label {
+      font-size: 13px;
+      color: #1f2937;
+      display: grid;
+      gap: 4px;
+    }
+    .welcome-form input {
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+    .welcome-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .welcome-actions button {
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .welcome-actions button:hover {
+      background: #1e4fd8;
+      transform: translateY(-1px);
+    }
+    .welcome-modal h4 {
+      margin: 12px 0 6px;
+      font-size: 16px;
+      color: #0f172a;
+    }
+    .welcome-modal .welcome-steps {
+      margin: 0 0 8px 18px;
+      padding: 0;
+      font-size: 13px;
+      color: #1f2937;
+    }
+    .welcome-modal .welcome-example-label {
+      font-weight: 600;
+      margin: 6px 0 4px;
+    }
+    .welcome-modal .welcome-example-text {
+      margin: 0 0 12px;
+      font-size: 13px;
+      color: #1f2937;
+    }
     mark.commented {
       background: #fcd34d;
       border-radius: 4px;
@@ -447,11 +675,36 @@
   </style>
 </head>
 <body>
+  <div id="welcome-modal" class="welcome-modal" hidden>
+    <div class="welcome-content" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+      <h2 id="welcome-title" data-i18n="welcome.title">Welcome!</h2>
+      <p data-i18n="welcome.intro">Select any text in the email deck to leave contextual comments. Please tell us who you are to personalize the experience.</p>
+      <ul class="welcome-steps">
+        <li data-i18n="welcome.step1">Highlight any sentence or paragraph inside the emails.</li>
+        <li data-i18n="welcome.step2">Use the floating “Add comment” button that appears next to your selection.</li>
+        <li data-i18n="welcome.step3">Hover the highlights to read saved notes from the team.</li>
+      </ul>
+      <form id="welcome-form" class="welcome-form">
+        <label>
+          <span data-i18n="welcome.firstName">First name</span>
+          <input type="text" name="firstName" required autocomplete="given-name" data-i18n-placeholder="welcome.firstNamePlaceholder" />
+        </label>
+        <label>
+          <span data-i18n="welcome.lastName">Last name</span>
+          <input type="text" name="lastName" required autocomplete="family-name" data-i18n-placeholder="welcome.lastNamePlaceholder" />
+        </label>
+        <div class="welcome-actions">
+          <button type="submit" data-i18n="welcome.cta">Start exploring</button>
+        </div>
+      </form>
+    </div>
+  </div>
   <div class="page-wrapper">
     <div class="page-inner">
       <div class="page-title">
-        <h1>Nayara Bocas del Toro - Drip Campaign Redesign</h1>
-        <p>Left: Findings and proposal. Right: New 6 email sequence in agent voice. Use the controls below each deck to move between slides.</p>
+        <button type="button" id="language-toggle" class="language-toggle" data-i18n="language.toggle">Switch to Spanish</button>
+        <h1 data-i18n="title">Nayara Bocas del Toro - Drip Campaign Redesign</h1>
+        <p data-i18n="subtitle">Left: Findings and proposal. Right: New 6 email sequence in agent voice. Use the controls below each deck to move between slides.</p>
       </div>
 
       <div class="columns">
@@ -539,27 +792,33 @@
         <!-- RIGHT COLUMN: 6 SLIDE DECK (NEW EMAILS) -->
         <div class="column column-right">
           <div class="comment-panel">
-            <p><strong>Comentarios:</strong> selecciona un texto en los correos; aparecerá un botón flotante para añadir tu comentario con nombre. Las zonas resaltadas muestran los comentarios al pasar el cursor.</p>
+            <p id="comment-panel-text" data-i18n="comments.instructions"><strong>Comments:</strong> select text in the emails—when a floating button appears, click it to add your note with name and surname. Hover any highlight to read saved comments.</p>
             <div id="comment-feedback" class="comment-feedback" role="status"></div>
           </div>
-          <button type="button" id="comment-floating-btn" class="comment-floating-btn" hidden>Añadir comentario</button>
+          <button type="button" id="comment-floating-btn" class="comment-floating-btn" hidden data-i18n="comments.floatingButton">Add comment</button>
           <div id="comment-modal" class="comment-modal" hidden>
             <div class="comment-modal-content" role="dialog" aria-modal="true" aria-labelledby="comment-modal-title">
-              <button type="button" class="comment-modal-close" id="comment-modal-close" aria-label="Cerrar">×</button>
-              <h3 id="comment-modal-title">Agregar comentario</h3>
-              <p class="comment-modal-selected"><strong>Texto seleccionado:</strong> <span id="selected-text">Ninguno</span></p>
+              <button type="button" class="comment-modal-close" id="comment-modal-close" aria-label="Close">×</button>
+              <h3 id="comment-modal-title" data-i18n="comments.modalTitle">Add comment</h3>
+              <p class="comment-modal-selected"><strong data-i18n="comments.selectedTextLabel">Selected text:</strong> <span id="selected-text" data-i18n="comments.selectedTextNone">None</span></p>
               <form id="comment-form" class="comment-form">
-                <label>
-                  Nombre
-                  <input type="text" name="author" required />
-                </label>
-                <label>
-                  Comentario
-                  <textarea name="comment" rows="3" required></textarea>
+                <div class="comment-name-fields">
+                  <label id="comment-form-firstname-label">
+                    <span data-i18n="comments.firstName">First name</span>
+                    <input type="text" name="firstName" autocomplete="given-name" required data-i18n-placeholder="comments.firstNamePlaceholder" />
+                  </label>
+                  <label id="comment-form-lastname-label">
+                    <span data-i18n="comments.lastName">Last name</span>
+                    <input type="text" name="lastName" autocomplete="family-name" required data-i18n-placeholder="comments.lastNamePlaceholder" />
+                  </label>
+                </div>
+                <label id="comment-form-comment-label">
+                  <span data-i18n="comments.commentLabel">Comment</span>
+                  <textarea name="comment" rows="3" required data-i18n-placeholder="comments.commentPlaceholder"></textarea>
                 </label>
                 <div class="comment-form-actions">
-                  <button type="submit">Guardar</button>
-                  <button type="button" id="cancel-comment">Cancelar</button>
+                  <button type="submit" id="comment-form-save" data-i18n="comments.save">Save</button>
+                  <button type="button" id="cancel-comment" data-i18n="comments.cancel">Cancel</button>
                 </div>
               </form>
             </div>
@@ -928,6 +1187,35 @@
     </div>
   </div>
 
+  <div id="welcome-modal" class="welcome-modal" hidden>
+    <div class="welcome-modal-content" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+      <h2 id="welcome-title">Welcome!</h2>
+      <p id="welcome-intro">Tell us who you are and see how the comment workflow operates.</p>
+      <h4 id="welcome-how-title">How to leave feedback</h4>
+      <ol class="welcome-steps">
+        <li id="welcome-step-1">Select any text in the email slides.</li>
+        <li id="welcome-step-2">Click the floating “Add comment” button.</li>
+        <li id="welcome-step-3">Write your note with your first and last name.</li>
+      </ol>
+      <p class="welcome-example-label" id="welcome-example-label">Example:</p>
+      <div class="welcome-example">
+        <span id="welcome-example-text">Highlight the rate table, add “Clarify if rates are per villa or per guest”, and save with your name.</span>
+      </div>
+      <form id="welcome-form" class="welcome-form">
+        <label for="welcome-first-name">
+          <span id="welcome-first-name-label">First name</span>
+          <input type="text" id="welcome-first-name" name="firstName" autocomplete="given-name" required />
+        </label>
+        <label for="welcome-last-name">
+          <span id="welcome-last-name-label">Last name</span>
+          <input type="text" id="welcome-last-name" name="lastName" autocomplete="family-name" required />
+        </label>
+        <div class="welcome-actions">
+          <button type="submit" id="welcome-submit">Start reviewing</button>
+        </div>
+      </form>
+    </div>
+  </div>
   <script src="app.js" defer></script>
 </body>
 </html>
