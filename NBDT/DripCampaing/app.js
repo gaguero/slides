@@ -38,31 +38,82 @@ function updateDeckStatus(statusEl, index, total) {
 }
 
 function initComments() {
-  const commentBtn = document.getElementById('comment-select-btn');
+  const floatingBtn = document.getElementById('comment-floating-btn');
+  const commentModal = document.getElementById('comment-modal');
   const commentForm = document.getElementById('comment-form');
   const cancelBtn = document.getElementById('cancel-comment');
+  const modalCloseBtn = document.getElementById('comment-modal-close');
   const selectedTextBox = document.getElementById('selected-text');
   const feedback = document.getElementById('comment-feedback');
   const deckRight = document.getElementById('deck-right');
 
-  if (!commentBtn || !commentForm || !deckRight) {
-    // Comment module not required (fallback for static use)
+  if (!floatingBtn || !commentModal || !commentForm || !deckRight) {
     return;
   }
 
   let pendingSelection = null;
 
-  commentBtn.addEventListener('click', () => {
+  const hideFloatingButton = () => {
+    floatingBtn.hidden = true;
+    floatingBtn.style.top = '-9999px';
+    floatingBtn.style.left = '-9999px';
+  };
+
+  const showFloatingButton = (rect) => {
+    const top = Math.max(window.scrollY + rect.top - 36, window.scrollY + 8);
+    const left = Math.max(window.scrollX + rect.left, window.scrollX + 8);
+    floatingBtn.style.top = `${top}px`;
+    floatingBtn.style.left = `${left}px`;
+    floatingBtn.hidden = false;
+  };
+
+  const clearSelection = () => {
+    window.getSelection().removeAllRanges();
+    pendingSelection = null;
+    selectedTextBox.textContent = 'Ninguno';
+  };
+
+  const openModal = () => {
+    if (!pendingSelection) return;
+    selectedTextBox.textContent = `"${pendingSelection.text}"`;
+    commentModal.hidden = false;
+    commentForm.elements.author.focus();
+    announce(feedback, 'Completa tu nombre y comentario para guardarlo.');
+  };
+
+  const closeModal = (message) => {
+    commentModal.hidden = true;
+    commentForm.reset();
+    if (message) announce(feedback, message);
+    else announce(feedback, '');
+    hideFloatingButton();
+    clearSelection();
+  };
+
+  const handleSelectionChange = () => {
+    if (!commentModal.hidden) {
+      hideFloatingButton();
+      return;
+    }
+
     const selection = window.getSelection();
     const selectionText = selection?.toString().trim();
     if (!selection || selection.isCollapsed || !selectionText) {
-      announce(feedback, 'Selecciona un texto dentro de los correos antes de guardar el comentario.', true);
+      hideFloatingButton();
       return;
     }
 
     const slideEl = findSlideFromSelection(selection);
     if (!slideEl || !deckRight.contains(slideEl)) {
+      hideFloatingButton();
       announce(feedback, 'Sólo puedes comentar sobre los correos en la columna derecha.', true);
+      return;
+    }
+
+    const range = selection.getRangeAt(0).cloneRange();
+    const rect = range.getBoundingClientRect();
+    if (!rect || (rect.top === 0 && rect.left === 0 && rect.width === 0 && rect.height === 0)) {
+      hideFloatingButton();
       return;
     }
 
@@ -70,10 +121,12 @@ function initComments() {
       slideId: slideEl.dataset.slideId,
       text: selectionText,
     };
-    selectedTextBox.textContent = `"${selectionText}"`;
-    commentForm.hidden = false;
-    commentForm.elements.author.focus();
-    announce(feedback, 'Completa tu nombre y comentario para guardarlo.');
+    showFloatingButton(rect);
+  };
+
+  floatingBtn.addEventListener('click', () => {
+    floatingBtn.hidden = true;
+    openModal();
   });
 
   commentForm.addEventListener('submit', async (event) => {
@@ -82,6 +135,7 @@ function initComments() {
       announce(feedback, 'Selecciona un texto antes de guardar un comentario.', true);
       return;
     }
+
     const author = commentForm.elements.author.value.trim();
     const comment = commentForm.elements.comment.value.trim();
 
@@ -109,25 +163,35 @@ function initComments() {
 
       const savedComment = await response.json();
       applyCommentHighlight(savedComment);
-      announce(feedback, 'Comentario guardado correctamente.');
-      commentForm.reset();
-      commentForm.hidden = true;
-      selectedTextBox.textContent = 'Ninguno';
-      pendingSelection = null;
-      window.getSelection().removeAllRanges();
+      closeModal('Comentario guardado correctamente.');
     } catch (error) {
       console.error(error);
       announce(feedback, error.message || 'Ocurrió un error al guardar el comentario.', true);
     }
   });
 
-  cancelBtn?.addEventListener('click', () => {
-    commentForm.reset();
-    commentForm.hidden = true;
-    selectedTextBox.textContent = 'Ninguno';
-    pendingSelection = null;
-    announce(feedback, 'Se canceló el registro del comentario.');
+  const cancelHandler = (message = 'Se canceló el registro del comentario.') => {
+    if (!commentModal.hidden) {
+      closeModal(message);
+    } else {
+      hideFloatingButton();
+      clearSelection();
+      if (message) announce(feedback, message);
+    }
+  };
+
+  cancelBtn?.addEventListener('click', () => cancelHandler());
+  modalCloseBtn?.addEventListener('click', () => cancelHandler());
+
+  document.addEventListener('mouseup', handleSelectionChange);
+  document.addEventListener('keyup', (event) => {
+    if (event.key === 'Escape') {
+      cancelHandler();
+    } else {
+      handleSelectionChange();
+    }
   });
+  document.addEventListener('selectionchange', handleSelectionChange);
 
   fetch('/comments')
     .then((res) => (res.ok ? res.json() : []))

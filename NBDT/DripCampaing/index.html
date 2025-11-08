@@ -273,28 +273,6 @@
       line-height: 1.5;
       color: #1f2937;
     }
-    .comment-panel button {
-      background: #2563eb;
-      color: #ffffff;
-      border: none;
-      border-radius: 999px;
-      padding: 6px 14px;
-      font-size: 12px;
-      cursor: pointer;
-      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-      margin-right: 8px;
-    }
-    .comment-panel button:hover {
-      background: #1e4fd8;
-      transform: translateY(-1px);
-      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.35);
-    }
-    .comment-panel button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      box-shadow: none;
-      transform: none;
-    }
     .comment-form {
       margin-top: 10px;
       display: grid;
@@ -324,16 +302,36 @@
       gap: 10px;
       align-items: center;
     }
-    .selected-text {
+    .comment-form-actions button {
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .comment-form-actions button:hover {
+      background: #1e4fd8;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.35);
+    }
+    .comment-form-actions button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+    .comment-modal-selected {
       background: #eef2ff;
       border: 1px solid #c7d2fe;
       border-radius: 8px;
-      padding: 8px 10px;
+      padding: 10px 12px;
       font-size: 12px;
       color: #1f2937;
     }
-    .selected-text blockquote {
-      margin: 6px 0 0;
+    .comment-modal-selected span {
       font-style: italic;
       color: #4b5563;
     }
@@ -341,6 +339,65 @@
       font-size: 12px;
       margin-top: 6px;
       color: #047857;
+    }
+    .comment-floating-btn {
+      position: absolute;
+      z-index: 20;
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .comment-floating-btn:hover {
+      background: #1e4fd8;
+      transform: translateY(-1px);
+    }
+    .comment-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 30;
+    }
+    .comment-modal-content {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.5);
+      padding: 20px;
+      max-width: 420px;
+      width: 100%;
+      position: relative;
+      display: grid;
+      gap: 14px;
+    }
+    .comment-modal-content h3 {
+      margin: 0;
+      font-size: 18px;
+      color: #111827;
+    }
+    .comment-modal-close {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      color: #4b5563;
+      cursor: pointer;
+      padding: 4px 6px;
+      line-height: 1;
+    }
+    .comment-modal-close:hover {
+      color: #111827;
     }
     mark.commented {
       background: #fcd34d;
@@ -476,27 +533,30 @@
         <!-- RIGHT COLUMN: 6 SLIDE DECK (NEW EMAILS) -->
         <div class="column column-right">
           <div class="comment-panel">
-            <p><strong>Comentarios:</strong> selecciona un texto en los correos y luego pulsa “Añadir comentario” para guardarlo con tu nombre. Pasa el cursor sobre las zonas resaltadas para leer los comentarios.</p>
-            <button type="button" id="comment-select-btn">Añadir comentario</button>
-            <form id="comment-form" class="comment-form" hidden>
-              <div class="selected-text">
-                <span>Texto seleccionado:</span>
-                <blockquote id="selected-text">Ninguno</blockquote>
-              </div>
-              <label>
-                Nombre
-                <input type="text" name="author" required />
-              </label>
-              <label>
-                Comentario
-                <textarea name="comment" rows="3" required></textarea>
-              </label>
-              <div class="comment-form-actions">
-                <button type="submit">Guardar</button>
-                <button type="button" id="cancel-comment">Cancelar</button>
-              </div>
-            </form>
+            <p><strong>Comentarios:</strong> selecciona un texto en los correos; aparecerá un botón flotante para añadir tu comentario con nombre. Las zonas resaltadas muestran los comentarios al pasar el cursor.</p>
             <div id="comment-feedback" class="comment-feedback" role="status"></div>
+          </div>
+          <button type="button" id="comment-floating-btn" class="comment-floating-btn" hidden>Añadir comentario</button>
+          <div id="comment-modal" class="comment-modal" hidden>
+            <div class="comment-modal-content" role="dialog" aria-modal="true" aria-labelledby="comment-modal-title">
+              <button type="button" class="comment-modal-close" id="comment-modal-close" aria-label="Cerrar">×</button>
+              <h3 id="comment-modal-title">Agregar comentario</h3>
+              <p class="comment-modal-selected"><strong>Texto seleccionado:</strong> <span id="selected-text">Ninguno</span></p>
+              <form id="comment-form" class="comment-form">
+                <label>
+                  Nombre
+                  <input type="text" name="author" required />
+                </label>
+                <label>
+                  Comentario
+                  <textarea name="comment" rows="3" required></textarea>
+                </label>
+                <div class="comment-form-actions">
+                  <button type="submit">Guardar</button>
+                  <button type="button" id="cancel-comment">Cancelar</button>
+                </div>
+              </form>
+            </div>
           </div>
           <div class="deck-controls deck-controls-top" data-deck="deck-right">
             <button type="button" class="nav-button" data-target="deck-right" data-direction="prev">◀</button>
