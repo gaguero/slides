@@ -415,7 +415,7 @@
       opacity: 0;
       transition: opacity 0.6s ease;
     }
-    .columns.view-mode-full .image-carousel {
+    .image-carousel.visible {
       opacity: 1;
     }
     .carousel-wheel {
@@ -488,11 +488,12 @@
     .carousel-item:nth-child(12) {
       transform: translateX(-50%) translateY(-50%) rotate(330deg) translateY(-85px) rotate(-330deg);
     }
-    .columns.view-mode-full .deck-controls-top {
+    .columns.view-mode-full .column-left .deck-controls-top {
       justify-content: center;
       max-width: 800px;
       margin-left: auto;
       margin-right: auto;
+      width: 100%;
     }
     .nav-button {
       border: none;

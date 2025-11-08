@@ -98,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initWelcomeModal();
   initComments();
   refreshDeckStatuses();
+  updateCarouselVisibility();
 });
 
 function setupDeck(deckId) {
@@ -165,6 +166,7 @@ function handleLeftDeckSlideChange(currentIndex, totalSlides, clickedButton) {
 function switchToSplitView() {
   const columns = document.querySelector('.columns');
   const columnRight = document.querySelector('.column-right');
+  const carousel = document.querySelector('.image-carousel');
   
   if (!columns || !columnRight) return;
   
@@ -172,10 +174,27 @@ function switchToSplitView() {
   columns.classList.add('view-mode-split');
   columnRight.classList.add('visible');
   
+  // Hide carousel when switching to split view
+  if (carousel) {
+    carousel.classList.remove('visible');
+  }
+  
   // Update subtitle
   const subtitle = document.querySelector('[data-i18n="subtitle"]');
   if (subtitle) {
     subtitle.textContent = getString('subtitle') || 'Left: Findings and proposal. Right: New 6 email sequence in agent voice. Use the controls below each deck to move between slides.';
+  }
+}
+
+function updateCarouselVisibility() {
+  const columns = document.querySelector('.columns');
+  const carousel = document.querySelector('.image-carousel');
+  if (!columns || !carousel) return;
+  
+  if (columns.classList.contains('view-mode-full')) {
+    carousel.classList.add('visible');
+  } else {
+    carousel.classList.remove('visible');
   }
 }
 
