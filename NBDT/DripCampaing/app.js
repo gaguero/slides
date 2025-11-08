@@ -337,9 +337,26 @@ function initComments() {
         body: JSON.stringify(payload),
       });
 
+      const contentType = response.headers.get('content-type');
+      const isJson = contentType && contentType.includes('application/json');
+
       if (!response.ok) {
-        const error = await response.json().catch(() => ({}));
-        throw new Error(error.message || getString('feedback.commentRequired'));
+        let errorMessage = getString('feedback.commentRequired');
+        if (isJson) {
+          try {
+            const error = await response.json();
+            errorMessage = error.message || errorMessage;
+          } catch (e) {
+            // Ignore JSON parse errors
+          }
+        } else {
+          errorMessage = `Server error (${response.status}). Please check Railway logs.`;
+        }
+        throw new Error(errorMessage);
+      }
+
+      if (!isJson) {
+        throw new Error('Server returned non-JSON response. Check Railway configuration.');
       }
 
       const savedComment = await response.json();
@@ -354,8 +371,9 @@ function initComments() {
       applyCommentHighlight(savedComment);
       closeModal('feedback.saved');
     } catch (error) {
-      console.error(error);
-      announce(feedback, error.message || getString('feedback.commentRequired'), true);
+      console.error('Error saving comment:', error);
+      const errorMsg = error.message || getString('feedback.commentRequired');
+      announce(feedback, errorMsg, true);
     }
   });
 
@@ -377,7 +395,18 @@ function initComments() {
   document.addEventListener('selectionchange', handleSelectionChange);
 
   fetch('/comments')
-    .then((res) => (res.ok ? res.json() : []))
+    .then(async (res) => {
+      if (!res.ok) {
+        console.warn(`Failed to load comments: ${res.status}`);
+        return [];
+      }
+      const contentType = res.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        console.warn('Server returned non-JSON response when loading comments');
+        return [];
+      }
+      return res.json();
+    })
     .then((comments) => {
       if (Array.isArray(comments)) {
         comments.forEach((comment) => {

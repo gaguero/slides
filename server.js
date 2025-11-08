@@ -8,23 +8,26 @@ const COMMENTS_PATH = path.join(__dirname, 'data', 'comments.json');
 const STATIC_ROOT = path.join(__dirname, 'NBDT', 'DripCampaing');
 
 app.use(express.json());
-app.use(express.static(STATIC_ROOT));
 
+// API routes must come BEFORE static files
 app.get('/comments', async (req, res) => {
+  console.log('[GET /comments] Request received');
   try {
     const comments = await readComments();
     const normalized = comments.map((comment) => ({
       ...comment,
       color: comment.color || generateColor(`${comment.firstName || ''} ${comment.lastName || ''}`.trim()),
     }));
+    console.log(`[GET /comments] Returning ${normalized.length} comments`);
     res.json(normalized);
   } catch (error) {
-    console.error('Error reading comments:', error);
+    console.error('[GET /comments] Error reading comments:', error);
     res.status(500).json({ message: 'Error retrieving comments' });
   }
 });
 
 app.post('/comments', async (req, res) => {
+  console.log('[POST /comments] Request received');
   const { slideId, selectionText = '', firstName, lastName, comment, range, color } = req.body || {};
 
   const trimmedFirstName = (firstName || '').trim();
@@ -32,6 +35,7 @@ app.post('/comments', async (req, res) => {
   const trimmedComment = (comment || '').trim();
 
   if (!slideId || !trimmedFirstName || !trimmedLastName || !trimmedComment || !range) {
+    console.warn('[POST /comments] Missing required fields:', { slideId: !!slideId, firstName: !!trimmedFirstName, lastName: !!trimmedLastName, comment: !!trimmedComment, range: !!range });
     return res.status(400).json({ message: 'slideId, range, firstName, lastName and comment are required.' });
   }
 
@@ -41,13 +45,13 @@ app.post('/comments', async (req, res) => {
     || Number.isNaN(range.startOffset)
     || Number.isNaN(range.endOffset)
   ) {
+    console.warn('[POST /comments] Invalid range format');
     return res.status(400).json({ message: 'Range information is invalid.' });
   }
 
   try {
     const comments = await readComments();
     const authorColor = color || generateColor(`${trimmedFirstName} ${trimmedLastName}`);
-
     const newComment = {
       id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
       slideId,
@@ -62,19 +66,27 @@ app.post('/comments', async (req, res) => {
 
     comments.push(newComment);
     await writeComments(comments);
+    console.log(`[POST /comments] Comment saved successfully: ${newComment.id}`);
     res.status(201).json(newComment);
   } catch (error) {
-    console.error('Error saving comment:', error);
+    console.error('[POST /comments] Error saving comment:', error);
     res.status(500).json({ message: 'Error saving comment' });
   }
 });
 
+// Static files AFTER API routes
+app.use(express.static(STATIC_ROOT));
+
+// Catch-all route for SPA (must be last)
 app.get('*', (req, res) => {
   res.sendFile(path.join(STATIC_ROOT, 'index.html'));
 });
 
 app.listen(PORT, () => {
-  console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`📁 Static files served from: ${STATIC_ROOT}`);
+  console.log(`💾 Comments stored at: ${COMMENTS_PATH}`);
+  console.log(`✅ API endpoints: GET/POST /comments`);
 });
 
 async function readComments() {
