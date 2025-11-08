@@ -2,15 +2,11 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy package files explicitly
-COPY package.json ./
-COPY package-lock.json* ./
+# Copy all files first to ensure package.json is available
+COPY . .
 
 # Install dependencies
 RUN npm install --production --omit=dev
-
-# Copy all project files
-COPY . .
 
 # Expose port (Railway will set PORT env var)
 EXPOSE 3000
