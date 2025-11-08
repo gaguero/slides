@@ -515,18 +515,23 @@ function applyCommentHighlight(comment) {
 
 function wrapRangeWithMark(range, comment) {
   try {
-    const mark = document.createElement('mark');
-    mark.className = 'commented';
-    mark.dataset.commentId = comment.id;
     const fullName = `${comment.firstName || ''} ${comment.lastName || ''}`.trim();
-    mark.dataset.author = fullName || 'Reviewer';
-    mark.dataset.comment = comment.comment;
     const color = comment.color || generateColor(fullName);
-    mark.style.backgroundColor = color;
-    mark.style.color = '#111827';
-    mark.style.padding = '2px 0';
-    mark.style.borderRadius = '2px';
-    mark.style.display = 'inline';
+    
+    // Create a function to create mark elements with consistent styling
+    const createMark = () => {
+      const mark = document.createElement('mark');
+      mark.className = 'commented';
+      mark.dataset.commentId = comment.id;
+      mark.dataset.author = fullName || 'Reviewer';
+      mark.dataset.comment = comment.comment;
+      mark.style.backgroundColor = color;
+      mark.style.color = '#111827';
+      mark.style.padding = '2px 0';
+      mark.style.borderRadius = '2px';
+      mark.style.display = 'inline';
+      return mark;
+    };
 
     const startContainer = range.startContainer;
     const endContainer = range.endContainer;
@@ -536,45 +541,83 @@ function wrapRangeWithMark(range, comment) {
     // Simple case: single text node
     if (startContainer === endContainer && startContainer.nodeType === Node.TEXT_NODE) {
       try {
+        const mark = createMark();
         range.surroundContents(mark);
         range.detach();
         return;
       } catch (e) {
-        // Fall through
+        // Fall through to multi-node handling
       }
     }
 
     // Complex case: range spans multiple nodes
-    // Use extractContents which handles this better
+    // We need to wrap each text node individually to preserve DOM structure
+    const textNodes = [];
+    const walker = document.createTreeWalker(
+      range.commonAncestorContainer,
+      NodeFilter.SHOW_TEXT,
+      null
+    );
+
+    let node;
+    while (node = walker.nextNode()) {
+      const nodeRange = document.createRange();
+      nodeRange.selectNodeContents(node);
+      
+      // Check if this text node intersects with our range
+      const startComparison = range.compareBoundaryPoints(Range.START_TO_START, nodeRange);
+      const endComparison = range.compareBoundaryPoints(Range.END_TO_END, nodeRange);
+      
+      if (startComparison <= 0 && endComparison >= 0) {
+        // This node is fully or partially within our range
+        textNodes.push({
+          node,
+          isStart: node === startContainer,
+          isEnd: node === endContainer,
+          startOffset: node === startContainer ? startOffset : 0,
+          endOffset: node === endContainer ? endOffset : node.textContent.length
+        });
+      }
+    }
+
+    // Wrap each text node individually
+    if (textNodes.length > 0) {
+      // Process in reverse order to avoid offset issues
+      for (let i = textNodes.length - 1; i >= 0; i--) {
+        const { node, isStart, isEnd, startOffset: nodeStart, endOffset: nodeEnd } = textNodes[i];
+        
+        // Skip if the range is empty for this node
+        if (nodeStart >= nodeEnd) continue;
+        
+        try {
+          const nodeRange = document.createRange();
+          nodeRange.setStart(node, nodeStart);
+          nodeRange.setEnd(node, nodeEnd);
+          
+          const mark = createMark();
+          nodeRange.surroundContents(mark);
+          nodeRange.detach();
+        } catch (e) {
+          console.warn('Failed to wrap text node:', e);
+        }
+      }
+      
+      range.detach();
+      return;
+    }
+
+    // Fallback: try extractContents
     try {
       const contents = range.extractContents();
-      
-      // If contents has nodes, wrap them
       if (contents && contents.childNodes.length > 0) {
-        // Wrap the entire fragment
+        const mark = createMark();
         mark.appendChild(contents);
         range.insertNode(mark);
         range.detach();
         return;
       }
-      
-      // If no nodes but has text, create text node
-      const textContent = range.toString();
-      if (textContent.trim()) {
-        mark.textContent = textContent;
-        range.insertNode(mark);
-        range.detach();
-        return;
-      }
     } catch (extractError) {
-      // If extractContents fails, try surroundContents as last resort
-      try {
-        range.surroundContents(mark);
-        range.detach();
-        return;
-      } catch (surroundError) {
-        console.warn('Both extractContents and surroundContents failed:', surroundError);
-      }
+      console.warn('extractContents failed:', extractError);
     }
     
     range.detach();
