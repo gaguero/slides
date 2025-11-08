@@ -528,30 +528,56 @@ function wrapRangeWithMark(range, comment) {
     mark.style.borderRadius = '2px';
     mark.style.display = 'inline';
 
-    // Use surroundContents for simple cases - works better with multi-line selections
+    const startContainer = range.startContainer;
+    const endContainer = range.endContainer;
+    const startOffset = range.startOffset;
+    const endOffset = range.endOffset;
+
+    // Simple case: single text node
+    if (startContainer === endContainer && startContainer.nodeType === Node.TEXT_NODE) {
+      try {
+        range.surroundContents(mark);
+        range.detach();
+        return;
+      } catch (e) {
+        // Fall through
+      }
+    }
+
+    // Complex case: range spans multiple nodes
+    // Use extractContents which handles this better
     try {
-      range.surroundContents(mark);
-      range.detach();
-    } catch (surroundError) {
-      // If surroundContents fails (e.g., range crosses element boundaries),
-      // fall back to extractContents approach
       const contents = range.extractContents();
+      
+      // If contents has nodes, wrap them
       if (contents && contents.childNodes.length > 0) {
+        // Wrap the entire fragment
         mark.appendChild(contents);
         range.insertNode(mark);
-      } else {
-        // Last resort: replace with text content
-        const textContent = range.toString();
-        if (textContent.trim()) {
-          mark.textContent = textContent;
-          range.deleteContents();
-          range.insertNode(mark);
-        } else {
-          return;
-        }
+        range.detach();
+        return;
       }
-      range.detach();
+      
+      // If no nodes but has text, create text node
+      const textContent = range.toString();
+      if (textContent.trim()) {
+        mark.textContent = textContent;
+        range.insertNode(mark);
+        range.detach();
+        return;
+      }
+    } catch (extractError) {
+      // If extractContents fails, try surroundContents as last resort
+      try {
+        range.surroundContents(mark);
+        range.detach();
+        return;
+      } catch (surroundError) {
+        console.warn('Both extractContents and surroundContents failed:', surroundError);
+      }
     }
+    
+    range.detach();
   } catch (error) {
     console.warn('Error wrapping range with mark:', error);
   }
