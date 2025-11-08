@@ -267,8 +267,10 @@ function initComments() {
   };
 
   const showFloatingButton = (rect) => {
-    const top = Math.max(window.scrollY + rect.top - 36, window.scrollY + 8);
-    const left = Math.max(window.scrollX + rect.left, window.scrollX + 8);
+    // Position button further away from selection to avoid accidental cursor crossing
+    // Place it above and to the right of the selection
+    const top = Math.max(window.scrollY + rect.top - 48, window.scrollY + 8);
+    const left = Math.max(window.scrollX + rect.right + 12, window.scrollX + 8);
     floatingBtn.style.top = `${top}px`;
     floatingBtn.style.left = `${left}px`;
     floatingBtn.hidden = false;

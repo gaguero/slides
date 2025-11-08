@@ -177,6 +177,32 @@
     .columns.view-mode-full .column-left {
       flex: 1 1 100%;
       max-width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    .columns.view-mode-full .column-left .deck {
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .columns.view-mode-full .column-left .slide {
+      max-width: 100%;
+      padding: 24px 28px;
+      line-height: 1.7;
+    }
+    .columns.view-mode-full .column-left .slide-title {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+    .columns.view-mode-full .column-left .section-label {
+      font-size: 13px;
+      margin-top: 20px;
+      margin-bottom: 8px;
+    }
+    .columns.view-mode-full .column-left .slide ul,
+    .columns.view-mode-full .column-left .slide p {
+      font-size: 15px;
+      margin-bottom: 10px;
     }
     .columns.view-mode-full .column-right {
       display: none;
@@ -513,19 +539,21 @@
     .comment-floating-btn {
       position: absolute;
       z-index: 20;
-      background: #2563eb;
+      background: #059669;
       color: #ffffff;
       border: none;
       border-radius: 999px;
-      padding: 6px 12px;
+      padding: 8px 14px;
       font-size: 12px;
+      font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.4);
       transition: background 0.2s ease, transform 0.2s ease;
     }
     .comment-floating-btn:hover {
-      background: #1e4fd8;
+      background: #047857;
       transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(5, 150, 105, 0.5);
     }
     .comment-modal {
       position: fixed;
