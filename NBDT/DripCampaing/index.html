@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Nayara Bocas del Toro - Drip Campaign Proposal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #020617;
+      color: #111827;
+      position: relative;
+      min-height: 100vh;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: url('nayara-logo.png') center center no-repeat;
+      background-size: 420px auto;
+      opacity: 0.08;
+      pointer-events: none;
+      z-index: -1;
+    }
+    h1, h2, h3 {
+      margin: 0 0 8px;
+      font-weight: 600;
+    }
+    p {
+      margin: 0 0 8px;
+      line-height: 1.6;
+    }
+    ul {
+      margin: 0 0 8px 18px;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 4px;
+    }
+    .page-wrapper {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+      position: relative;
+    }
+    .page-inner {
+      background: rgba(248, 250, 252, 0.94);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.35);
+      backdrop-filter: blur(10px);
+    }
+    .page-title {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .page-title h1 {
+      font-size: 26px;
+      letter-spacing: 0.03em;
+    }
+    .page-title p {
+      font-size: 13px;
+      color: #6b7280;
+    }
+    .columns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .column {
+      padding: 8px;
+    }
+    .column-left {
+      flex: 1 1 38%;
+      min-width: 300px;
+    }
+    .column-right {
+      flex: 1 1 58%;
+      min-width: 340px;
+    }
+    .deck {
+      position: relative;
+      min-height: 200px;
+    }
+    .slide {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 16px 18px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+      border: 1px solid #e5e7eb;
+      display: none;
+      animation: fadeIn 200ms ease-out;
+    }
+    .slide.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+    .slide-title {
+      font-size: 16px;
+    }
+    .slide-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #6b7280;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 999px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: #e5e7eb;
+      color: #4b5563;
+    }
+    .email-meta {
+      font-size: 16px;
+      color: #4b5563;
+      margin-bottom: 8px;
+    }
+    .email-meta strong {
+      font-size: 18px;
+    }
+    .email-body {
+      font-size: 14px;
+    }
+    .email-body p {
+      margin-bottom: 6px;
+    }
+    .email-body ul {
+      margin-bottom: 6px;
+    }
+    .email-card {
+      background: #ffffff;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18);
+    }
+    .email-block {
+      margin-bottom: 18px;
+    }
+    .email-block:last-child {
+      margin-bottom: 0;
+    }
+    .email-image {
+      text-align: center;
+      margin: 22px 0;
+    }
+    .email-image img {
+      max-width: 100%;
+      border-radius: 14px;
+      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.25);
+    }
+    .email-cta {
+      text-align: center;
+      margin: 26px 0 18px;
+    }
+    .email-cta a {
+      display: inline-block;
+      padding: 10px 26px;
+      border-radius: 999px;
+      background: #00a4bd;
+      color: #ffffff;
+      font-size: 14px;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      box-shadow: 0 12px 24px rgba(0, 164, 189, 0.35);
+      transition: background 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+    }
+    .email-cta a:hover {
+      background: #02829a;
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(2, 130, 154, 0.4);
+    }
+    .email-cta a:active {
+      transform: translateY(0);
+      box-shadow: 0 8px 18px rgba(2, 130, 154, 0.35);
+    }
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #6b7280;
+      margin-bottom: 4px;
+    }
+    .table-wrapper {
+      overflow-x: auto;
+      margin: 8px 0;
+    }
+    table.rate-table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 13px;
+    }
+    table.rate-table th,
+    table.rate-table td {
+      border: 1px solid #e5e7eb;
+      padding: 6px 8px;
+      text-align: left;
+      white-space: nowrap;
+    }
+    table.rate-table th {
+      background: #f9fafb;
+      font-weight: 600;
+    }
+    .deck-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+      font-size: 12px;
+      color: #4b5563;
+    }
+    .deck-controls-top {
+      margin-top: 0;
+      margin-bottom: 12px;
+      justify-content: space-between;
+    }
+    .nav-button {
+      border: none;
+      border-radius: 999px;
+      padding: 6px 10px;
+      cursor: pointer;
+      font-size: 12px;
+      background: #e5e7eb;
+      color: #111827;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 32px;
+      transition: background 120ms ease, transform 120ms ease, box-shadow 120ms ease;
+    }
+    .nav-button:hover {
+      background: #d1d5db;
+      box-shadow: 0 1px 4px rgba(148, 163, 184, 0.8);
+      transform: translateY(-1px);
+    }
+    .nav-button:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+    .deck-status {
+      min-width: 90px;
+      text-align: center;
+    }
+    .comment-panel {
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 4px rgba(148, 163, 184, 0.25);
+    }
+    .comment-panel p {
+      font-size: 13px;
+      margin-bottom: 10px;
+      line-height: 1.5;
+      color: #1f2937;
+    }
+    .comment-panel button {
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      margin-right: 8px;
+    }
+    .comment-panel button:hover {
+      background: #1e4fd8;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.35);
+    }
+    .comment-panel button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+    .comment-form {
+      margin-top: 10px;
+      display: grid;
+      gap: 10px;
+    }
+    .comment-form label {
+      font-size: 12px;
+      color: #1f2937;
+      display: grid;
+      gap: 4px;
+    }
+    .comment-form input,
+    .comment-form textarea {
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 13px;
+      font-family: inherit;
+      width: 100%;
+    }
+    .comment-form textarea {
+      resize: vertical;
+      min-height: 72px;
+    }
+    .comment-form-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .selected-text {
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 12px;
+      color: #1f2937;
+    }
+    .selected-text blockquote {
+      margin: 6px 0 0;
+      font-style: italic;
+      color: #4b5563;
+    }
+    .comment-feedback {
+      font-size: 12px;
+      margin-top: 6px;
+      color: #047857;
+    }
+    mark.commented {
+      background: #fcd34d;
+      border-radius: 4px;
+      padding: 0 2px;
+      position: relative;
+      cursor: pointer;
+    }
+    mark.commented::after {
+      content: attr(data-author) ": " attr(data-comment);
+      position: absolute;
+      left: 0;
+      top: calc(100% + 6px);
+      min-width: 220px;
+      max-width: 320px;
+      background: #111827;
+      color: #ffffff;
+      padding: 8px 10px;
+      border-radius: 8px;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.35);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(4px);
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      z-index: 10;
+      white-space: normal;
+      line-height: 1.4;
+    }
+    mark.commented:hover::after {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (max-width: 900px) {
+      .page-wrapper {
+        padding: 12px;
+      }
+      .page-inner {
+        padding: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <div class="page-inner">
+      <div class="page-title">
+        <h1>Nayara Bocas del Toro - Drip Campaign Redesign</h1>
+        <p>Left: Findings and proposal. Right: New 6 email sequence in agent voice. Use the controls below each deck to move between slides.</p>
+      </div>
+
+      <div class="columns">
+        <!-- LEFT COLUMN: 4 SLIDE DECK (FINDINGS + PROPOSAL) -->
+        <div class="column column-left">
+          <div class="deck-controls deck-controls-top" data-deck="deck-left">
+            <button type="button" class="nav-button" data-target="deck-left" data-direction="prev">◀</button>
+            <span class="deck-status">Slide 1 of 4</span>
+            <button type="button" class="nav-button" data-target="deck-left" data-direction="next">▶</button>
+          </div>
+          <div class="deck" id="deck-left">
+            <div class="slide">
+              <div class="slide-header">
+                <h2 class="slide-title">Context and Problem</h2>
+                <span class="slide-tag">Findings</span>
+              </div>
+              <p class="section-label">Current setup</p>
+              <ul>
+                <li><strong>Two enrollment paths:</strong> Get Exclusive Offers (GEO) and You Need Assistance (YNA) forms feed the same funnel.</li>
+                <li><strong>Automation + human follow-up:</strong> Both forms drop leads into the legacy drip while agents launch their manual outreach.</li>
+                <li><strong>High-touch contact:</strong> Agents email, text, and call within minutes of every form submission.</li>
+              </ul>
+              <p class="section-label">Resulting issues</p>
+              <ul>
+                <li>Leads get overlapping Email 1 messages (automated + manual) delivered almost simultaneously.</li>
+                <li>Voice is not consistent (team inbox vs individual agent identity), creating mixed expectations.</li>
+                <li>The experience feels messy for a luxury guest even though the follow-up intensity is high.</li>
+              </ul>
+            </div>
+
+            <div class="slide">
+              <div class="slide-header">
+                <h2 class="slide-title">Key Insights</h2>
+                <span class="slide-tag">Findings</span>
+              </div>
+              <ul>
+                <li>The manual first email used by agents—refined by Kelly and Gerson over time—is proven to drive quick replies.</li>
+                <li>Dan expects very proactive outreach: immediate email, SMS and phone contact when a lead arrives.</li>
+                <li>Guests who fill YNA often share dates and specific needs, and expect individualized help rather than a generic brochure style message.</li>
+                <li>The main problem is not level of contact but lack of orchestration and consistent voice.</li>
+              </ul>
+            </div>
+
+            <div class="slide">
+              <div class="slide-header">
+                <h2 class="slide-title">Proposed Flow (GEO vs YNA)</h2>
+                <span class="slide-tag">Proposal</span>
+              </div>
+              <p class="section-label">Get Exclusive Offers (GEO)</p>
+              <ul>
+                <li>Keep automatic enrollment in the drip, but replace old Email 1 with the new, tested first email created by Kelly &amp; Gerson.</li>
+                <li>Email 1 introduces the agent, presents current key promotion and rate table, and gives clear next steps.</li>
+                <li>Emails 2 to 6 follow as automated follow up, all from the same assigned agent identity.</li>
+                <li>The offers section only needs periodic updates, coordinated by the sales team with our HubSpot vendor.</li>
+              </ul>
+              <p class="section-label">You Need Assistance (YNA)</p>
+              <ul>
+                <li>Do not send Email 1 automatically.</li>
+                <li>Agent reads the form details and sends a tailored version of Email 1 manually, using the same structure but adapted to dates and questions.</li>
+                <li>After sending, the agent enrolls the contact into the drip starting at Email 2.</li>
+              </ul>
+            </div>
+
+            <div class="slide">
+              <div class="slide-header">
+                <h2 class="slide-title">Justification and Next Steps</h2>
+                <span class="slide-tag">Proposal</span>
+              </div>
+              <p class="section-label">Why this works</p>
+              <ul>
+                <li>One primary first email concept for both forms, aligned with what agents already know performs well.</li>
+                <li>All emails now speak in the same agent centered voice: I, me, my, and clear contact pathways.</li>
+                <li>Keeps aggressive follow up but removes confusion for the guest.</li>
+              </ul>
+              <p class="section-label">Implementation notes</p>
+              <ul>
+                <li>In HubSpot, map GEO to the automated 6 email sequence starting at new Email 1.</li>
+                <li>For YNA, provide agents with a ready template for Email 1 and a simple way to start the sequence at Email 2.</li>
+                <li>Ensure workflows stop sending as soon as a lead responds through any channel, or if status is Booked / opted out.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: 6 SLIDE DECK (NEW EMAILS) -->
+        <div class="column column-right">
+          <div class="comment-panel">
+            <p><strong>Comentarios:</strong> selecciona un texto en los correos y luego pulsa “Añadir comentario” para guardarlo con tu nombre. Pasa el cursor sobre las zonas resaltadas para leer los comentarios.</p>
+            <button type="button" id="comment-select-btn">Añadir comentario</button>
+            <form id="comment-form" class="comment-form" hidden>
+              <div class="selected-text">
+                <span>Texto seleccionado:</span>
+                <blockquote id="selected-text">Ninguno</blockquote>
+              </div>
+              <label>
+                Nombre
+                <input type="text" name="author" required />
+              </label>
+              <label>
+                Comentario
+                <textarea name="comment" rows="3" required></textarea>
+              </label>
+              <div class="comment-form-actions">
+                <button type="submit">Guardar</button>
+                <button type="button" id="cancel-comment">Cancelar</button>
+              </div>
+            </form>
+            <div id="comment-feedback" class="comment-feedback" role="status"></div>
+          </div>
+          <div class="deck-controls deck-controls-top" data-deck="deck-right">
+            <button type="button" class="nav-button" data-target="deck-right" data-direction="prev">◀</button>
+            <span class="deck-status">Slide 1 of 6</span>
+            <button type="button" class="nav-button" data-target="deck-right" data-direction="next">▶</button>
+          </div>
+          <div class="deck" id="deck-right">
+            <!-- EMAIL 1 -->
+            <div class="slide" data-slide-id="email-1">
+              <div class="slide-header">
+                <h2 class="slide-title">Email 1 - Available Promotions, First Contact</h2>
+                <span class="badge">New first email</span>
+              </div>
+              <div class="email-meta">
+                <strong>Subject:</strong> [Lead Name], Your Best Offer Awaits at Nayara Bocas Del Toro
+              </div>
+              <div class="email-body">
+                <div class="email-card">
+                  <div class="email-block">
+                    <p>Hello [Lead Name],</p>
+                    <p>My name is [Agent Name], Reservations Specialist at Nayara Bocas del Toro. I am here to make your trip planning simple and ensure that everything is perfectly organized for your stay.</p>
+                    <p><strong>Season Savings – High Season Special</strong><br />
+                    Enjoy 30% off (before taxes) on stays through December 19, 2025.</p>
+                  </div>
+
+                  <div class="email-block">
+                    <div class="section-label">Sample rate overview</div>
+                    <div class="table-wrapper">
+                      <table class="rate-table">
+                        <thead>
+                          <tr>
+                            <th>Villa Category</th>
+                            <th>Net Rate (30% off)</th>
+                            <th>Rate with Taxes</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Treehouse</td>
+                            <td>$980.00</td>
+                            <td>$1,070.80</td>
+                          </tr>
+                          <tr>
+                            <td>Over-The-Water Villa with Pool</td>
+                            <td>$1,155.00</td>
+                            <td>$1,263.30</td>
+                          </tr>
+                          <tr>
+                            <td>Deluxe Over-The-Water Villa with Pool</td>
+                            <td>$1,309.00</td>
+                            <td>$1,432.70</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <p style="font-size: 12px; color: #4b5563;">Per night per couple.</p>
+                    <p><em>Note:</em> A third guest can be accommodated in the Over-The-Water Villas with an additional bed: USD 161.40 per night (taxes included). The best rate is guaranteed when booking directly by email or phone.</p>
+                  </div>
+
+                  <div class="email-block">
+                    <div class="section-label">Policies - High Season Savings</div>
+                    <ul>
+                      <li>Travel Period: November 20 - December 19, 2025</li>
+                      <li>Blocked Dates: November 24 - 30, 2025 (Thanksgiving Week)</li>
+                      <li>Deposit: 100 percent upon reservation</li>
+                      <li>Cancellation: Not applicable (non refundable)</li>
+                    </ul>
+                  </div>
+
+                  <div class="email-block">
+                    <div class="section-label">All inclusive experience</div>
+                    <ul>
+                      <li>All meals and beverages</li>
+                      <li>Villa service and in-room snack stocking</li>
+                      <li>Kayaks, paddleboards, snorkel equipment, gym access</li>
+                      <li>Concierge assistance for activity reservations and spa treatments</li>
+                      <li>Weekly complimentary activities</li>
+                      <li>Boat transfers to and from Bocas del Toro Airport (BOC) for check in and check out</li>
+                      <li>High speed wireless internet</li>
+                    </ul>
+                  </div>
+
+                  <div class="email-block">
+                    <div class="section-label">How to get here</div>
+                    <p>Most of our guests arrive at Tocumen International Airport (PTY), then take a 50 minute domestic flight from Marcos A. Gelabert Airport (PAC) to Bocas del Toro Airport (BOC). Once in Bocas, we take care of the rest: ground and boat transfers are included.</p>
+                    <p>I would be happy to help you book domestic flights once your stay is confirmed. Sin cargo por gestion, unicamente el costo de los boletos.</p>
+                  </div>
+
+                  <div class="email-block">
+                    <p>When you are ready to reserve, just indicate to me which villa you would like, and I will gladly secure it for you. I will also be available to assist you at each step, making the process simple and stress free so that you can focus on planning your perfect stay.</p>
+                    <div class="email-cta">
+                      <a href="mailto:[Agent Email Address]">Contact Me</a>
+                    </div>
+                    <p>All the best,</p>
+                    <p>[Agent Name]<br />
+                    Reservations Specialist<br />
+                    Live chat with me here | WhatsApp +507 6954 5262<br />
+                    Panama +507 838 8362 | Toll Free USA: 888 332 2961</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- EMAIL 2 -->
+            <div class="slide" data-slide-id="email-2">
+              <div class="slide-header">
+                <h2 class="slide-title">Email 2 - Private Island Getaway</h2>
+                <span class="badge">Existing layout, agent voice</span>
+              </div>
+              <div class="email-meta">
+                <strong>Subject:</strong> Your Private Island Getaway Awaits!
+              </div>
+              <div class="email-body">
+                <div class="email-card">
+                  <div class="email-block">
+                    <p>Hello [Lead Name],</p>
+                    <p>Thank you for your interest in Nayara Bocas del Toro Resort. Your private island getaway awaits, and I am here to help with every step until you are stepping into the ocean.</p>
+                    <p>From the moment you touch down in the country, I can take care of the rest, helping with transport to the breathtaking shores of Bocas del Toro, along with booking tours, reservations and excursions. I also offer round the clock support, and I can answer any questions you may have over talk, text, chat or email.</p>
+                    <p>There is a lot to fall in love with here at Bocas del Toro, and while we cannot cover it all in one email, you might be interested in:</p>
+                  </div>
+
+                  <div class="email-block">
+                    <p><strong>The Unforgettable Over-The-Water Experience</strong><br />
+                    There is a reason we have been named one of the Best New Hotels in the World (Afar Magazine) and one of the Best Beach Hotels of the World (Town and Country Magazine). Bocas del Toro is a tropical paradise like no other, and you can enjoy it in full from an overwater private pool villa with breathtaking views.</p>
+                    <div class="email-image">
+                      <img src="https://23160175.fs1.hubspotusercontent-na1.net/hub/23160175/hubfs/NBT6.jpg?width=900&amp;upscale=true&amp;name=NBT6.jpg" alt="NBT6" />
+                    </div>
+                  </div>
+
+                  <div class="email-block">
+                    <p><strong>The World's First Aerial Beach</strong><br />
+                    At Bocas del Toro, land and sea intermingle in surprising ways. You can descend the stairway from our legendary waterfront Tipsy Bar, dip in the warm, crystal clear waters of the Caribbean for an afternoon swim or a snorkel, and have small plates and cocktails waiting the moment you leave the water.</p>
+                    <div class="email-image">
+                      <img src="https://23160175.fs1.hubspotusercontent-na1.net/hub/23160175/hubfs/Beach%201.jpg?width=900&amp;upscale=true&amp;name=Beach%201.jpg" alt="Bocas del Toro aerial beach" />
+                    </div>
+                  </div>
+
+                  <div class="email-block">
+                    <p><strong>Attentive and Personalized Service</strong><br />
+                    From private airport pickup to memorable seaside dining at the Elephant House restaurant, my mission here at Nayara Bocas del Toro is to help you create the vacation of your dreams from start to finish and every moment in between.</p>
+                    <div class="email-image">
+                      <a href="https://www.tripadvisor.es/Hotel_Review-g24077918-d21287095-Reviews-Nayara_Bocas_del_Toro-Isla_Frangipani_Bocas_del_Toro_Province.html" target="_blank" rel="noopener">
+                        <img src="https://23160175.fs1.hubspotusercontent-na1.net/hub/23160175/hubfs/Captura%20de%20pantalla%202023-08-08%20a%20la(s)%2018.32.13.png?width=664&amp;upscale=true&amp;name=Captura%20de%20pantalla%202023-08-08%20a%20la(s)%2018.32.13.png" alt="TripAdvisor Reviews" />
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class="email-block">
+                    <p>Click the link below to reach out to me and book your private island resort vacation today.</p>
+                    <div class="email-cta">
+                      <a href="mailto:[Agent Email Address]">Contact Me</a>
+                    </div>
+                    <p>Best regards,</p>
+                    <p>[Agent Name]<br />
+                    Reservations Specialist<br />
+                    Live chat with me here | WhatsApp +507 6954 5262<br />
+                    Panama +507 838 8362 | Toll Free USA: 888 332 2961</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- EMAIL 3 -->
+            <div class="slide" data-slide-id="email-3">
+              <div class="slide-header">
+                <h2 class="slide-title">Email 3 - The Coolest Place on Earth</h2>
+                <span class="badge">Existing layout, agent voice</span>
+              </div>
+              <div class="email-meta">
+                <strong>Subject:</strong> Why Forbes calls Bocas del Toro "the coolest place on Earth"
+              </div>
+              <div class="email-body">
+                <div class="email-card">
+                  <div class="email-block">
+                    <p>Hello [Lead Name],</p>
+                    <p>I hope that this email finds you well. Things have been beautiful this year here at Nayara Bocas del Toro, and I would love to see you one day at our private island paradise nestled in the heart of the Caribbean.</p>
+                    <p>Today, I am sharing a few more reasons to visit, including <a href="https://www.forbes.com/sites/petertaylor/2023/06/14/ive-traveled-to-six-continents-and-bocas-del-toro-panam-is-about-to-become-the-coolest-place-on-earth-heres-why/?sh=b4e73443d861" target="_blank" rel="noopener">why Forbes calls Bocas del Toro "the coolest place on Earth"</a>.</p>
+                  </div>
+
+                  <div class="email-cta">
+                    <a href="mailto:[Agent Email Address]">Book Now</a>
+                  </div>
+
+                  <div class="email-block">
+                    <p><strong>The Unspoiled Natural Beauty</strong><br />
+                    Hidden white sand beaches, crystal clear waters and lush rainforests make this an idyllic setting for both relaxation and exploration, rich in wildlife like the three toed sloth.</p>
+                    <div class="email-image">
+                      <img src="https://23160175.fs1.hubspotusercontent-na1.net/hub/23160175/hubfs/NBB%20Bocas%20del%20Toro%20Islas1%20HR.jpg?width=900&amp;upscale=true&amp;name=NBB%20Bocas%20del%20Toro%20Islas1%20HR.jpg" alt="Bocas del Toro Islands" />
+                    </div>
+                  </div>
+
+                  <div class="email-block">
+                    <p><strong>Exquisite Accommodations</strong><br />
+                    The world's first aerial beach, breathtaking ocean views, private pools and restorative massage and spa services available at your private terrace or our soothing indoor spa room.</p>
+                    <div class="email-image">
+                      <img src="https://23160175.fs1.hubspotusercontent-na1.net/hub/23160175/hubfs/DJI_0600.jpg?width=900&amp;upscale=true&amp;name=DJI_0600.jpg" alt="Aerial beach view" />
+                    </div>
+                  </div>
+
+                  <div class="email-block">
+                    <p><strong>Unique Experiences</strong><br />
+                    Unforgettable adventures including snorkeling over vibrant coral reefs, sunset boat trips to see the dolphins and time to immerse yourself in the authentic local culture of Bocas Town.</p>
+                    <div class="email-image">
+                      <img src="https://23160175.fs1.hubspotusercontent-na1.net/hub/23160175/hubfs/NBB%20Delfines%20HR.jpeg?width=900&amp;upscale=true&amp;name=NBB%20Delfines%20HR.jpeg" alt="Dolphins in Bocas del Toro" />
+                    </div>
+                  </div>
+
+                  <div class="email-block">
+                    <p>I look forward to welcoming you to our little piece of paradise at Nayara Bocas del Toro.</p>
+                    <div class="email-cta">
+                      <a href="mailto:[Agent Email Address]">Contact Me</a>
+                    </div>
+                    <p>Warm regards,</p>
+                    <p>[Agent Name]<br />
+                    Reservations Specialist<br />
+                    Live chat with me here | WhatsApp +507 6954 5262<br />
+                    Panama +507 838 8362 | Toll Free USA: 888 332 2961</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- EMAIL 4 -->
+            <div class="slide" data-slide-id="email-4">
+              <div class="slide-header">
+                <h2 class="slide-title">Email 4 - Let Me Handle the Details</h2>
+                <span class="badge">Existing layout, agent voice</span>
+              </div>
+              <div class="email-meta">
+                <strong>Subject:</strong> Let me handle the details for your arrival!
+              </div>
+              <div class="email-body">
+                <div class="email-card">
+                  <div class="email-block">
+                    <p>Hello [Lead Name],</p>
+                    <p>This is [Agent Name] checking in from Nayara Bocas del Toro—your dedicated reservations specialist. I’m here to make sure every detail of your arrival feels effortless, from right now until you step onto the island.</p>
+                    <p>Here are just a few of the ways I can handle the details while you relax and soak in the magic of Nayara Bocas del Toro.</p>
+                    <div class="email-cta">
+                      <a href="mailto:[Agent Email Address]">Contact Us</a>
+                    </div>
+                  </div>
+
+                  <div class="email-block">
+                    <p><strong>Before You Arrive in the Country</strong><br />
+                    Looking for the best way to get here. I can guide you every step along the way, no matter where you are visiting from.</p>
+                    <div class="email-image">
+                      <img src="https://23160175.fs1.hubspotusercontent-na1.net/hub/23160175/hubfs/Front%20Desk.jpg?width=900&amp;upscale=true&amp;name=Front%20Desk.jpg" alt="Front Desk Nayara Bocas del Toro" />
+                    </div>
+                    <ul>
+                      <li><strong>Complimentary Airport Pickup</strong> - once you confirm your booking with me, simply provide your flight details, including arrival date and time. I will plan a smooth transition from the airport to our resort ending with a relaxing and beautiful private boat ride from Bocas Town to our Isla Frangipani.</li>
+                      <li><strong>Warm Welcome</strong> - as you step foot onto the resort, our friendly staff will be there to greet you, transport your luggage to your villa and give you a tour so you can settle in for the vacation of your dreams.</li>
+                      <li><strong>Personalized assistance</strong> - if you want to explore the surrounding islands and hidden white sand beaches or catch a peek at underwater sights like coral and starfish, our expert concierge will guide you every step of the way.</li>
+                    </ul>
+                    <div class="email-image">
+                      <img src="https://23160175.fs1.hubspotusercontent-na1.net/hub/23160175/hubfs/NBT6.jpg?width=900&amp;upscale=true&amp;name=NBT6.jpg" alt="Over the water villas" />
+                    </div>
+                  </div>
+
+                  <div class="email-block">
+                    <p>It is an honor to share Bocas del Toro with our guests at our luxury over the water resort, and we work every moment of your stay to inspire and delight.</p>
+                    <p>I hope to see you soon.</p>
+                    <div class="email-cta">
+                      <a href="mailto:[Agent Email Address]">Contact Us!</a>
+                    </div>
+                    <p>Sincerely,</p>
+                    <p>[Agent Name]<br />
+                    Reservations Specialist<br />
+                    Live chat with me here | WhatsApp +507 6954 5262<br />
+                    Panama +507 838 8362 | Toll Free USA: 888 332 2961</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- EMAIL 5 -->
+            <div class="slide" data-slide-id="email-5">
+              <div class="slide-header">
+                <h2 class="slide-title">Email 5 - A Fine, Fresh Taste of Bocas del Toro</h2>
+                <span class="badge">Existing layout, minor text edits</span>
+              </div>
+              <div class="email-meta">
+                <strong>Subject:</strong> A Caribbean Culinary Atmosphere Unlike Any Other
+              </div>
+              <div class="email-body">
+                <div class="email-card">
+                  <div class="email-image">
+                    <img src="https://23160175.fs1.hubspotusercontent-na1.net/hub/23160175/hubfs/NBB%20Elephant%20House%20Exterior%20con%20manglar%20HR.jpg?width=900&amp;upscale=true&amp;name=NBB%20Elephant%20House%20Exterior%20con%20manglar%20HR.jpg" alt="The Elephant House exterior" />
+                  </div>
+
+                  <div class="email-block">
+                    <p>Hi [Lead Name],</p>
+                    <p>It is a true gift to live on the many islands of Bocas del Toro, where the land and the sea provide fresh, delicious ingredients right at your doorstep.</p>
+                    <p>For this reason, your dining experience at Nayara Bocas del Toro with our concepts <em>The Elephant House</em> and <em>The Coral Cafe</em> foregoes traditional all inclusive fare in favor of local, farm fresh ingredients and regional seafood sourced from Bocas del Toro fishermen.</p>
+                    <div class="email-cta">
+                      <a href="mailto:[Agent Email Address]">Contact Us</a>
+                    </div>
+                  </div>
+
+                  <div class="email-image">
+                    <img src="https://23160175.fs1.hubspotusercontent-na1.net/hub/23160175/hubfs/NBB%20Plato%20LR.png?width=900&amp;upscale=true&amp;name=NBB%20Plato%20LR.png" alt="Signature dish at Nayara Bocas del Toro" />
+                  </div>
+
+                  <div class="email-block">
+                    <p>The menu combines classic staples with fresh ingredients caught and cultivated daily, so you can begin your mornings with eggs Benedict and mango mimosas, then take a relaxing break in the afternoon to enjoy traditional English tea or handmade patacones for a snack and then sample a fresh tropical seafood dish from our dynamic menu in the evening.</p>
+                    <p>And that is just a taste of what awaits you. Click the link below to book your stay at Nayara Bocas del Toro and sink your teeth into a carefully crafted Caribbean culinary atmosphere unlike any other.</p>
+                    <p>Book your stay at Nayara Bocas del Toro today and experience unforgettable dining.</p>
+                    <div class="email-image">
+                      <img src="https://23160175.fs1.hubspotusercontent-na1.net/hub/23160175/hubfs/NBTC9.jpg?width=900&amp;upscale=true&amp;name=NBTC9.jpg" alt="Dining experience at Nayara Bocas del Toro" />
+                    </div>
+                    <div class="email-cta">
+                      <a href="mailto:[Agent Email Address]">Contact Us!</a>
+                    </div>
+                    <p>With warm regards,</p>
+                    <p>[Agent Name]<br />
+                    Reservations Specialist<br />
+                    Live chat with me here | WhatsApp +507 6954 5262<br />
+                    Panama +507 838 8362 | Toll Free USA: 888 332 2961</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- EMAIL 6 -->
+            <div class="slide" data-slide-id="email-6">
+              <div class="slide-header">
+                <h2 class="slide-title">Email 6 - Adventures Await in Bocas del Toro</h2>
+                <span class="badge">Existing layout, agent voice</span>
+              </div>
+              <div class="email-meta">
+                <strong>Subject:</strong> Your Private Caribbean Playground Awaits
+              </div>
+              <div class="email-body">
+                <div class="email-card">
+                  <div class="email-block">
+                    <p>Hi [Lead Name],</p>
+                    <p>The waters and islets of Bocas del Toro beckon to be explored, and there is no better place to set out than right from our idyllic waterfront setting.</p>
+                    <p>Our villas provide direct access to fantastic swimming and snorkeling opportunities, and you can also explore the Caribbean waters surrounding our island via kayak or paddleboard.</p>
+                    <p>Nayara Bocas del Toro's cerulean waters are warm year round, but if you prefer a break from the salt and the surf, our stunning clubhouse pool is a serene oasis of freshwater to relax, unwind and sunbathe.</p>
+                  </div>
+
+                  <div class="email-image">
+                    <img src="https://23160175.fs1.hubspotusercontent-na1.net/hub/23160175/hubfs/Nayara%20bocas%20del%20Toro%20-%20Panama%20-%20with%20Liv%20Law%20-%20DJI_0362%20-%20by%20Brice%20Ferre%20Studio.jpg?width=900&amp;upscale=true&amp;name=Nayara%20bocas%20del%20Toro%20-%20Panama%20-%20with%20Liv%20Law%20-%20DJI_0362%20-%20by%20Brice%20Ferre%20Studio.jpg" alt="Overwater villas at Nayara Bocas del Toro" />
+                  </div>
+
+                  <div class="email-block">
+                    <p>The small islands of our Caribbean home play host to a variety of sea life, including hundreds of species of fish and even pods of dolphins.</p>
+                    <p>If you are ready to join us, you can click the link below to start planning your Nayara Bocas del Toro adventure today.</p>
+                    <div class="email-cta">
+                      <a href="mailto:[Agent Email Address]">Contact Us!</a>
+                    </div>
+                    <p>See you soon,</p>
+                    <p>[Agent Name]<br />
+                    Reservations Specialist<br />
+                    Live chat with me here | WhatsApp +507 6954 5262<br />
+                    Panama +507 838 8362 | Toll Free USA: 888 332 2961</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
