@@ -429,7 +429,7 @@
     }
     .carousel-wheel {
       width: 100%;
-      height: 100%;
+      height: 200%;
       position: relative;
       animation: verticalCarousel 30s linear infinite;
     }
@@ -438,7 +438,7 @@
         transform: translateY(0);
       }
       to {
-        transform: translateY(-100%);
+        transform: translateY(-50%);
       }
     }
     .carousel-item {
@@ -449,111 +449,79 @@
       background: #ffffff;
       border: 2px solid rgba(255, 255, 255, 0.8);
       left: 50%;
-      transform: translateX(-50%);
       opacity: 0.6;
-      transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease, height 0.3s ease;
+      transition: transform 0.3s ease, opacity 0.3s ease;
     }
     .carousel-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-    /* Deep effect: images get larger and more opaque as they move up */
-    .carousel-item:nth-child(1) {
-      width: 120px;
-      height: 120px;
-      top: 100%;
-      opacity: 0.3;
-      transform: translateX(-50%) scale(0.7);
+    /* Deep effect: images get larger and more opaque as they move up, centered vertically */
+    .carousel-item {
+      width: 100px;
+      height: 100px;
+      opacity: 0.2;
+      transform: translateX(-50%) scale(0.6);
       z-index: 1;
     }
-    .carousel-item:nth-child(2) {
-      width: 130px;
-      height: 130px;
-      top: calc(100% + 140px);
-      opacity: 0.4;
-      transform: translateX(-50%) scale(0.75);
-      z-index: 2;
+    .carousel-item:nth-child(1) { top: 0%; }
+    .carousel-item:nth-child(2) { 
+      width: 110px; height: 110px; top: 8%; opacity: 0.3; 
+      transform: translateX(-50%) scale(0.65); z-index: 2; 
     }
-    .carousel-item:nth-child(3) {
-      width: 140px;
-      height: 140px;
-      top: calc(100% + 280px);
-      opacity: 0.5;
-      transform: translateX(-50%) scale(0.8);
-      z-index: 3;
+    .carousel-item:nth-child(3) { 
+      width: 120px; height: 120px; top: 16%; opacity: 0.4; 
+      transform: translateX(-50%) scale(0.7); z-index: 3; 
     }
-    .carousel-item:nth-child(4) {
-      width: 150px;
-      height: 150px;
-      top: calc(100% + 420px);
-      opacity: 0.6;
-      transform: translateX(-50%) scale(0.85);
-      z-index: 4;
+    .carousel-item:nth-child(4) { 
+      width: 130px; height: 130px; top: 24%; opacity: 0.5; 
+      transform: translateX(-50%) scale(0.75); z-index: 4; 
     }
-    .carousel-item:nth-child(5) {
-      width: 160px;
-      height: 160px;
-      top: calc(100% + 560px);
-      opacity: 0.7;
-      transform: translateX(-50%) scale(0.9);
-      z-index: 5;
+    .carousel-item:nth-child(5) { 
+      width: 140px; height: 140px; top: 32%; opacity: 0.6; 
+      transform: translateX(-50%) scale(0.8); z-index: 5; 
     }
-    .carousel-item:nth-child(6) {
-      width: 170px;
-      height: 170px;
-      top: calc(100% + 700px);
-      opacity: 0.75;
-      transform: translateX(-50%) scale(0.95);
-      z-index: 6;
+    .carousel-item:nth-child(6) { 
+      width: 150px; height: 150px; top: 40%; opacity: 0.7; 
+      transform: translateX(-50%) scale(0.85); z-index: 6; 
     }
-    .carousel-item:nth-child(7) {
-      width: 180px;
-      height: 180px;
-      top: calc(100% + 840px);
-      opacity: 0.8;
-      transform: translateX(-50%) scale(1);
-      z-index: 7;
+    .carousel-item:nth-child(7) { 
+      width: 160px; height: 160px; top: 48%; opacity: 0.85; 
+      transform: translateX(-50%) scale(0.95); z-index: 7; 
     }
-    .carousel-item:nth-child(8) {
-      width: 170px;
-      height: 170px;
-      top: calc(100% + 980px);
-      opacity: 0.75;
-      transform: translateX(-50%) scale(0.95);
-      z-index: 6;
+    .carousel-item:nth-child(8) { 
+      width: 170px; height: 170px; top: 56%; opacity: 0.9; 
+      transform: translateX(-50%) scale(1); z-index: 8; 
     }
-    .carousel-item:nth-child(9) {
-      width: 160px;
-      height: 160px;
-      top: calc(100% + 1120px);
-      opacity: 0.7;
-      transform: translateX(-50%) scale(0.9);
-      z-index: 5;
+    .carousel-item:nth-child(9) { 
+      width: 160px; height: 160px; top: 64%; opacity: 0.85; 
+      transform: translateX(-50%) scale(0.95); z-index: 7; 
     }
-    .carousel-item:nth-child(10) {
-      width: 150px;
-      height: 150px;
-      top: calc(100% + 1260px);
-      opacity: 0.6;
-      transform: translateX(-50%) scale(0.85);
-      z-index: 4;
+    .carousel-item:nth-child(10) { 
+      width: 150px; height: 150px; top: 72%; opacity: 0.7; 
+      transform: translateX(-50%) scale(0.85); z-index: 6; 
     }
-    .carousel-item:nth-child(11) {
-      width: 140px;
-      height: 140px;
-      top: calc(100% + 1400px);
-      opacity: 0.5;
-      transform: translateX(-50%) scale(0.8);
-      z-index: 3;
+    .carousel-item:nth-child(11) { 
+      width: 140px; height: 140px; top: 80%; opacity: 0.6; 
+      transform: translateX(-50%) scale(0.8); z-index: 5; 
     }
-    .carousel-item:nth-child(12) {
-      width: 130px;
-      height: 130px;
-      top: calc(100% + 1540px);
-      opacity: 0.4;
-      transform: translateX(-50%) scale(0.75);
-      z-index: 2;
+    .carousel-item:nth-child(12) { 
+      width: 130px; height: 130px; top: 88%; opacity: 0.5; 
+      transform: translateX(-50%) scale(0.75); z-index: 4; 
+    }
+    /* Duplicate items for seamless loop */
+    .carousel-item:nth-child(13) { 
+      width: 120px; height: 120px; top: 96%; opacity: 0.4; 
+      transform: translateX(-50%) scale(0.7); z-index: 3; 
+    }
+    .carousel-item:nth-child(14) { 
+      width: 110px; height: 110px; top: 104%; opacity: 0.3; 
+      transform: translateX(-50%) scale(0.65); z-index: 2; 
+    }
+    .carousel-item:nth-child(15) { 
+      width: 100px; height: 100px; top: 112%; opacity: 0.2; 
+      transform: translateX(-50%) scale(0.6); z-index: 1; 
     }
     .columns.view-mode-full .column-left .deck-controls-top {
       justify-content: center;
