@@ -2,10 +2,32 @@ const express = require('express');
 const fs = require('fs/promises');
 const path = require('path');
 
+// CRITICAL: Log environment info for Railway debugging
+console.log('='.repeat(60));
+console.log('🚀 STARTING SERVER');
+console.log('='.repeat(60));
+console.log('Node.js version:', process.version);
+console.log('Platform:', process.platform);
+console.log('Working directory:', __dirname);
+console.log('PORT environment variable:', process.env.PORT || 'NOT SET');
+console.log('='.repeat(60));
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 const COMMENTS_PATH = path.join(__dirname, 'data', 'comments.json');
 const STATIC_ROOT = path.join(__dirname, 'NBDT', 'DripCampaing');
+
+// Verify critical paths exist
+(async () => {
+  try {
+    const serverExists = await fs.access(path.join(__dirname, 'server.js')).then(() => true).catch(() => false);
+    const staticExists = await fs.access(STATIC_ROOT).then(() => true).catch(() => false);
+    console.log('📁 server.js exists:', serverExists);
+    console.log('📁 Static root exists:', staticExists, 'at', STATIC_ROOT);
+  } catch (error) {
+    console.error('⚠️ Error checking paths:', error.message);
+  }
+})();
 
 app.use(express.json());
 

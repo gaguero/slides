@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "verify": "node -e \"console.log('Node.js:', process.version); console.log('Platform:', process.platform);\""
   },
   "dependencies": {
     "express": "^4.19.2"

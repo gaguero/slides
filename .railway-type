@@ -1,0 +1,10 @@
+# Railway Detection File
+# This file helps Railway recognize this as a Node.js Web Service project
+
+# Required files for Node.js detection:
+# - package.json ✓
+# - server.js ✓
+# - npm start script ✓
+
+# This is NOT a static site - it requires Node.js to run
+
