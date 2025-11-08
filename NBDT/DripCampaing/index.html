@@ -403,10 +403,96 @@
       font-size: 12px;
       color: #4b5563;
     }
-    .deck-controls-top {
-      margin-top: 0;
-      margin-bottom: 12px;
-      justify-content: space-between;
+    .image-carousel {
+      position: fixed;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 240px;
+      height: 240px;
+      z-index: 5;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    .columns.view-mode-full .image-carousel {
+      opacity: 1;
+    }
+    .carousel-wheel {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      animation: rotateCarousel 25s linear infinite;
+    }
+    @keyframes rotateCarousel {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    .carousel-item {
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      background: #ffffff;
+      border: 3px solid rgba(255, 255, 255, 0.9);
+      top: 50%;
+      left: 50%;
+      margin-left: -35px;
+      margin-top: -35px;
+    }
+    .carousel-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    /* Position items in a circle - 12 items evenly spaced */
+    .carousel-item:nth-child(1) {
+      transform: translateX(-50%) translateY(-50%) rotate(0deg) translateY(-85px) rotate(0deg);
+    }
+    .carousel-item:nth-child(2) {
+      transform: translateX(-50%) translateY(-50%) rotate(30deg) translateY(-85px) rotate(-30deg);
+    }
+    .carousel-item:nth-child(3) {
+      transform: translateX(-50%) translateY(-50%) rotate(60deg) translateY(-85px) rotate(-60deg);
+    }
+    .carousel-item:nth-child(4) {
+      transform: translateX(-50%) translateY(-50%) rotate(90deg) translateY(-85px) rotate(-90deg);
+    }
+    .carousel-item:nth-child(5) {
+      transform: translateX(-50%) translateY(-50%) rotate(120deg) translateY(-85px) rotate(-120deg);
+    }
+    .carousel-item:nth-child(6) {
+      transform: translateX(-50%) translateY(-50%) rotate(150deg) translateY(-85px) rotate(-150deg);
+    }
+    .carousel-item:nth-child(7) {
+      transform: translateX(-50%) translateY(-50%) rotate(180deg) translateY(-85px) rotate(-180deg);
+    }
+    .carousel-item:nth-child(8) {
+      transform: translateX(-50%) translateY(-50%) rotate(210deg) translateY(-85px) rotate(-210deg);
+    }
+    .carousel-item:nth-child(9) {
+      transform: translateX(-50%) translateY(-50%) rotate(240deg) translateY(-85px) rotate(-240deg);
+    }
+    .carousel-item:nth-child(10) {
+      transform: translateX(-50%) translateY(-50%) rotate(270deg) translateY(-85px) rotate(-270deg);
+    }
+    .carousel-item:nth-child(11) {
+      transform: translateX(-50%) translateY(-50%) rotate(300deg) translateY(-85px) rotate(-300deg);
+    }
+    .carousel-item:nth-child(12) {
+      transform: translateX(-50%) translateY(-50%) rotate(330deg) translateY(-85px) rotate(-330deg);
+    }
+    .columns.view-mode-full .deck-controls-top {
+      justify-content: center;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
     .nav-button {
       border: none;
