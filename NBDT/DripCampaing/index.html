@@ -298,25 +298,49 @@
       color: #6b7280;
       margin-bottom: 4px;
     }
-    .table-wrapper {
-      overflow-x: auto;
-      margin: 8px 0;
+    .rate-cards {
+      display: grid;
+      gap: 12px;
+      margin: 12px 0;
     }
-    table.rate-table {
-      border-collapse: collapse;
-      width: 100%;
-      font-size: 13px;
-    }
-    table.rate-table th,
-    table.rate-table td {
-      border: 1px solid #e5e7eb;
-      padding: 6px 8px;
-      text-align: left;
-      white-space: nowrap;
-    }
-    table.rate-table th {
+    .rate-card {
       background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 14px 16px;
+      display: grid;
+      gap: 8px;
+    }
+    .rate-card-title {
       font-weight: 600;
+      font-size: 14px;
+      color: #111827;
+      margin: 0;
+    }
+    .rate-card-prices {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: baseline;
+    }
+    .rate-card-price {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .rate-card-price-label {
+      font-size: 11px;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .rate-card-price-value {
+      font-size: 16px;
+      font-weight: 600;
+      color: #111827;
+    }
+    .rate-card-price-value.net {
+      color: #059669;
     }
     .deck-controls {
       display: flex;
@@ -849,36 +873,49 @@
 
                   <div class="email-block">
                     <div class="section-label">Sample rate overview</div>
-                    <div class="table-wrapper">
-                      <table class="rate-table">
-                        <thead>
-                          <tr>
-                            <th>Villa Category</th>
-                            <th>Net Rate (30% off)</th>
-                            <th>Rate with Taxes</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>Treehouse</td>
-                            <td>$980.00</td>
-                            <td>$1,070.80</td>
-                          </tr>
-                          <tr>
-                            <td>Over-The-Water Villa with Pool</td>
-                            <td>$1,155.00</td>
-                            <td>$1,263.30</td>
-                          </tr>
-                          <tr>
-                            <td>Deluxe Over-The-Water Villa with Pool</td>
-                            <td>$1,309.00</td>
-                            <td>$1,432.70</td>
-                          </tr>
-                        </tbody>
-                      </table>
+                    <div class="rate-cards">
+                      <div class="rate-card">
+                        <div class="rate-card-title">Treehouse</div>
+                        <div class="rate-card-prices">
+                          <div class="rate-card-price">
+                            <span class="rate-card-price-label">Net Rate (30% off)</span>
+                            <span class="rate-card-price-value net">$980.00</span>
+                          </div>
+                          <div class="rate-card-price">
+                            <span class="rate-card-price-label">Rate with Taxes</span>
+                            <span class="rate-card-price-value">$1,070.80</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="rate-card">
+                        <div class="rate-card-title">Over-The-Water Villa with Pool</div>
+                        <div class="rate-card-prices">
+                          <div class="rate-card-price">
+                            <span class="rate-card-price-label">Net Rate (30% off)</span>
+                            <span class="rate-card-price-value net">$1,155.00</span>
+                          </div>
+                          <div class="rate-card-price">
+                            <span class="rate-card-price-label">Rate with Taxes</span>
+                            <span class="rate-card-price-value">$1,263.30</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="rate-card">
+                        <div class="rate-card-title">Deluxe Over-The-Water Villa with Pool</div>
+                        <div class="rate-card-prices">
+                          <div class="rate-card-price">
+                            <span class="rate-card-price-label">Net Rate (30% off)</span>
+                            <span class="rate-card-price-value net">$1,309.00</span>
+                          </div>
+                          <div class="rate-card-price">
+                            <span class="rate-card-price-label">Rate with Taxes</span>
+                            <span class="rate-card-price-value">$1,432.70</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <p style="font-size: 12px; color: #4b5563;">Per night per couple.</p>
-                    <p><em>Note:</em> A third guest can be accommodated in the Over-The-Water Villas with an additional bed: USD 161.40 per night (taxes included). The best rate is guaranteed when booking directly by email or phone.</p>
+                    <p style="font-size: 12px; color: #4b5563; margin-top: 8px;">Per night per couple.</p>
+                    <p style="margin-top: 8px;"><em>Note:</em> A third guest can be accommodated in the Over-The-Water Villas with an additional bed: USD 161.40 per night (taxes included). The best rate is guaranteed when booking directly by email or phone.</p>
                   </div>
 
                   <div class="email-block">
