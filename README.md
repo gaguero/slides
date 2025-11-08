@@ -32,10 +32,32 @@ La aplicación quedará disponible en `http://localhost:3000/`.
 
 ## Despliegue en Railway
 
-1. Conecta el repositorio `https://github.com/gaguero/slides`.
-2. Añade un servicio Node apuntando al directorio raíz de la app.
-3. Railway ejecutará `npm install` y `npm start` por defecto.
-4. El contenido estático se sirve desde `NBDT/DripCampaing/` según lo configurado en `server.js`.
+### Configuración Importante
+
+**CRÍTICO**: Railway debe ejecutar este proyecto como un **Web Service** (servicio Node.js), NO como un sitio estático.
+
+1. Conecta el repositorio `https://github.com/gaguero/slides` a Railway.
+2. **Verifica la configuración del servicio**:
+   - **Service Type**: Debe ser "Web Service" (no "Static Site")
+   - **Start Command**: `npm start` (o dejar vacío, Railway usará el script del `package.json`)
+   - **Root Directory**: `.` (raíz del repositorio)
+3. Railway ejecutará automáticamente:
+   - `npm install` (instala dependencias)
+   - `npm start` (ejecuta `node server.js`)
+4. El servidor Express escuchará en el puerto asignado por Railway (`process.env.PORT`).
+5. El contenido estático se sirve desde `NBDT/DripCampaing/` según lo configurado en `server.js`.
+
+### Verificación
+
+Después del despliegue, revisa los logs de Railway. Deberías ver:
+```
+🚀 Server running on port XXXX
+📁 Static files served from: ...
+💾 Comments stored at: ...
+✅ API endpoints: GET/POST /comments
+```
+
+Si ves logs de Caddy en lugar de estos mensajes, Railway está configurando el servicio como sitio estático. Cambia el tipo de servicio a "Web Service".
 
 ## Mantenimiento de la oferta
 
