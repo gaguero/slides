@@ -169,17 +169,55 @@
       display: flex;
       flex-wrap: wrap;
       gap: 16px;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .columns.view-mode-full {
+      flex-wrap: nowrap;
+    }
+    .columns.view-mode-full .column-left {
+      flex: 1 1 100%;
+      max-width: 100%;
+    }
+    .columns.view-mode-full .column-right {
+      display: none;
+    }
+    .columns.view-mode-split {
+      flex-wrap: wrap;
+    }
+    .columns.view-mode-split .column-left {
+      flex: 1 1 38%;
+      min-width: 300px;
+    }
+    .columns.view-mode-split .column-right {
+      flex: 1 1 58%;
+      min-width: 340px;
+      animation: slideInRight 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
     }
     .column {
       padding: 8px;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .column-left {
-      flex: 1 1 38%;
+      flex: 1 1 100%;
       min-width: 300px;
     }
     .column-right {
       flex: 1 1 58%;
       min-width: 340px;
+      display: none;
+    }
+    .column-right.visible {
+      display: block;
     }
     .deck {
       position: relative;
@@ -298,48 +336,36 @@
       color: #6b7280;
       margin-bottom: 4px;
     }
-    .rate-cards {
-      display: grid;
-      gap: 12px;
+    .rate-list {
       margin: 12px 0;
+      line-height: 1.8;
     }
-    .rate-card {
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      padding: 14px 16px;
-      display: grid;
-      gap: 8px;
+    .rate-item {
+      margin-bottom: 10px;
+      padding-left: 0;
     }
-    .rate-card-title {
+    .rate-item-title {
       font-weight: 600;
       font-size: 14px;
       color: #111827;
-      margin: 0;
+      margin-bottom: 4px;
     }
-    .rate-card-prices {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      align-items: baseline;
+    .rate-item-prices {
+      font-size: 13px;
+      color: #374151;
+      margin-left: 16px;
     }
-    .rate-card-price {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
+    .rate-item-price {
+      margin-bottom: 2px;
     }
-    .rate-card-price-label {
-      font-size: 11px;
+    .rate-item-price-label {
       color: #6b7280;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
     }
-    .rate-card-price-value {
-      font-size: 16px;
+    .rate-item-price-value {
       font-weight: 600;
       color: #111827;
     }
-    .rate-card-price-value.net {
+    .rate-item-price-value.net {
       color: #059669;
     }
     .deck-controls {
@@ -378,6 +404,17 @@
     .nav-button:active {
       transform: translateY(0);
       box-shadow: none;
+    }
+    .nav-button.view-proposal {
+      background: #2563eb;
+      color: #ffffff;
+      font-weight: 600;
+      padding: 8px 16px;
+      min-width: auto;
+    }
+    .nav-button.view-proposal:hover {
+      background: #1e4fd8;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
     }
     .deck-status {
       min-width: 90px;
@@ -731,7 +768,7 @@
         <p data-i18n="subtitle">Left: Findings and proposal. Right: New 6 email sequence in agent voice. Use the controls below each deck to move between slides.</p>
       </div>
 
-      <div class="columns">
+      <div class="columns view-mode-full">
         <!-- LEFT COLUMN: 4 SLIDE DECK (FINDINGS + PROPOSAL) -->
         <div class="column column-left">
           <div class="deck-controls deck-controls-top" data-deck="deck-left">
@@ -873,43 +910,43 @@
 
                   <div class="email-block">
                     <div class="section-label">Sample rate overview</div>
-                    <div class="rate-cards">
-                      <div class="rate-card">
-                        <div class="rate-card-title">Treehouse</div>
-                        <div class="rate-card-prices">
-                          <div class="rate-card-price">
-                            <span class="rate-card-price-label">Net Rate (30% off)</span>
-                            <span class="rate-card-price-value net">$980.00</span>
+                    <div class="rate-list">
+                      <div class="rate-item">
+                        <div class="rate-item-title">Treehouse</div>
+                        <div class="rate-item-prices">
+                          <div class="rate-item-price">
+                            <span class="rate-item-price-label">Net Rate (30% off): </span>
+                            <span class="rate-item-price-value net">$980.00</span>
                           </div>
-                          <div class="rate-card-price">
-                            <span class="rate-card-price-label">Rate with Taxes</span>
-                            <span class="rate-card-price-value">$1,070.80</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="rate-card">
-                        <div class="rate-card-title">Over-The-Water Villa with Pool</div>
-                        <div class="rate-card-prices">
-                          <div class="rate-card-price">
-                            <span class="rate-card-price-label">Net Rate (30% off)</span>
-                            <span class="rate-card-price-value net">$1,155.00</span>
-                          </div>
-                          <div class="rate-card-price">
-                            <span class="rate-card-price-label">Rate with Taxes</span>
-                            <span class="rate-card-price-value">$1,263.30</span>
+                          <div class="rate-item-price">
+                            <span class="rate-item-price-label">Rate with Taxes: </span>
+                            <span class="rate-item-price-value">$1,070.80</span>
                           </div>
                         </div>
                       </div>
-                      <div class="rate-card">
-                        <div class="rate-card-title">Deluxe Over-The-Water Villa with Pool</div>
-                        <div class="rate-card-prices">
-                          <div class="rate-card-price">
-                            <span class="rate-card-price-label">Net Rate (30% off)</span>
-                            <span class="rate-card-price-value net">$1,309.00</span>
+                      <div class="rate-item">
+                        <div class="rate-item-title">Over-The-Water Villa with Pool</div>
+                        <div class="rate-item-prices">
+                          <div class="rate-item-price">
+                            <span class="rate-item-price-label">Net Rate (30% off): </span>
+                            <span class="rate-item-price-value net">$1,155.00</span>
                           </div>
-                          <div class="rate-card-price">
-                            <span class="rate-card-price-label">Rate with Taxes</span>
-                            <span class="rate-card-price-value">$1,432.70</span>
+                          <div class="rate-item-price">
+                            <span class="rate-item-price-label">Rate with Taxes: </span>
+                            <span class="rate-item-price-value">$1,263.30</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="rate-item">
+                        <div class="rate-item-title">Deluxe Over-The-Water Villa with Pool</div>
+                        <div class="rate-item-prices">
+                          <div class="rate-item-price">
+                            <span class="rate-item-price-label">Net Rate (30% off): </span>
+                            <span class="rate-item-price-value net">$1,309.00</span>
+                          </div>
+                          <div class="rate-item-price">
+                            <span class="rate-item-price-label">Rate with Taxes: </span>
+                            <span class="rate-item-price-value">$1,432.70</span>
                           </div>
                         </div>
                       </div>

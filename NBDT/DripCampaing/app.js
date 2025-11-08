@@ -36,6 +36,7 @@ const STRINGS = {
     'feedback.namesRequired': 'First and last name are required.',
     'feedback.commentRequired': 'The comment cannot be empty.',
     'deck.status': (current, total) => `Slide ${current} of ${total}`,
+    'viewProposal.button': 'See proposal email copy',
   },
   es: {
     'title': 'Nayara Bocas del Toro - Rediseño del Drip Campaign',
@@ -73,6 +74,7 @@ const STRINGS = {
     'feedback.namesRequired': 'Nombre y apellido son obligatorios.',
     'feedback.commentRequired': 'El comentario no puede estar vacío.',
     'deck.status': (current, total) => `Slide ${current} de ${total}`,
+    'viewProposal.button': 'Ver propuesta de correos',
   },
 };
 
@@ -116,13 +118,65 @@ function setupDeck(deckId) {
   const buttons = document.querySelectorAll(`.nav-button[data-target="${deckId}"]`);
   buttons.forEach((btn) => {
     btn.addEventListener('click', () => {
+      // Check if this is the "view-proposal" button
+      if (btn.getAttribute('data-action') === 'view-proposal') {
+        switchToSplitView();
+        return;
+      }
+      
       const direction = btn.getAttribute('data-direction') === 'next' ? 1 : -1;
       slides[index].classList.remove('active');
       index = (index + direction + slides.length) % slides.length;
       slides[index].classList.add('active');
       updateDeckStatus(statusEl, index, slides.length);
+      
+      // Special handling for deck-left slide 4
+      if (deckId === 'deck-left') {
+        handleLeftDeckSlideChange(index, slides.length, null);
+      }
     });
   });
+  
+  // Initialize button state for deck-left
+  if (deckId === 'deck-left') {
+    handleLeftDeckSlideChange(0, slides.length, null);
+  }
+}
+
+function handleLeftDeckSlideChange(currentIndex, totalSlides, clickedButton) {
+  const controls = document.querySelector('.deck-controls[data-deck="deck-left"]');
+  if (!controls) return;
+  
+  const nextBtn = controls.querySelector('.nav-button[data-direction="next"]');
+  if (!nextBtn) return;
+  
+  // If we're on slide 4 (index 3), change button to "See proposal email copy"
+  if (currentIndex === 3) {
+    nextBtn.textContent = getString('viewProposal.button') || 'See proposal email copy';
+    nextBtn.classList.add('view-proposal');
+    nextBtn.setAttribute('data-action', 'view-proposal');
+  } else {
+    nextBtn.textContent = '▶';
+    nextBtn.classList.remove('view-proposal');
+    nextBtn.removeAttribute('data-action');
+  }
+}
+
+function switchToSplitView() {
+  const columns = document.querySelector('.columns');
+  const columnRight = document.querySelector('.column-right');
+  
+  if (!columns || !columnRight) return;
+  
+  columns.classList.remove('view-mode-full');
+  columns.classList.add('view-mode-split');
+  columnRight.classList.add('visible');
+  
+  // Update subtitle
+  const subtitle = document.querySelector('[data-i18n="subtitle"]');
+  if (subtitle) {
+    subtitle.textContent = getString('subtitle') || 'Left: Findings and proposal. Right: New 6 email sequence in agent voice. Use the controls below each deck to move between slides.';
+  }
 }
 
 function updateDeckStatus(statusEl, index, total) {
@@ -460,20 +514,67 @@ function applyCommentHighlight(comment) {
 }
 
 function wrapRangeWithMark(range, comment) {
-  const mark = document.createElement('mark');
-  mark.className = 'commented';
-  mark.dataset.commentId = comment.id;
-  const fullName = `${comment.firstName || ''} ${comment.lastName || ''}`.trim();
-  mark.dataset.author = fullName || 'Reviewer';
-  mark.dataset.comment = comment.comment;
-  const color = comment.color || generateColor(fullName);
-  mark.style.backgroundColor = color;
-  mark.style.color = '#111827';
+  // Normalize the range to ensure it spans complete text nodes
+  try {
+    // If range spans multiple nodes, try to normalize it
+    if (range.startContainer !== range.endContainer) {
+      // Expand range to include full text nodes
+      const startNode = range.startContainer.nodeType === Node.TEXT_NODE 
+        ? range.startContainer 
+        : range.startContainer.childNodes[range.startOffset] || range.startContainer;
+      const endNode = range.endContainer.nodeType === Node.TEXT_NODE 
+        ? range.endContainer 
+        : range.endContainer.childNodes[range.endOffset - 1] || range.endContainer;
+      
+      if (startNode && endNode && startNode.nodeType === Node.TEXT_NODE && endNode.nodeType === Node.TEXT_NODE) {
+        const newRange = document.createRange();
+        newRange.setStart(startNode, 0);
+        newRange.setEnd(endNode, endNode.textContent.length);
+        range = newRange;
+      }
+    }
+    
+    const mark = document.createElement('mark');
+    mark.className = 'commented';
+    mark.dataset.commentId = comment.id;
+    const fullName = `${comment.firstName || ''} ${comment.lastName || ''}`.trim();
+    mark.dataset.author = fullName || 'Reviewer';
+    mark.dataset.comment = comment.comment;
+    const color = comment.color || generateColor(fullName);
+    mark.style.backgroundColor = color;
+    mark.style.color = '#111827';
+    mark.style.padding = '2px 0';
+    mark.style.borderRadius = '2px';
 
-  const fragment = range.extractContents();
-  mark.appendChild(fragment);
-  range.insertNode(mark);
-  range.detach();
+    const fragment = range.extractContents();
+    // Clean up empty text nodes
+    const walker = document.createTreeWalker(fragment, NodeFilter.SHOW_TEXT, null);
+    const textNodes = [];
+    let node;
+    while (node = walker.nextNode()) {
+      if (node.textContent.trim()) {
+        textNodes.push(node);
+      }
+    }
+    
+    // If fragment is empty or only whitespace, try to get the text content differently
+    if (fragment.childNodes.length === 0 || !fragment.textContent.trim()) {
+      const textContent = range.toString();
+      if (textContent.trim()) {
+        mark.textContent = textContent;
+      } else {
+        console.warn('Range has no text content');
+        return;
+      }
+    } else {
+      mark.appendChild(fragment);
+    }
+    
+    range.insertNode(mark);
+    range.detach();
+  } catch (error) {
+    console.warn('Error wrapping range with mark:', error);
+  }
 }
 
 function createRangeFromComment(slideEl, comment) {
