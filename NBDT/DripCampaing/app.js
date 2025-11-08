@@ -514,26 +514,7 @@ function applyCommentHighlight(comment) {
 }
 
 function wrapRangeWithMark(range, comment) {
-  // Normalize the range to ensure it spans complete text nodes
   try {
-    // If range spans multiple nodes, try to normalize it
-    if (range.startContainer !== range.endContainer) {
-      // Expand range to include full text nodes
-      const startNode = range.startContainer.nodeType === Node.TEXT_NODE 
-        ? range.startContainer 
-        : range.startContainer.childNodes[range.startOffset] || range.startContainer;
-      const endNode = range.endContainer.nodeType === Node.TEXT_NODE 
-        ? range.endContainer 
-        : range.endContainer.childNodes[range.endOffset - 1] || range.endContainer;
-      
-      if (startNode && endNode && startNode.nodeType === Node.TEXT_NODE && endNode.nodeType === Node.TEXT_NODE) {
-        const newRange = document.createRange();
-        newRange.setStart(startNode, 0);
-        newRange.setEnd(endNode, endNode.textContent.length);
-        range = newRange;
-      }
-    }
-    
     const mark = document.createElement('mark');
     mark.className = 'commented';
     mark.dataset.commentId = comment.id;
@@ -545,33 +526,32 @@ function wrapRangeWithMark(range, comment) {
     mark.style.color = '#111827';
     mark.style.padding = '2px 0';
     mark.style.borderRadius = '2px';
+    mark.style.display = 'inline';
 
-    const fragment = range.extractContents();
-    // Clean up empty text nodes
-    const walker = document.createTreeWalker(fragment, NodeFilter.SHOW_TEXT, null);
-    const textNodes = [];
-    let node;
-    while (node = walker.nextNode()) {
-      if (node.textContent.trim()) {
-        textNodes.push(node);
-      }
-    }
-    
-    // If fragment is empty or only whitespace, try to get the text content differently
-    if (fragment.childNodes.length === 0 || !fragment.textContent.trim()) {
-      const textContent = range.toString();
-      if (textContent.trim()) {
-        mark.textContent = textContent;
+    // Use surroundContents for simple cases - works better with multi-line selections
+    try {
+      range.surroundContents(mark);
+      range.detach();
+    } catch (surroundError) {
+      // If surroundContents fails (e.g., range crosses element boundaries),
+      // fall back to extractContents approach
+      const contents = range.extractContents();
+      if (contents && contents.childNodes.length > 0) {
+        mark.appendChild(contents);
+        range.insertNode(mark);
       } else {
-        console.warn('Range has no text content');
-        return;
+        // Last resort: replace with text content
+        const textContent = range.toString();
+        if (textContent.trim()) {
+          mark.textContent = textContent;
+          range.deleteContents();
+          range.insertNode(mark);
+        } else {
+          return;
+        }
       }
-    } else {
-      mark.appendChild(fragment);
+      range.detach();
     }
-    
-    range.insertNode(mark);
-    range.detach();
   } catch (error) {
     console.warn('Error wrapping range with mark:', error);
   }
