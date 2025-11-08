@@ -2,11 +2,12 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy package files explicitly
+COPY package.json ./
+COPY package-lock.json* ./
 
-# Install dependencies (use npm install if package-lock.json is missing)
-RUN npm install --production --omit=dev || npm install --production
+# Install dependencies
+RUN npm install --production --omit=dev
 
 # Copy all project files
 COPY . .
