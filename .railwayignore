@@ -1,0 +1,9 @@
+# Railway Configuration Override
+# This file forces Railway to treat this as a Node.js Web Service
+
+# DO NOT treat this as a static site
+# This project requires Node.js/Express to run
+
+# Builder: Dockerfile (explicit Node.js container)
+# Start Command: node server.js
+
