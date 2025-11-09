@@ -1,56 +1,56 @@
 # Nayara Bocas del Toro - Drip Campaign Redesign
 
 Presentación interactiva para la propuesta de rediseño del drip campaign de Nayara Bocas del Toro.  
-Contiene visualización de hallazgos, flujo propuesto y los seis correos de la secuencia, junto a un sistema ligero de comentarios sin base de datos.
+Visualiza hallazgos, flujo propuesto y los seis correos de la secuencia, con un sistema ligero de comentarios contextuales.
 
-## Requisitos
+## 🚀 Inicio Rápido
 
+### Requisitos
 - Node.js 18 o superior
 
-## Instalación y Ejecución Local
-
+### Instalación Local
 ```bash
 npm install
 npm run dev
 ```
+La aplicación estará disponible en `http://localhost:3000/`.
 
-La aplicación quedará disponible en `http://localhost:3000/`.
+## 📋 Funcionalidades
 
-## Arquitectura
+- **4 Slides de Propuesta**: Hallazgos y recomendaciones
+- **6 Emails Completos**: Secuencia en voz del agente
+- **Sistema de Comentarios**: Comentarios contextuales sobre el contenido
+- **Internacionalización**: Inglés y español
+- **Vista Split**: Slides y emails lado a lado
+- **Carousel de Imágenes**: Visualización de imágenes relacionadas
 
-- **server.js**: Servidor Express que sirve el contenido estático desde `NBDT/DripCampaing` y expone el endpoint `/comments`.
-- **NBDT/DripCampaing/**: Contenido estático de la aplicación.
-  - `index.html`: Presentación principal con CSS embebido.
-  - `app.js`: Lógica de navegación de slides, comentarios e internacionalización.
-- **data/comments.json**: Almacenamiento plano de los comentarios registrados.
+## 🏗️ Arquitectura
 
-## Funcionalidades
+- **server.js**: Servidor Express que sirve contenido estático y API de comentarios
+- **NBDT/DripCampaing/**: Contenido estático
+  - `index.html`: Presentación principal con CSS embebido
+  - `app.js`: Lógica de navegación, comentarios e i18n
+- **data/comments.json**: Almacenamiento de comentarios (JSON plano)
 
-- **4 Slides de Propuesta**: Visualización de hallazgos y recomendaciones
-- **6 Emails Completos**: Secuencia de correos en voz del agente
-- **Sistema de Comentarios**: Selecciona texto y agrega comentarios contextuales
-- **Internacionalización**: Soporte para inglés y español
-- **Vista Split**: Visualiza slides y emails lado a lado
+## 💬 Sistema de Comentarios
 
-## Flujo de Comentarios
+1. Selecciona texto en los emails (columna derecha)
+2. Haz clic en **"Añadir comentario"**
+3. Completa nombre, apellido y comentario
+4. Los comentarios se guardan y muestran como resaltados al pasar el cursor
 
-1. Selecciona un fragmento de texto en la columna derecha (los correos).
-2. Pulsa **"Añadir comentario"** y completa tu nombre + comentario.
-3. Los comentarios se guardan en `data/comments.json` y se renderizan como resaltados (`mark`) que muestran el contenido al pasar el cursor.
+## 🌐 Despliegue
 
-## Despliegue
-
-El proyecto está configurado para desplegarse en Railway como Web Service. Ver `memory-bank/deployment.md` para detalles completos.
+Desplegado en Railway como Web Service. Ver `memory-bank/deployment.md` para detalles.
 
 ### Configuración Railway
+- **Service Type**: Web Service
+- **Root Directory**: `.`
+- **Start Command**: `node server.js`
 
-- **Service Type**: Web Service (NO Static Site)
-- **Root Directory**: `.` (raíz del repositorio)
-- **Start Command**: `node server.js` o `npm start`
+## 📚 Documentación
 
-## Documentación Adicional
-
-Para más detalles técnicos, arquitectura y troubleshooting, consulta la documentación en `memory-bank/`:
-- `project-overview.md`: Descripción general del proyecto
-- `architecture.md`: Arquitectura técnica y decisiones
-- `deployment.md`: Guía completa de despliegue
+Consulta `memory-bank/` para:
+- `project-overview.md`: Descripción general
+- `architecture.md`: Arquitectura técnica
+- `deployment.md`: Guía de despliegue
