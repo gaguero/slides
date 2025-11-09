@@ -3,7 +3,7 @@ const STRINGS = {
   en: {
     'title': 'Nayara Bocas del Toro - Drip Campaign Redesign',
     'subtitle':
-      'Review the proposal slides on the left, then explore the new 6-email sequence on the right. Select any text to add comments.',
+      'Left: Proposal slides with findings and recommendations. Right: Complete 6-email sequence in agent voice. Select any text to add comments.',
     'language.toggle': 'Ver en español',
     'welcome.title': 'Welcome!',
     'welcome.intro': 'Select any text in the email deck to leave contextual comments. Please tell us who you are.',
@@ -41,7 +41,7 @@ const STRINGS = {
   es: {
     'title': 'Nayara Bocas del Toro - Rediseño del Drip Campaign',
     'subtitle':
-      'Revisa las diapositivas de propuesta a la izquierda, luego explora la nueva secuencia de 6 correos a la derecha. Selecciona cualquier texto para agregar comentarios.',
+      'Izquierda: Diapositivas de propuesta con hallazgos y recomendaciones. Derecha: Secuencia completa de 6 correos en voz del agente. Selecciona cualquier texto para agregar comentarios.',
     'language.toggle': 'Switch to English',
     'welcome.title': '¡Bienvenido!',
     'welcome.intro': 'Selecciona cualquier texto del deck para dejar comentarios contextuales. Cuéntanos quién eres.',
@@ -182,7 +182,7 @@ function switchToSplitView() {
   // Update subtitle
   const subtitle = document.querySelector('[data-i18n="subtitle"]');
   if (subtitle) {
-    subtitle.textContent = getString('subtitle') || 'Review the proposal slides on the left, then explore the new 6-email sequence on the right. Select any text to add comments.';
+    subtitle.textContent = getString('subtitle') || 'Left: Proposal slides with findings and recommendations. Right: Complete 6-email sequence in agent voice. Select any text to add comments.';
   }
 }
 
