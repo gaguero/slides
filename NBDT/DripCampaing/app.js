@@ -36,6 +36,7 @@ const STRINGS = {
     'feedback.namesRequired': 'First and last name are required.',
     'feedback.commentRequired': 'The comment cannot be empty.',
     'deck.status': (current, total) => `Slide ${current} of ${total}`,
+    'deck.status.email': (current, total) => `Email ${current} of ${total}`,
     'subtitle.split':
       'Left: Proposal slides with findings and recommendations. Right: Complete 6-email sequence in agent voice. Select any text to add comments.',
     'subtitle.split.es':
@@ -108,11 +109,42 @@ const STRINGS = {
     'feedback.namesRequired': 'Nombre y apellido son obligatorios.',
     'feedback.commentRequired': 'El comentario no puede estar vacío.',
     'deck.status': (current, total) => `Slide ${current} de ${total}`,
+    'deck.status.email': (current, total) => `Correo ${current} de ${total}`,
     'subtitle.split':
       'Izquierda: Diapositivas de propuesta con hallazgos y recomendaciones. Derecha: Secuencia completa de 6 correos en voz del agente. Selecciona cualquier texto para agregar comentarios.',
     'slides.left.1.title': 'Contexto y Problema',
     'slides.left.1.section1': 'Configuración actual',
     'slides.left.1.section2': 'Problemas resultantes',
+    'slides.left.1.item1': '<strong>Dos rutas de inscripción:</strong> Dos formularios en nuestro sitio web—Obtener Ofertas Exclusivas (formulario GEO) y Necesitas Asistencia (formulario YNA)—alimentan la misma secuencia automatizada de correos.',
+    'slides.left.1.item2': '<strong>Automatización + seguimiento humano:</strong> Ambos formularios inscriben automáticamente a los leads en la campaña de goteo heredada mientras los agentes lanzan simultáneamente su alcance manual.',
+    'slides.left.1.item3': '<strong>Contacto de alto toque:</strong> Los agentes envían correos, mensajes de texto y llaman en cuestión de minutos después de cada envío de formulario, como lo espera el liderazgo.',
+    'slides.left.1.item4': 'Los leads reciben mensajes superpuestos del Correo 1 (automatizado + manual) entregados casi simultáneamente.',
+    'slides.left.1.item5': 'La voz no es consistente (buzón del equipo vs identidad del agente individual), creando expectativas mixtas.',
+    'slides.left.1.item6': 'La experiencia se siente desordenada para un huésped de lujo aunque la intensidad del seguimiento sea alta.',
+    'slides.left.2.title': 'Hallazgos Clave',
+    'slides.left.2.item1': 'El primer correo manual usado por los agentes—refinado por Kelly y Gerson con el tiempo—está comprobado que genera respuestas rápidas.',
+    'slides.left.2.item2': 'Dan espera un alcance muy proactivo: contacto inmediato por correo, SMS y teléfono cuando llega un lead.',
+    'slides.left.2.item3': 'Los huéspedes que llenan el formulario YNA a menudo comparten fechas y necesidades específicas, y esperan ayuda individualizada en lugar de un mensaje estilo folleto genérico.',
+    'slides.left.2.item4': 'El problema principal no es el nivel de contacto sino la falta de orquestación y voz consistente.',
+    'slides.left.3.title': 'Flujo Propuesto (GEO vs YNA)',
+    'slides.left.3.section1': 'Obtener Ofertas Exclusivas (formulario GEO)',
+    'slides.left.3.section2': 'Necesitas Asistencia (formulario YNA)',
+    'slides.left.3.item1': 'Mantener la inscripción automática en la campaña de goteo, pero reemplazar el Correo 1 antiguo con el nuevo primer correo probado creado por Kelly y Gerson.',
+    'slides.left.3.item2': 'El Correo 1 presenta al agente asignado, presenta la promoción clave actual y la tabla de tarifas, y proporciona pasos claros siguientes.',
+    'slides.left.3.item3': 'Los Correos 2 a 6 siguen automáticamente como seguimiento, todos enviados desde la misma dirección de correo del agente asignado.',
+    'slides.left.3.item4': 'La sección de ofertas promocionales solo necesita actualizaciones periódicas, coordinadas por el equipo de ventas con nuestro proveedor de HubSpot.',
+    'slides.left.3.item5': 'No enviar el Correo 1 automáticamente.',
+    'slides.left.3.item6': 'El agente lee los detalles del formulario y envía una versión personalizada del Correo 1 manualmente, usando la misma estructura probada pero adaptada a las fechas y preguntas específicas del huésped.',
+    'slides.left.3.item7': 'Después de enviar el Correo 1 personalizado, el agente inscribe al contacto en la campaña automatizada de goteo comenzando en el Correo 2.',
+    'slides.left.4.title': 'Justificación y Próximos Pasos',
+    'slides.left.4.section1': 'Por qué funciona',
+    'slides.left.4.section2': 'Notas de implementación',
+    'slides.left.4.item1': 'Un concepto principal de primer correo para ambos formularios, alineado con lo que los agentes ya saben que funciona bien.',
+    'slides.left.4.item2': 'Todos los correos ahora hablan con la misma voz centrada en el agente: yo, mí, mi, y vías de contacto claras.',
+    'slides.left.4.item3': 'Mantiene el seguimiento agresivo pero elimina la confusión para el huésped.',
+    'slides.left.4.item4': 'En HubSpot, mapear GEO a la secuencia automatizada de 6 correos comenzando en el nuevo Correo 1.',
+    'slides.left.4.item5': 'Para YNA, proporcionar a los agentes una plantilla lista para el Correo 1 y una forma simple de comenzar la secuencia en el Correo 2.',
+    'slides.left.4.item6': 'Asegurar que los flujos de trabajo dejen de enviar tan pronto como un lead responda a través de cualquier canal, o si el estado es Reservado / optó por no recibir.',
     'slides.left.2.title': 'Hallazgos Clave',
     'slides.left.3.title': 'Flujo Propuesto (GEO vs YNA)',
     'slides.left.3.section1': 'Obtener Ofertas Exclusivas (formulario GEO)',
@@ -179,7 +211,7 @@ function setupDeck(deckId) {
 
   const controls = document.querySelector(`.deck-controls[data-deck="${deckId}"]`);
   const statusEl = controls ? controls.querySelector('.deck-status') : null;
-  updateDeckStatus(statusEl, index, slides.length);
+  updateDeckStatus(statusEl, index, slides.length, deckId);
 
   const buttons = document.querySelectorAll(`.nav-button[data-target="${deckId}"]`);
   buttons.forEach((btn) => {
@@ -194,7 +226,7 @@ function setupDeck(deckId) {
       slides[index].classList.remove('active');
       index = (index + direction + slides.length) % slides.length;
       slides[index].classList.add('active');
-      updateDeckStatus(statusEl, index, slides.length);
+      updateDeckStatus(statusEl, index, slides.length, deckId);
       
       // Special handling for deck-left slide 4
       if (deckId === 'deck-left') {
@@ -266,12 +298,20 @@ function updateCarouselVisibility() {
   }
 }
 
-function updateDeckStatus(statusEl, index, total) {
+function updateDeckStatus(statusEl, index, total, deckId) {
   if (!statusEl) return;
-  statusEl.textContent = formatDeckStatus(index + 1, total);
+  statusEl.textContent = formatDeckStatus(index + 1, total, deckId);
 }
 
-function formatDeckStatus(current, total) {
+function formatDeckStatus(current, total, deckId) {
+  // Use "Email" for deck-right, "Slide" for deck-left
+  if (deckId === 'deck-right') {
+    const formatter = getString('deck.status.email');
+    if (typeof formatter === 'function') {
+      return formatter(current, total);
+    }
+    return `Email ${current} of ${total}`;
+  }
   const formatter = getString('deck.status');
   if (typeof formatter === 'function') {
     return formatter(current, total);
@@ -855,7 +895,7 @@ function refreshDeckStatuses() {
     const activeIndex = Array.from(slides).findIndex((slide) => slide.classList.contains('active'));
     const index = activeIndex >= 0 ? activeIndex : 0;
     const statusEl = control.querySelector('.deck-status');
-    updateDeckStatus(statusEl, index, slides.length);
+    updateDeckStatus(statusEl, index, slides.length, deckId);
   });
 }
 
