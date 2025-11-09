@@ -261,6 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initWelcomeModal();
   initComments();
   initImageFullscreen();
+  initFormNameShake();
   refreshDeckStatuses();
   updateCarouselVisibility();
 });
@@ -357,6 +358,35 @@ function switchToSplitView() {
       ? 'Izquierda: Diapositivas de propuesta con hallazgos y recomendaciones. Derecha: Secuencia completa de 6 correos en voz del agente. Selecciona cualquier texto para agregar comentarios.'
       : 'Left: Proposal slides with findings and recommendations. Right: Complete 6-email sequence in agent voice. Select any text to add comments.');
   }
+}
+
+function initFormNameShake() {
+  const formNameElements = document.querySelectorAll('[data-form]');
+  const geoImageBox = document.getElementById('geo-image-box');
+  const ynaImageBox = document.getElementById('yna-image-box');
+
+  if (!geoImageBox || !ynaImageBox) return;
+
+  formNameElements.forEach((element) => {
+    const formType = element.dataset.form;
+    let targetBox = null;
+
+    if (formType === 'geo') {
+      targetBox = geoImageBox;
+    } else if (formType === 'yna') {
+      targetBox = ynaImageBox;
+    }
+
+    if (targetBox) {
+      element.addEventListener('mouseenter', () => {
+        targetBox.classList.add('shake');
+      });
+
+      element.addEventListener('mouseleave', () => {
+        targetBox.classList.remove('shake');
+      });
+    }
+  });
 }
 
 function initImageFullscreen() {

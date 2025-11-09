@@ -185,12 +185,14 @@
     }
     .columns.view-mode-full {
       flex-wrap: nowrap;
+      justify-content: space-between;
     }
     .columns.view-mode-full .column-left {
-      flex: 1 1 100%;
-      max-width: 100%;
+      flex: 0 0 70%;
+      max-width: 70%;
       display: flex;
       justify-content: center;
+      order: 2;
     }
     .columns.view-mode-full .column-left .deck {
       max-width: 800px;
@@ -199,8 +201,8 @@
     }
     .columns.view-mode-full .column-left .slide {
       max-width: 100%;
-      padding: 45px 28px 10px 28px;
-      line-height: 1.4;
+      padding: 35px 24px 8px 24px;
+      line-height: 1.35;
       display: none;
       flex-direction: column;
       height: calc(100vh - 140px);
@@ -241,12 +243,9 @@
       flex-direction: column;
       align-items: flex-start;
       padding: 10px;
-      max-width: 250px;
-      flex: 0 0 250px;
-    }
-    .columns.view-mode-full .column-left {
-      flex: 1 1 70%;
-      min-width: 0;
+      max-width: 15%;
+      flex: 0 0 15%;
+      order: 3;
     }
     .findings-sidebar {
       display: none;
@@ -263,16 +262,17 @@
       letter-spacing: 0.05em;
     }
     .findings-content .form-box {
-      border: none;
+      border: none !important;
       border-radius: 0;
       padding: 6px;
-      background: transparent;
+      background: transparent !important;
       margin-bottom: 8px;
       cursor: pointer;
+      position: relative;
       transition: transform 0.3s ease;
     }
     .findings-content .form-box:hover img {
-      transform: scale(0.75);
+      transform: scale(1.1);
     }
     .findings-content .form-box img {
       width: 100%;
@@ -280,6 +280,25 @@
       border-radius: 0;
       display: block;
       transition: transform 0.3s ease;
+    }
+    .findings-content .form-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #374151;
+      font-weight: bold;
+      font-size: 18px;
+      z-index: 10;
+      pointer-events: none;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px) rotate(-1deg); }
+      20%, 40%, 60%, 80% { transform: translateX(5px) rotate(1deg); }
+    }
+    .findings-content .form-box.shake img {
+      animation: shake 0.5s ease-in-out;
     }
     .findings-content .form-box:last-child {
       margin-bottom: 0;
@@ -551,7 +570,7 @@
       position: fixed;
       left: 0;
       top: 140px;
-      width: 100%;
+      width: 15%;
       height: calc(100% - 140px);
       z-index: 1;
       pointer-events: none;
@@ -1481,7 +1500,7 @@
               </div>
               <p class="section-label" data-i18n="slides.left.1.section1">Current setup</p>
               <ul>
-                <li data-i18n="slides.left.1.item1"><strong>Two enrollment paths:</strong> Two forms on our website—Get Exclusive Offers (GEO form) and You Need Assistance (YNA form)—feed the same automated email sequence.</li>
+                <li data-i18n="slides.left.1.item1"><strong>Two enrollment paths:</strong> Two forms on our website—<span data-form="geo">Get Exclusive Offers (GEO form)</span> and <span data-form="yna">You Need Assistance (YNA form)</span>—feed the same automated email sequence.</li>
                 <li data-i18n="slides.left.1.item2"><strong>Automation + human follow-up:</strong> Both forms automatically enroll leads into the legacy drip campaign while agents simultaneously launch their manual outreach.</li>
                 <li data-i18n="slides.left.1.item3"><strong>High-touch contact:</strong> Agents email, text, and call within minutes of every form submission, as expected by leadership.</li>
               </ul>
@@ -1501,7 +1520,7 @@
               <ul>
                 <li data-i18n="slides.left.2.item1">The manual first email used by agents—refined by Kelly over time—is proven to drive quick replies.</li>
                 <li data-i18n="slides.left.2.item2">Dan expects very proactive outreach: immediate email, SMS and phone contact when a lead arrives.</li>
-                <li data-i18n="slides.left.2.item3">Guests who fill the YNA form often share dates and specific needs, and expect individualized help rather than a generic brochure style message.</li>
+                <li data-i18n="slides.left.2.item3">Guests who fill the <span data-form="yna">YNA form</span> often share dates and specific needs, and expect individualized help rather than a generic brochure style message.</li>
                 <li data-i18n="slides.left.2.item4">The main problem is not level of contact but lack of orchestration and consistent voice.</li>
               </ul>
             </div>
@@ -1511,14 +1530,14 @@
                 <h2 class="slide-title" data-i18n="slides.left.3.title">Proposed Flow (GEO vs YNA)</h2>
                 <span class="slide-tag" data-i18n="slides.left.tag.proposal">Proposal</span>
               </div>
-              <p class="section-label" data-i18n="slides.left.3.section1">Get Exclusive Offers (GEO form)</p>
+              <p class="section-label" data-i18n="slides.left.3.section1"><span data-form="geo">Get Exclusive Offers (GEO form)</span></p>
               <ul>
                 <li data-i18n="slides.left.3.item1">Keep automatic enrollment in the drip campaign, but replace the old Email 1 with the new, tested first email created by Kelly.</li>
                 <li data-i18n="slides.left.3.item2">Email 1 introduces the assigned agent, presents the current key promotion and rate table, and provides clear next steps.</li>
                 <li data-i18n="slides.left.3.item3">Emails 2 to 6 follow automatically as follow-up, all sent from the same assigned agent's email address.</li>
                 <li data-i18n="slides.left.3.item4">The promotional offers section only needs periodic updates, coordinated by the sales team with our HubSpot vendor.</li>
               </ul>
-              <p class="section-label" data-i18n="slides.left.3.section2">You Need Assistance (YNA form)</p>
+              <p class="section-label" data-i18n="slides.left.3.section2"><span data-form="yna">You Need Assistance (YNA form)</span></p>
               <ul>
                 <li data-i18n="slides.left.3.item5">Do not send Email 1 automatically.</li>
                 <li data-i18n="slides.left.3.item6">The agent reads the form details and sends a tailored version of Email 1 manually, using the same proven structure but adapted to the guest's specific dates and questions.</li>
@@ -1551,15 +1570,17 @@
         <div class="column column-right">
           <div class="findings-content">
             <h3 data-i18n="slides.left.tag.findings">Findings</h3>
-            <div class="form-box" data-image-src="Public/img/GEO.png" data-image-alt="GEO Form">
+            <div class="form-box" id="geo-image-box" data-image-src="Public/img/GEO.png" data-image-alt="GEO Form">
+              <span class="form-label">GEO</span>
               <img src="Public/img/GEO.png" alt="GEO Form" />
             </div>
-            <div class="form-box" data-image-src="Public/img/YNA.png" data-image-alt="YNA Form">
+            <div class="form-box" id="yna-image-box" data-image-src="Public/img/YNA.png" data-image-alt="YNA Form">
+              <span class="form-label">YNA</span>
               <img src="Public/img/YNA.png" alt="YNA Form" />
+            </div>
             </div>
           </div>
         </div>
-      </div>
 
         <!-- RIGHT COLUMN: 6 SLIDE DECK (NEW EMAILS) -->
         <div class="column column-right">
