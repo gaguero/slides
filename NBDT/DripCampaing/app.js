@@ -3,7 +3,7 @@ const STRINGS = {
   en: {
     'title': 'Nayara Bocas del Toro - Drip Campaign Redesign',
     'subtitle':
-      'Left: Proposal slides with findings and recommendations. Right: Complete 6-email sequence in agent voice. Select any text to add comments.',
+      'Start by reviewing the 4 proposal slides. After slide 4, click "See proposal email copy" to view the complete 6-email sequence side-by-side. Select any text to add comments.',
     'language.toggle': 'Ver en español',
     'welcome.title': 'Welcome!',
     'welcome.intro': 'Select any text in the email deck to leave contextual comments. Please tell us who you are.',
@@ -36,12 +36,15 @@ const STRINGS = {
     'feedback.namesRequired': 'First and last name are required.',
     'feedback.commentRequired': 'The comment cannot be empty.',
     'deck.status': (current, total) => `Slide ${current} of ${total}`,
-    'viewProposal.button': 'See proposal email copy',
+    'subtitle.split':
+      'Left: Proposal slides with findings and recommendations. Right: Complete 6-email sequence in agent voice. Select any text to add comments.',
+    'subtitle.split.es':
+      'Izquierda: Diapositivas de propuesta con hallazgos y recomendaciones. Derecha: Secuencia completa de 6 correos en voz del agente. Selecciona cualquier texto para agregar comentarios.',
   },
   es: {
     'title': 'Nayara Bocas del Toro - Rediseño del Drip Campaign',
     'subtitle':
-      'Izquierda: Diapositivas de propuesta con hallazgos y recomendaciones. Derecha: Secuencia completa de 6 correos en voz del agente. Selecciona cualquier texto para agregar comentarios.',
+      'Comienza revisando las 4 diapositivas de propuesta. Después de la diapositiva 4, haz clic en "Ver copia de correos de propuesta" para ver la secuencia completa de 6 correos lado a lado. Selecciona cualquier texto para agregar comentarios.',
     'language.toggle': 'Switch to English',
     'welcome.title': '¡Bienvenido!',
     'welcome.intro': 'Selecciona cualquier texto del deck para dejar comentarios contextuales. Cuéntanos quién eres.',
@@ -286,10 +289,10 @@ function initComments() {
   };
 
   const showFloatingButton = (rect) => {
-    // Position button always on top side of selected area, centered horizontally
+    // Position button always on top side of selected area, centered horizontally, with more spacing
     const buttonHeight = 32; // Approximate button height
     const buttonWidth = 120; // Approximate button width
-    const spacing = 8; // Space between selection and button
+    const spacing = 16; // Increased space between selection and button
     const top = Math.max(window.scrollY + rect.top - buttonHeight - spacing, window.scrollY + 8);
     // Center horizontally over the selection
     const left = window.scrollX + rect.left + (rect.width / 2) - (buttonWidth / 2);
