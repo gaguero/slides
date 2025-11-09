@@ -3,7 +3,7 @@ const STRINGS = {
   en: {
     'title': 'Nayara Bocas del Toro - Drip Campaign Redesign',
     'subtitle':
-      'Left: Findings and proposal. Right: New 6 email sequence in agent voice. Use the controls below each deck to move between slides.',
+      'Review the proposal slides on the left, then explore the new 6-email sequence on the right. Select any text to add comments.',
     'language.toggle': 'Ver en español',
     'welcome.title': 'Welcome!',
     'welcome.intro': 'Select any text in the email deck to leave contextual comments. Please tell us who you are.',
@@ -41,7 +41,7 @@ const STRINGS = {
   es: {
     'title': 'Nayara Bocas del Toro - Rediseño del Drip Campaign',
     'subtitle':
-      'Izquierda: hallazgos y propuesta. Derecha: nueva secuencia de 6 correos en voz del agente. Usa los controles para navegar entre las diapositivas.',
+      'Revisa las diapositivas de propuesta a la izquierda, luego explora la nueva secuencia de 6 correos a la derecha. Selecciona cualquier texto para agregar comentarios.',
     'language.toggle': 'Switch to English',
     'welcome.title': '¡Bienvenido!',
     'welcome.intro': 'Selecciona cualquier texto del deck para dejar comentarios contextuales. Cuéntanos quién eres.',
@@ -182,7 +182,7 @@ function switchToSplitView() {
   // Update subtitle
   const subtitle = document.querySelector('[data-i18n="subtitle"]');
   if (subtitle) {
-    subtitle.textContent = getString('subtitle') || 'Left: Findings and proposal. Right: New 6 email sequence in agent voice. Use the controls below each deck to move between slides.';
+    subtitle.textContent = getString('subtitle') || 'Review the proposal slides on the left, then explore the new 6-email sequence on the right. Select any text to add comments.';
   }
 }
 
@@ -286,10 +286,12 @@ function initComments() {
   };
 
   const showFloatingButton = (rect) => {
-    // Position button further away from selection to avoid accidental cursor crossing
-    // Place it above and to the right of the selection
-    const top = Math.max(window.scrollY + rect.top - 48, window.scrollY + 8);
-    const left = Math.max(window.scrollX + rect.right + 12, window.scrollX + 8);
+    // Position button always on top side of selected area, centered horizontally
+    const buttonHeight = 32; // Approximate button height
+    const spacing = 8; // Space between selection and button
+    const top = Math.max(window.scrollY + rect.top - buttonHeight - spacing, window.scrollY + 8);
+    // Center horizontally over the selection
+    const left = window.scrollX + rect.left + (rect.width / 2) - 60; // 60px is half button width
     floatingBtn.style.top = `${top}px`;
     floatingBtn.style.left = `${left}px`;
     floatingBtn.hidden = false;
