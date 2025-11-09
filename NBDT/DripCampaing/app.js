@@ -330,6 +330,7 @@ function switchToSplitView() {
   const columns = document.querySelector('.columns');
   const columnRight = document.querySelector('.column-right');
   const carousel = document.querySelector('.image-carousel');
+  const findingsSidebar = document.querySelector('.findings-sidebar');
   
   if (!columns || !columnRight) return;
   
@@ -337,9 +338,12 @@ function switchToSplitView() {
   columns.classList.add('view-mode-split');
   columnRight.classList.add('visible');
   
-  // Hide carousel when switching to split view
+  // Hide carousel and findings sidebar when switching to split view
   if (carousel) {
     carousel.classList.remove('visible');
+  }
+  if (findingsSidebar) {
+    findingsSidebar.style.display = 'none';
   }
   
   // Update subtitle
@@ -355,12 +359,15 @@ function switchToSplitView() {
 function updateCarouselVisibility() {
   const columns = document.querySelector('.columns');
   const carousel = document.querySelector('.image-carousel');
+  const findingsSidebar = document.querySelector('.findings-sidebar');
   if (!columns) return;
   
   if (columns.classList.contains('view-mode-full')) {
     if (carousel) carousel.classList.add('visible');
+    if (findingsSidebar) findingsSidebar.style.display = 'block';
   } else {
     if (carousel) carousel.classList.remove('visible');
+    if (findingsSidebar) findingsSidebar.style.display = 'none';
   }
 }
 
@@ -919,15 +926,27 @@ function applyLanguage(lang) {
   state.language = lang;
   document.documentElement.lang = lang;
 
-  document.querySelectorAll('[data-i18n]').forEach((el) => {
+  // Force update all elements, including hidden ones
+  // Use a more comprehensive approach to ensure all elements are updated
+  const allElements = Array.from(document.querySelectorAll('[data-i18n]'));
+  
+  allElements.forEach((el) => {
     const key = el.dataset.i18n;
+    if (!key) return;
+    
     const value = getString(key);
     if (value === undefined || value === null) return;
     if (typeof value === 'function') return;
-    if (/<\/?[a-z][\s\S]*>/i.test(value)) {
-      el.innerHTML = value;
-    } else {
-      el.textContent = value;
+    
+    // Always update, regardless of visibility
+    try {
+      if (/<\/?[a-z][\s\S]*>/i.test(value)) {
+        el.innerHTML = value;
+      } else {
+        el.textContent = value;
+      }
+    } catch (e) {
+      console.warn('Error updating element with key:', key, e);
     }
   });
 
