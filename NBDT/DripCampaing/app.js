@@ -189,15 +189,12 @@ function switchToSplitView() {
 function updateCarouselVisibility() {
   const columns = document.querySelector('.columns');
   const carousel = document.querySelector('.image-carousel');
-  const funnel = document.querySelector('.funnel-visual');
   if (!columns) return;
   
   if (columns.classList.contains('view-mode-full')) {
     if (carousel) carousel.classList.add('visible');
-    if (funnel) funnel.style.display = 'flex';
   } else {
     if (carousel) carousel.classList.remove('visible');
-    if (funnel) funnel.style.display = 'none';
   }
 }
 
