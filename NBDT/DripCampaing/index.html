@@ -1359,16 +1359,16 @@
           <div class="deck" id="deck-left">
             <div class="slide">
               <div class="slide-header">
-                <h2 class="slide-title">Context and Problem</h2>
-                <span class="slide-tag">Findings</span>
+                <h2 class="slide-title" data-i18n="slides.left.1.title">Context and Problem</h2>
+                <span class="slide-tag" data-i18n="slides.left.tag.findings">Findings</span>
               </div>
-              <p class="section-label">Current setup</p>
+              <p class="section-label" data-i18n="slides.left.1.section1">Current setup</p>
               <ul>
                 <li><strong>Two enrollment paths:</strong> Two forms on our website—Get Exclusive Offers (GEO form) and You Need Assistance (YNA form)—feed the same automated email sequence.</li>
                 <li><strong>Automation + human follow-up:</strong> Both forms automatically enroll leads into the legacy drip campaign while agents simultaneously launch their manual outreach.</li>
                 <li><strong>High-touch contact:</strong> Agents email, text, and call within minutes of every form submission, as expected by leadership.</li>
               </ul>
-              <p class="section-label">Resulting issues</p>
+              <p class="section-label" data-i18n="slides.left.1.section2">Resulting issues</p>
               <ul>
                 <li>Leads get overlapping Email 1 messages (automated + manual) delivered almost simultaneously.</li>
                 <li>Voice is not consistent (team inbox vs individual agent identity), creating mixed expectations.</li>
@@ -1378,8 +1378,8 @@
 
             <div class="slide">
               <div class="slide-header">
-                <h2 class="slide-title">Key Insights</h2>
-                <span class="slide-tag">Findings</span>
+                <h2 class="slide-title" data-i18n="slides.left.2.title">Key Insights</h2>
+                <span class="slide-tag" data-i18n="slides.left.tag.findings">Findings</span>
               </div>
               <ul>
                 <li>The manual first email used by agents—refined by Kelly and Gerson over time—is proven to drive quick replies.</li>
@@ -1391,17 +1391,17 @@
 
             <div class="slide">
               <div class="slide-header">
-                <h2 class="slide-title">Proposed Flow (GEO vs YNA)</h2>
-                <span class="slide-tag">Proposal</span>
+                <h2 class="slide-title" data-i18n="slides.left.3.title">Proposed Flow (GEO vs YNA)</h2>
+                <span class="slide-tag" data-i18n="slides.left.tag.proposal">Proposal</span>
               </div>
-              <p class="section-label">Get Exclusive Offers (GEO form)</p>
+              <p class="section-label" data-i18n="slides.left.3.section1">Get Exclusive Offers (GEO form)</p>
               <ul>
                 <li>Keep automatic enrollment in the drip campaign, but replace the old Email 1 with the new, tested first email created by Kelly &amp; Gerson.</li>
                 <li>Email 1 introduces the assigned agent, presents the current key promotion and rate table, and provides clear next steps.</li>
                 <li>Emails 2 to 6 follow automatically as follow-up, all sent from the same assigned agent's email address.</li>
                 <li>The promotional offers section only needs periodic updates, coordinated by the sales team with our HubSpot vendor.</li>
               </ul>
-              <p class="section-label">You Need Assistance (YNA form)</p>
+              <p class="section-label" data-i18n="slides.left.3.section2">You Need Assistance (YNA form)</p>
               <ul>
                 <li>Do not send Email 1 automatically.</li>
                 <li>The agent reads the form details and sends a tailored version of Email 1 manually, using the same proven structure but adapted to the guest's specific dates and questions.</li>
@@ -1411,16 +1411,16 @@
 
             <div class="slide">
               <div class="slide-header">
-                <h2 class="slide-title">Justification and Next Steps</h2>
-                <span class="slide-tag">Proposal</span>
+                <h2 class="slide-title" data-i18n="slides.left.4.title">Justification and Next Steps</h2>
+                <span class="slide-tag" data-i18n="slides.left.tag.proposal">Proposal</span>
               </div>
-              <p class="section-label">Why this works</p>
+              <p class="section-label" data-i18n="slides.left.4.section1">Why this works</p>
               <ul>
                 <li>One primary first email concept for both forms, aligned with what agents already know performs well.</li>
                 <li>All emails now speak in the same agent centered voice: I, me, my, and clear contact pathways.</li>
                 <li>Keeps aggressive follow up but removes confusion for the guest.</li>
               </ul>
-              <p class="section-label">Implementation notes</p>
+              <p class="section-label" data-i18n="slides.left.4.section2">Implementation notes</p>
               <ul>
                 <li>In HubSpot, map GEO to the automated 6 email sequence starting at new Email 1.</li>
                 <li>For YNA, provide agents with a ready template for Email 1 and a simple way to start the sequence at Email 2.</li>
@@ -1473,11 +1473,11 @@
             <!-- EMAIL 1 -->
             <div class="slide" data-slide-id="email-1">
               <div class="slide-header">
-                <h2 class="slide-title">Email 1 - Available Promotions, First Contact</h2>
-                <span class="badge">New first email</span>
+                <h2 class="slide-title" data-i18n="slides.email.1.title">Email 1 - Available Promotions, First Contact</h2>
+                <span class="badge" data-i18n="slides.email.badge.new">New first email</span>
               </div>
               <div class="email-meta">
-                <strong>Subject:</strong> [Lead Name], Your Best Offer Awaits at Nayara Bocas Del Toro
+                <strong data-i18n="slides.email.meta.subject">Subject:</strong> [Lead Name], Your Best Offer Awaits at Nayara Bocas Del Toro
               </div>
               <div class="email-body">
                 <div class="email-card">
@@ -1489,7 +1489,7 @@
                   </div>
 
                   <div class="email-block">
-                    <div class="section-label">Sample rate overview</div>
+                    <div class="section-label" data-i18n="slides.email.1.section.rates">Sample rate overview</div>
                     <div class="rate-list">
                       <div class="rate-item">
                         <div class="rate-item-title">Treehouse</div>
@@ -1536,7 +1536,7 @@
                   </div>
 
                   <div class="email-block">
-                    <div class="section-label">Policies - High Season Savings</div>
+                    <div class="section-label" data-i18n="slides.email.1.section.policies">Policies - High Season Savings</div>
                     <ul>
                       <li>Travel Period: November 20 - December 19, 2025</li>
                       <li>Blocked Dates: November 24 - 30, 2025 (Thanksgiving Week)</li>
@@ -1546,7 +1546,7 @@
                   </div>
 
                   <div class="email-block">
-                    <div class="section-label">All inclusive experience</div>
+                    <div class="section-label" data-i18n="slides.email.1.section.allinclusive">All inclusive experience</div>
                     <ul>
                       <li>All meals and beverages</li>
                       <li>Villa service and in-room snack stocking</li>
@@ -1559,7 +1559,7 @@
                   </div>
 
                   <div class="email-block">
-                    <div class="section-label">How to get here</div>
+                    <div class="section-label" data-i18n="slides.email.1.section.howtoget">How to get here</div>
                     <p>Most of our guests arrive at Tocumen International Airport (PTY), then take a 50 minute domestic flight from Marcos A. Gelabert Airport (PAC) to Bocas del Toro Airport (BOC). Once in Bocas, we take care of the rest: ground and boat transfers are included.</p>
                     <p>I would be happy to help you book domestic flights once your stay is confirmed. Sin cargo por gestion, unicamente el costo de los boletos.</p>
                   </div>
@@ -1567,7 +1567,7 @@
                   <div class="email-block">
                     <p>When you are ready to reserve, just indicate to me which villa you would like, and I will gladly secure it for you. I will also be available to assist you at each step, making the process simple and stress free so that you can focus on planning your perfect stay.</p>
                     <div class="email-cta">
-                      <a href="mailto:[Agent Email Address]">Contact Me</a>
+                      <a href="mailto:[Agent Email Address]" data-i18n="slides.email.cta.contactme">Contact Me</a>
                     </div>
                     <p>All the best,</p>
                     <p>[Agent Name]<br />
@@ -1582,11 +1582,11 @@
             <!-- EMAIL 2 -->
             <div class="slide" data-slide-id="email-2">
               <div class="slide-header">
-                <h2 class="slide-title">Email 2 - Private Island Getaway</h2>
-                <span class="badge">Existing layout, agent voice</span>
+                <h2 class="slide-title" data-i18n="slides.email.2.title">Email 2 - Private Island Getaway</h2>
+                <span class="badge" data-i18n="slides.email.badge.existing">Existing layout, agent voice</span>
               </div>
               <div class="email-meta">
-                <strong>Subject:</strong> Your Private Island Getaway Awaits!
+                <strong data-i18n="slides.email.meta.subject">Subject:</strong> Your Private Island Getaway Awaits!
               </div>
               <div class="email-body">
                 <div class="email-card">
@@ -1626,7 +1626,7 @@
                   <div class="email-block">
                     <p>Click the link below to reach out to me and book your private island resort vacation today.</p>
                     <div class="email-cta">
-                      <a href="mailto:[Agent Email Address]">Contact Me</a>
+                      <a href="mailto:[Agent Email Address]" data-i18n="slides.email.cta.contactme">Contact Me</a>
                     </div>
                     <p>Best regards,</p>
                     <p>[Agent Name]<br />
@@ -1641,11 +1641,11 @@
             <!-- EMAIL 3 -->
             <div class="slide" data-slide-id="email-3">
               <div class="slide-header">
-                <h2 class="slide-title">Email 3 - The Coolest Place on Earth</h2>
-                <span class="badge">Existing layout, agent voice</span>
+                <h2 class="slide-title" data-i18n="slides.email.3.title">Email 3 - The Coolest Place on Earth</h2>
+                <span class="badge" data-i18n="slides.email.badge.existing">Existing layout, agent voice</span>
               </div>
               <div class="email-meta">
-                <strong>Subject:</strong> Why Forbes calls Bocas del Toro "the coolest place on Earth"
+                <strong data-i18n="slides.email.meta.subject">Subject:</strong> Why Forbes calls Bocas del Toro "the coolest place on Earth"
               </div>
               <div class="email-body">
                 <div class="email-card">
@@ -1656,7 +1656,7 @@
                   </div>
 
                   <div class="email-cta">
-                    <a href="mailto:[Agent Email Address]">Book Now</a>
+                    <a href="mailto:[Agent Email Address]" data-i18n="slides.email.cta.booknow">Book Now</a>
                   </div>
 
                   <div class="email-block">
@@ -1686,7 +1686,7 @@
                   <div class="email-block">
                     <p>I look forward to welcoming you to our little piece of paradise at Nayara Bocas del Toro.</p>
                     <div class="email-cta">
-                      <a href="mailto:[Agent Email Address]">Contact Me</a>
+                      <a href="mailto:[Agent Email Address]" data-i18n="slides.email.cta.contactme">Contact Me</a>
                     </div>
                     <p>Warm regards,</p>
                     <p>[Agent Name]<br />
@@ -1701,11 +1701,11 @@
             <!-- EMAIL 4 -->
             <div class="slide" data-slide-id="email-4">
               <div class="slide-header">
-                <h2 class="slide-title">Email 4 - Let Me Handle the Details</h2>
-                <span class="badge">Existing layout, agent voice</span>
+                <h2 class="slide-title" data-i18n="slides.email.4.title">Email 4 - Let Me Handle the Details</h2>
+                <span class="badge" data-i18n="slides.email.badge.existing">Existing layout, agent voice</span>
               </div>
               <div class="email-meta">
-                <strong>Subject:</strong> Let me handle the details for your arrival!
+                <strong data-i18n="slides.email.meta.subject">Subject:</strong> Let me handle the details for your arrival!
               </div>
               <div class="email-body">
                 <div class="email-card">
@@ -1714,7 +1714,7 @@
                     <p>This is [Agent Name] checking in from Nayara Bocas del Toro—your dedicated reservations specialist. I’m here to make sure every detail of your arrival feels effortless, from right now until you step onto the island.</p>
                     <p>Here are just a few of the ways I can handle the details while you relax and soak in the magic of Nayara Bocas del Toro.</p>
                     <div class="email-cta">
-                      <a href="mailto:[Agent Email Address]">Contact Us</a>
+                      <a href="mailto:[Agent Email Address]" data-i18n="slides.email.cta.contactus">Contact Us</a>
                     </div>
                   </div>
 
@@ -1738,7 +1738,7 @@
                     <p>It is an honor to share Bocas del Toro with our guests at our luxury over the water resort, and we work every moment of your stay to inspire and delight.</p>
                     <p>I hope to see you soon.</p>
                     <div class="email-cta">
-                      <a href="mailto:[Agent Email Address]">Contact Us!</a>
+                      <a href="mailto:[Agent Email Address]" data-i18n="slides.email.cta.contactusex">Contact Us!</a>
                     </div>
                     <p>Sincerely,</p>
                     <p>[Agent Name]<br />
@@ -1753,11 +1753,11 @@
             <!-- EMAIL 5 -->
             <div class="slide" data-slide-id="email-5">
               <div class="slide-header">
-                <h2 class="slide-title">Email 5 - A Fine, Fresh Taste of Bocas del Toro</h2>
-                <span class="badge">Existing layout, minor text edits</span>
+                <h2 class="slide-title" data-i18n="slides.email.5.title">Email 5 - A Fine, Fresh Taste of Bocas del Toro</h2>
+                <span class="badge" data-i18n="slides.email.badge.minor">Existing layout, minor text edits</span>
               </div>
               <div class="email-meta">
-                <strong>Subject:</strong> A Caribbean Culinary Atmosphere Unlike Any Other
+                <strong data-i18n="slides.email.meta.subject">Subject:</strong> A Caribbean Culinary Atmosphere Unlike Any Other
               </div>
               <div class="email-body">
                 <div class="email-card">
@@ -1770,7 +1770,7 @@
                     <p>It is a true gift to live on the many islands of Bocas del Toro, where the land and the sea provide fresh, delicious ingredients right at your doorstep.</p>
                     <p>For this reason, your dining experience at Nayara Bocas del Toro with our concepts <em>The Elephant House</em> and <em>The Coral Cafe</em> foregoes traditional all inclusive fare in favor of local, farm fresh ingredients and regional seafood sourced from Bocas del Toro fishermen.</p>
                     <div class="email-cta">
-                      <a href="mailto:[Agent Email Address]">Contact Us</a>
+                      <a href="mailto:[Agent Email Address]" data-i18n="slides.email.cta.contactus">Contact Us</a>
                     </div>
                   </div>
 
@@ -1786,7 +1786,7 @@
                       <img src="https://23160175.fs1.hubspotusercontent-na1.net/hub/23160175/hubfs/NBTC9.jpg?width=900&amp;upscale=true&amp;name=NBTC9.jpg" alt="Dining experience at Nayara Bocas del Toro" />
                     </div>
                     <div class="email-cta">
-                      <a href="mailto:[Agent Email Address]">Contact Us!</a>
+                      <a href="mailto:[Agent Email Address]" data-i18n="slides.email.cta.contactusex">Contact Us!</a>
                     </div>
                     <p>With warm regards,</p>
                     <p>[Agent Name]<br />
@@ -1801,11 +1801,11 @@
             <!-- EMAIL 6 -->
             <div class="slide" data-slide-id="email-6">
               <div class="slide-header">
-                <h2 class="slide-title">Email 6 - Adventures Await in Bocas del Toro</h2>
-                <span class="badge">Existing layout, agent voice</span>
+                <h2 class="slide-title" data-i18n="slides.email.6.title">Email 6 - Adventures Await in Bocas del Toro</h2>
+                <span class="badge" data-i18n="slides.email.badge.existing">Existing layout, agent voice</span>
               </div>
               <div class="email-meta">
-                <strong>Subject:</strong> Your Private Caribbean Playground Awaits
+                <strong data-i18n="slides.email.meta.subject">Subject:</strong> Your Private Caribbean Playground Awaits
               </div>
               <div class="email-body">
                 <div class="email-card">
@@ -1824,7 +1824,7 @@
                     <p>The small islands of our Caribbean home play host to a variety of sea life, including hundreds of species of fish and even pods of dolphins.</p>
                     <p>If you are ready to join us, you can click the link below to start planning your Nayara Bocas del Toro adventure today.</p>
                     <div class="email-cta">
-                      <a href="mailto:[Agent Email Address]">Contact Us!</a>
+                      <a href="mailto:[Agent Email Address]" data-i18n="slides.email.cta.contactusex">Contact Us!</a>
                     </div>
                     <p>See you soon,</p>
                     <p>[Agent Name]<br />
