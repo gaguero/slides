@@ -1,66 +1,56 @@
-# Slides Drip Campaign
+# Nayara Bocas del Toro - Drip Campaign Redesign
 
 Presentación interactiva para la propuesta de rediseño del drip campaign de Nayara Bocas del Toro.  
-Contiene visualización de hallazgos, flujo propuesto y los seis correos de la secuencia, junto a un sistema ligero de comentarios sin base de datos.
+Visualiza hallazgos, flujo propuesto y los seis correos de la secuencia, con un sistema ligero de comentarios contextuales.
 
-## Requisitos
+## 🚀 Inicio Rápido
 
-- Node.js 18 o superior.
+### Requisitos
+- Node.js 18 o superior
 
-## Instalación y ejecución local
-
+### Instalación Local
 ```bash
 npm install
 npm run dev
 ```
+La aplicación estará disponible en `http://localhost:3000/`.
 
-La aplicación quedará disponible en `http://localhost:3000/`.
+## 📋 Funcionalidades
 
-## Arquitectura
+- **4 Slides de Propuesta**: Hallazgos y recomendaciones
+- **6 Emails Completos**: Secuencia en voz del agente
+- **Sistema de Comentarios**: Comentarios contextuales sobre el contenido
+- **Internacionalización**: Inglés y español
+- **Vista Split**: Slides y emails lado a lado
+- **Carousel de Imágenes**: Visualización de imágenes relacionadas
 
-- **server.js**: servidor Express que sirve el contenido estático desde `NBDT/DripCampaing` y expone el endpoint `/comments`.
-- **NBDT/DripCampaing/**: raíz estática (Railway apuntará aquí).
-  - `index.html`: presentación principal.
-  - `app.js`: lógica de navegación de slides y comentarios.
-- **data/comments.json**: almacenamiento plano de los comentarios registrados.
+## 🏗️ Arquitectura
 
-## Flujo de comentarios
+- **server.js**: Servidor Express que sirve contenido estático y API de comentarios
+- **NBDT/DripCampaing/**: Contenido estático
+  - `index.html`: Presentación principal con CSS embebido
+  - `app.js`: Lógica de navegación, comentarios e i18n
+- **data/comments.json**: Almacenamiento de comentarios (JSON plano)
 
-1. Selecciona un fragmento de texto en la columna derecha (los correos).
-2. Pulsa **“Añadir comentario”** y completa tu nombre + comentario.
-3. Los comentarios se guardan en `data/comments.json` y se renderizan como resaltados (`mark`) que muestran el contenido al pasar el cursor.
+## 💬 Sistema de Comentarios
 
-## Despliegue en Railway
+1. Selecciona texto en los emails (columna derecha)
+2. Haz clic en **"Añadir comentario"**
+3. Completa nombre, apellido y comentario
+4. Los comentarios se guardan y muestran como resaltados al pasar el cursor
 
-### Configuración Importante
+## 🌐 Despliegue
 
-**CRÍTICO**: Railway debe ejecutar este proyecto como un **Web Service** (servicio Node.js), NO como un sitio estático.
+Desplegado en Railway como Web Service. Ver `memory-bank/deployment.md` para detalles.
 
-1. Conecta el repositorio `https://github.com/gaguero/slides` a Railway.
-2. **Verifica la configuración del servicio**:
-   - **Service Type**: Debe ser "Web Service" (no "Static Site")
-   - **Start Command**: `npm start` (o dejar vacío, Railway usará el script del `package.json`)
-   - **Root Directory**: `.` (raíz del repositorio)
-3. Railway ejecutará automáticamente:
-   - `npm install` (instala dependencias)
-   - `npm start` (ejecuta `node server.js`)
-4. El servidor Express escuchará en el puerto asignado por Railway (`process.env.PORT`).
-5. El contenido estático se sirve desde `NBDT/DripCampaing/` según lo configurado en `server.js`.
+### Configuración Railway
+- **Service Type**: Web Service
+- **Root Directory**: `.`
+- **Start Command**: `node server.js`
 
-### Verificación
+## 📚 Documentación
 
-Después del despliegue, revisa los logs de Railway. Deberías ver:
-```
-🚀 Server running on port XXXX
-📁 Static files served from: ...
-💾 Comments stored at: ...
-✅ API endpoints: GET/POST /comments
-```
-
-Si ves logs de Caddy en lugar de estos mensajes, Railway está configurando el servicio como sitio estático. Cambia el tipo de servicio a "Web Service".
-
-## Mantenimiento de la oferta
-
-La sección de promociones (Email 1) sólo requiere actualizar el bloque de tarifas/ofertas.  
-El equipo comercial puede coordinar los cambios con el vendor de HubSpot para mantener la sección vigente.
-
+Consulta `memory-bank/` para:
+- `project-overview.md`: Descripción general
+- `architecture.md`: Arquitectura técnica
+- `deployment.md`: Guía de despliegue
