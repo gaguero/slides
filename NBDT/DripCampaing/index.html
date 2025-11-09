@@ -191,10 +191,13 @@
       max-width: 100%;
       padding: 90px 28px 16px 28px;
       line-height: 1.5;
-      display: flex;
+      display: none;
       flex-direction: column;
       height: calc(100vh - 140px);
       overflow: hidden;
+    }
+    .columns.view-mode-full .column-left .slide.active {
+      display: flex;
     }
     .columns.view-mode-full .column-left .slide-header {
       margin-bottom: 12px;
