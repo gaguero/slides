@@ -78,6 +78,8 @@ const STRINGS = {
     'feedback.commentRequired': 'El comentario no puede estar vacío.',
     'deck.status': (current, total) => `Slide ${current} de ${total}`,
     'viewProposal.button': 'Ver propuesta de correos',
+    'subtitle.split':
+      'Izquierda: Diapositivas de propuesta con hallazgos y recomendaciones. Derecha: Secuencia completa de 6 correos en voz del agente. Selecciona cualquier texto para agregar comentarios.',
   },
 };
 
