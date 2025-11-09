@@ -240,8 +240,13 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      padding: 20px;
-      max-width: 350px;
+      padding: 10px;
+      max-width: 250px;
+      flex: 0 0 250px;
+    }
+    .columns.view-mode-full .column-left {
+      flex: 1 1 70%;
+      min-width: 0;
     }
     .findings-sidebar {
       display: none;
@@ -253,25 +258,84 @@
       font-size: 14px;
       color: #6b7280;
       text-transform: uppercase;
-      margin: 0 0 16px 0;
+      margin: 0 0 8px 0;
       font-weight: 600;
       letter-spacing: 0.05em;
     }
     .findings-content .form-box {
-      border: 2px solid #fbbf24;
-      border-radius: 8px;
-      padding: 12px;
-      background: #fffbeb;
-      margin-bottom: 16px;
+      border: none;
+      border-radius: 0;
+      padding: 6px;
+      background: transparent;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .findings-content .form-box:hover img {
+      transform: scale(0.75);
     }
     .findings-content .form-box img {
       width: 100%;
       height: auto;
-      border-radius: 4px;
+      border-radius: 0;
       display: block;
+      transition: transform 0.3s ease;
     }
     .findings-content .form-box:last-child {
       margin-bottom: 0;
+    }
+    /* Full-screen image modal */
+    .image-fullscreen-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .image-fullscreen-modal.active {
+      display: flex;
+    }
+    .image-fullscreen-modal .modal-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 90%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .image-fullscreen-modal .modal-content img {
+      max-width: 100%;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+    .image-fullscreen-modal .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 28px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1f2937;
+      transition: background 0.2s ease, transform 0.2s ease;
+      z-index: 1001;
+    }
+    .image-fullscreen-modal .modal-close:hover {
+      background: #ffffff;
+      transform: scale(1.1);
     }
     .columns.view-mode-split {
       flex-wrap: wrap;
@@ -1487,10 +1551,10 @@
         <div class="column column-right">
           <div class="findings-content">
             <h3 data-i18n="slides.left.tag.findings">Findings</h3>
-            <div class="form-box">
+            <div class="form-box" data-image-src="Public/img/GEO.png" data-image-alt="GEO Form">
               <img src="Public/img/GEO.png" alt="GEO Form" />
             </div>
-            <div class="form-box">
+            <div class="form-box" data-image-src="Public/img/YNA.png" data-image-alt="YNA Form">
               <img src="Public/img/YNA.png" alt="YNA Form" />
             </div>
           </div>
@@ -1937,6 +2001,15 @@
       </form>
     </div>
   </div>
+
+  <!-- Full-screen image modal -->
+  <div id="image-fullscreen-modal" class="image-fullscreen-modal">
+    <button type="button" class="modal-close" id="image-modal-close" aria-label="Close">×</button>
+    <div class="modal-content">
+      <img id="fullscreen-image" src="" alt="" />
+    </div>
+  </div>
+
   <script src="app.js" defer></script>
 </body>
 </html>

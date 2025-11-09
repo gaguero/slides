@@ -260,6 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initLanguageToggle();
   initWelcomeModal();
   initComments();
+  initImageFullscreen();
   refreshDeckStatuses();
   updateCarouselVisibility();
 });
@@ -356,6 +357,52 @@ function switchToSplitView() {
       ? 'Izquierda: Diapositivas de propuesta con hallazgos y recomendaciones. Derecha: Secuencia completa de 6 correos en voz del agente. Selecciona cualquier texto para agregar comentarios.'
       : 'Left: Proposal slides with findings and recommendations. Right: Complete 6-email sequence in agent voice. Select any text to add comments.');
   }
+}
+
+function initImageFullscreen() {
+  const formBoxes = document.querySelectorAll('.findings-content .form-box');
+  const modal = document.getElementById('image-fullscreen-modal');
+  const fullscreenImage = document.getElementById('fullscreen-image');
+  const closeBtn = document.getElementById('image-modal-close');
+
+  if (!modal || !fullscreenImage || !closeBtn) return;
+
+  formBoxes.forEach((box) => {
+    box.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const imgSrc = box.dataset.imageSrc;
+      const imgAlt = box.dataset.imageAlt || '';
+      if (imgSrc) {
+        fullscreenImage.src = imgSrc;
+        fullscreenImage.alt = imgAlt;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+
+  // Close on button click
+  closeBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+
+  // Close on background click (outside image)
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
 }
 
 function updateCarouselVisibility() {
