@@ -193,6 +193,10 @@
       display: flex;
       justify-content: center;
       order: 2;
+      position: relative;
+      z-index: 10;
+      margin-left: 15%;
+      background: transparent;
     }
     .columns.view-mode-full .column-left .deck {
       max-width: 800px;
@@ -207,6 +211,8 @@
       flex-direction: column;
       height: calc(100vh - 140px);
       overflow: hidden;
+      background: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
     .columns.view-mode-full .column-left .slide.active {
       display: flex;
@@ -572,11 +578,13 @@
       top: 140px;
       width: 15%;
       height: calc(100% - 140px);
-      z-index: 1;
+      z-index: 0;
       pointer-events: none;
       opacity: 0;
       transition: opacity 0.6s ease;
       overflow: hidden;
+      background: rgba(248, 250, 252, 0.95);
+      backdrop-filter: blur(5px);
     }
     .image-carousel.visible {
       opacity: 0.6;
@@ -616,164 +624,147 @@
       width: 120px;
       height: 120px;
       opacity: 0.4;
-      transform: scale(0.72);
       z-index: 1;
-      left: 40px;
+      left: 50%;
+      position: absolute;
+      transform: translateX(-50%) scale(0.72);
     }
     /* Bottom: A (smallest) */
     .carousel-item:nth-child(1) { 
       top: calc(100% - 200px); 
       width: 120px; height: 120px; 
       opacity: 0.4; 
-      transform: scale(0.72); 
+      transform: translateX(-50%) scale(0.72); 
       z-index: 1; 
     }
     .carousel-item:nth-child(2) { 
       top: calc(100% - 280px); 
       width: 132px; height: 132px; 
       opacity: 0.48; 
-      transform: scale(0.78); 
+      transform: translateX(-50%) scale(0.78); 
       z-index: 2; 
-      left: 40px;
     }
     .carousel-item:nth-child(3) { 
       top: calc(100% - 360px); 
       width: 144px; height: 144px; 
       opacity: 0.56; 
-      transform: scale(0.84); 
+      transform: translateX(-50%) scale(0.84); 
       z-index: 3; 
-      left: 40px;
     }
     .carousel-item:nth-child(4) { 
       top: calc(100% - 440px); 
       width: 156px; height: 156px; 
       opacity: 0.64; 
-      transform: scale(0.90); 
+      transform: translateX(-50%) scale(0.90); 
       z-index: 4; 
-      left: 40px;
     }
     .carousel-item:nth-child(5) { 
       top: calc(100% - 520px); 
       width: 168px; height: 168px; 
       opacity: 0.72; 
-      transform: scale(0.96); 
+      transform: translateX(-50%) scale(0.96); 
       z-index: 5; 
-      left: 40px;
     }
     .carousel-item:nth-child(6) { 
       top: calc(100% - 600px); 
       width: 180px; height: 180px; 
       opacity: 0.80; 
-      transform: scale(1.02); 
+      transform: translateX(-50%) scale(1.02); 
       z-index: 6; 
-      left: 40px;
     }
     /* Center: G (largest) */
     .carousel-item:nth-child(7) { 
       top: calc(50% - 0px); 
       width: 204px; height: 204px; 
       opacity: 1.0; 
-      transform: scale(1.2); 
+      transform: translateX(-50%) scale(1.2); 
       z-index: 8; 
-      left: 40px;
     }
     /* Top: back to A (smallest) */
     .carousel-item:nth-child(8) { 
       top: calc(50% - 80px); 
       width: 180px; height: 180px; 
       opacity: 0.80; 
-      transform: scale(1.02); 
+      transform: translateX(-50%) scale(1.02); 
       z-index: 6; 
-      left: 40px;
     }
     .carousel-item:nth-child(9) { 
       top: calc(50% - 160px); 
       width: 168px; height: 168px; 
       opacity: 0.72; 
-      transform: scale(0.96); 
+      transform: translateX(-50%) scale(0.96); 
       z-index: 5; 
-      left: 40px;
     }
     .carousel-item:nth-child(10) { 
       top: calc(50% - 240px); 
       width: 156px; height: 156px; 
       opacity: 0.64; 
-      transform: scale(0.90); 
+      transform: translateX(-50%) scale(0.90); 
       z-index: 4; 
-      left: 40px;
     }
     .carousel-item:nth-child(11) { 
       top: calc(50% - 320px); 
       width: 144px; height: 144px; 
       opacity: 0.56; 
-      transform: scale(0.84); 
+      transform: translateX(-50%) scale(0.84); 
       z-index: 3; 
-      left: 40px;
     }
     .carousel-item:nth-child(12) { 
       top: calc(50% - 400px); 
       width: 132px; height: 132px; 
       opacity: 0.48; 
-      transform: scale(0.78); 
+      transform: translateX(-50%) scale(0.78); 
       z-index: 2; 
-      left: 40px;
     }
     /* Duplicate items for seamless loop - continue pattern */
     .carousel-item:nth-child(13) { 
       top: calc(50% - 480px); 
       width: 120px; height: 120px; 
       opacity: 0.4; 
-      transform: scale(0.72); 
+      transform: translateX(-50%) scale(0.72); 
       z-index: 1; 
-      left: 40px;
     }
     .carousel-item:nth-child(14) { 
       top: calc(50% - 560px); 
       width: 132px; height: 132px; 
       opacity: 0.48; 
-      transform: scale(0.78); 
+      transform: translateX(-50%) scale(0.78); 
       z-index: 2; 
-      left: 40px;
     }
     .carousel-item:nth-child(15) { 
       top: calc(50% - 640px); 
       width: 144px; height: 144px; 
       opacity: 0.56; 
-      transform: scale(0.84); 
+      transform: translateX(-50%) scale(0.84); 
       z-index: 3; 
-      left: 40px;
     }
     .carousel-item:nth-child(16) { 
       top: calc(50% - 720px); 
       width: 156px; height: 156px; 
       opacity: 0.64; 
-      transform: scale(0.90); 
+      transform: translateX(-50%) scale(0.90); 
       z-index: 4; 
-      left: 40px;
     }
     .carousel-item:nth-child(17) { 
       top: calc(50% - 800px); 
       width: 168px; height: 168px; 
       opacity: 0.72; 
-      transform: scale(0.96); 
+      transform: translateX(-50%) scale(0.96); 
       z-index: 5; 
-      left: 40px;
     }
     .carousel-item:nth-child(18) { 
       top: calc(50% - 880px); 
       width: 180px; height: 180px; 
       opacity: 0.80; 
-      transform: scale(1.02); 
+      transform: translateX(-50%) scale(1.02); 
       z-index: 6; 
-      left: 40px;
     }
     .carousel-item:nth-child(19) { 
       top: calc(50% - 960px); 
       width: 204px; height: 204px; 
       opacity: 1.0; 
-      transform: scale(1.2); 
+      transform: translateX(-50%) scale(1.2); 
       z-index: 8; 
-      left: 40px;
     }
     .carousel-item:nth-child(20) { 
       top: calc(50% - 1040px); 
