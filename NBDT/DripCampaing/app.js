@@ -187,7 +187,10 @@ function switchToSplitView() {
   // Update subtitle
   const subtitle = document.querySelector('[data-i18n="subtitle"]');
   if (subtitle) {
-    subtitle.textContent = getString('subtitle') || 'Left: Proposal slides with findings and recommendations. Right: Complete 6-email sequence in agent voice. Select any text to add comments.';
+    const splitSubtitleKey = state.language === 'es' ? 'subtitle.split' : 'subtitle.split';
+    subtitle.textContent = getString(splitSubtitleKey) || (state.language === 'es' 
+      ? 'Izquierda: Diapositivas de propuesta con hallazgos y recomendaciones. Derecha: Secuencia completa de 6 correos en voz del agente. Selecciona cualquier texto para agregar comentarios.'
+      : 'Left: Proposal slides with findings and recommendations. Right: Complete 6-email sequence in agent voice. Select any text to add comments.');
   }
 }
 
