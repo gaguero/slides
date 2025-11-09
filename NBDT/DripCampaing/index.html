@@ -229,43 +229,40 @@
       line-height: 1.4;
     }
     .columns.view-mode-full .column-right {
-      display: none;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 20px;
+      max-width: 350px;
     }
     .findings-sidebar {
-      position: fixed;
-      right: 20px;
-      top: 140px;
-      width: 300px;
-      max-height: calc(100vh - 160px);
-      overflow-y: auto;
-      z-index: 5;
-      display: block;
-    }
-    .columns.view-mode-split .findings-sidebar {
       display: none;
     }
-    .findings-sidebar h3 {
+    .findings-content {
+      width: 100%;
+    }
+    .findings-content h3 {
       font-size: 14px;
       color: #6b7280;
       text-transform: uppercase;
-      margin: 0 0 12px 0;
+      margin: 0 0 16px 0;
       font-weight: 600;
       letter-spacing: 0.05em;
     }
-    .findings-sidebar .form-box {
+    .findings-content .form-box {
       border: 2px solid #fbbf24;
       border-radius: 8px;
       padding: 12px;
       background: #fffbeb;
       margin-bottom: 16px;
     }
-    .findings-sidebar .form-box img {
+    .findings-content .form-box img {
       width: 100%;
       height: auto;
       border-radius: 4px;
       display: block;
     }
-    .findings-sidebar .form-box:last-child {
+    .findings-content .form-box:last-child {
       margin-bottom: 0;
     }
     .columns.view-mode-split {
@@ -279,6 +276,10 @@
       flex: 1 1 58%;
       min-width: 340px;
       animation: slideInRight 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      display: block;
+    }
+    .columns.view-mode-split .column-right .findings-content {
+      display: none;
     }
     @keyframes slideInRight {
       from {
@@ -305,6 +306,9 @@
     }
     .column-right.visible {
       display: block;
+    }
+    .column-right.visible .findings-content {
+      display: none;
     }
     .deck {
       position: relative;
@@ -1123,9 +1127,6 @@
       .carousel-item {
         left: 20px !important;
       }
-      .findings-sidebar {
-        display: none;
-      }
       .carousel-item:nth-child(1),
       .carousel-item:nth-child(2),
       .carousel-item:nth-child(3),
@@ -1392,17 +1393,6 @@
         </div>
       </div>
 
-      <!-- FINDINGS SIDEBAR (visible in full-screen mode) -->
-      <div class="findings-sidebar">
-        <h3 data-i18n="slides.left.tag.findings">Findings</h3>
-        <div class="form-box">
-          <img src="GEO.png" alt="GEO Form" />
-        </div>
-        <div class="form-box">
-          <img src="YNA.png" alt="YNA Form" />
-        </div>
-      </div>
-
       <div class="columns view-mode-full">
         <!-- LEFT COLUMN: 4 SLIDE DECK (FINDINGS + PROPOSAL) -->
         <div class="column column-left">
@@ -1484,6 +1474,20 @@
             </div>
           </div>
         </div>
+
+        <!-- RIGHT COLUMN: FINDINGS IMAGES (visible in full-screen mode) -->
+        <div class="column column-right">
+          <div class="findings-content">
+            <h3 data-i18n="slides.left.tag.findings">Findings</h3>
+            <div class="form-box">
+              <img src="Public/img/GEO.png" alt="GEO Form" />
+            </div>
+            <div class="form-box">
+              <img src="Public/img/YNA.png" alt="YNA Form" />
+            </div>
+          </div>
+        </div>
+      </div>
 
         <!-- RIGHT COLUMN: 6 SLIDE DECK (NEW EMAILS) -->
         <div class="column column-right">
