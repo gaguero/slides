@@ -288,10 +288,11 @@ function initComments() {
   const showFloatingButton = (rect) => {
     // Position button always on top side of selected area, centered horizontally
     const buttonHeight = 32; // Approximate button height
+    const buttonWidth = 120; // Approximate button width
     const spacing = 8; // Space between selection and button
     const top = Math.max(window.scrollY + rect.top - buttonHeight - spacing, window.scrollY + 8);
     // Center horizontally over the selection
-    const left = window.scrollX + rect.left + (rect.width / 2) - 60; // 60px is half button width
+    const left = window.scrollX + rect.left + (rect.width / 2) - (buttonWidth / 2);
     floatingBtn.style.top = `${top}px`;
     floatingBtn.style.left = `${left}px`;
     floatingBtn.hidden = false;
