@@ -209,6 +209,68 @@
     .columns.view-mode-full .column-right {
       display: none;
     }
+    .funnel-visual {
+      position: fixed;
+      right: 40px;
+      top: 140px;
+      bottom: 40px;
+      width: 200px;
+      z-index: 2;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 40px 20px;
+      pointer-events: none;
+    }
+    .funnel-visual::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(to bottom, 
+        rgba(37, 99, 235, 0.8) 0%,
+        rgba(37, 99, 235, 0.6) 50%,
+        rgba(37, 99, 235, 0.4) 100%);
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+    .funnel-stage {
+      position: relative;
+      z-index: 3;
+      text-align: center;
+      font-size: 48px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .funnel-stage:nth-child(1) {
+      animation-delay: 0s;
+    }
+    .funnel-stage:nth-child(2) {
+      animation-delay: 0.4s;
+    }
+    .funnel-stage:nth-child(3) {
+      animation-delay: 0.8s;
+    }
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+      50% {
+        transform: scale(1.1);
+        opacity: 1;
+      }
+    }
+    .funnel-label {
+      font-size: 12px;
+      color: rgba(37, 99, 235, 0.7);
+      margin-top: 8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
     .columns.view-mode-split {
       flex-wrap: wrap;
     }
@@ -415,9 +477,9 @@
     .image-carousel {
       position: fixed;
       left: 0;
-      top: 0;
+      top: 140px;
       width: 100%;
-      height: 100%;
+      height: calc(100% - 140px);
       z-index: 1;
       pointer-events: none;
       opacity: 0;
@@ -425,7 +487,7 @@
       overflow: hidden;
     }
     .image-carousel.visible {
-      opacity: 0.4;
+      opacity: 0.6;
     }
     .carousel-wheel {
       width: 100%;
@@ -457,108 +519,209 @@
       height: 100%;
       object-fit: cover;
     }
-    /* Deep effect: images get larger and more opaque as they move up, positioned on left side */
+    /* Deep effect: A (small) at bottom → G (large) at center → A (small) at top, 20% bigger and 20% less transparent */
     .carousel-item {
-      width: 100px;
-      height: 100px;
-      opacity: 0.2;
-      transform: scale(0.6);
+      width: 120px;
+      height: 120px;
+      opacity: 0.4;
+      transform: scale(0.72);
       z-index: 1;
       left: 40px;
     }
-    .carousel-item:nth-child(1) { top: calc(50% - 400px); }
+    /* Bottom: A (smallest) */
+    .carousel-item:nth-child(1) { 
+      top: calc(100% - 200px); 
+      width: 120px; height: 120px; 
+      opacity: 0.4; 
+      transform: scale(0.72); 
+      z-index: 1; 
+    }
     .carousel-item:nth-child(2) { 
-      width: 110px; height: 110px; top: calc(50% - 320px); opacity: 0.3; 
-      transform: scale(0.65); z-index: 2; left: 40px;
+      top: calc(100% - 280px); 
+      width: 132px; height: 132px; 
+      opacity: 0.48; 
+      transform: scale(0.78); 
+      z-index: 2; 
+      left: 40px;
     }
     .carousel-item:nth-child(3) { 
-      width: 120px; height: 120px; top: calc(50% - 240px); opacity: 0.4; 
-      transform: scale(0.7); z-index: 3; left: 40px;
+      top: calc(100% - 360px); 
+      width: 144px; height: 144px; 
+      opacity: 0.56; 
+      transform: scale(0.84); 
+      z-index: 3; 
+      left: 40px;
     }
     .carousel-item:nth-child(4) { 
-      width: 130px; height: 130px; top: calc(50% - 160px); opacity: 0.5; 
-      transform: scale(0.75); z-index: 4; left: 40px;
+      top: calc(100% - 440px); 
+      width: 156px; height: 156px; 
+      opacity: 0.64; 
+      transform: scale(0.90); 
+      z-index: 4; 
+      left: 40px;
     }
     .carousel-item:nth-child(5) { 
-      width: 140px; height: 140px; top: calc(50% - 80px); opacity: 0.6; 
-      transform: scale(0.8); z-index: 5; left: 40px;
+      top: calc(100% - 520px); 
+      width: 168px; height: 168px; 
+      opacity: 0.72; 
+      transform: scale(0.96); 
+      z-index: 5; 
+      left: 40px;
     }
     .carousel-item:nth-child(6) { 
-      width: 150px; height: 150px; top: calc(50% - 0px); opacity: 0.7; 
-      transform: scale(0.85); z-index: 6; left: 40px;
+      top: calc(100% - 600px); 
+      width: 180px; height: 180px; 
+      opacity: 0.80; 
+      transform: scale(1.02); 
+      z-index: 6; 
+      left: 40px;
     }
+    /* Center: G (largest) */
     .carousel-item:nth-child(7) { 
-      width: 160px; height: 160px; top: calc(50% + 80px); opacity: 0.85; 
-      transform: scale(0.95); z-index: 7; left: 40px;
+      top: calc(50% - 0px); 
+      width: 204px; height: 204px; 
+      opacity: 1.0; 
+      transform: scale(1.2); 
+      z-index: 8; 
+      left: 40px;
     }
+    /* Top: back to A (smallest) */
     .carousel-item:nth-child(8) { 
-      width: 170px; height: 170px; top: calc(50% + 160px); opacity: 0.9; 
-      transform: scale(1); z-index: 8; left: 40px;
+      top: calc(50% - 80px); 
+      width: 180px; height: 180px; 
+      opacity: 0.80; 
+      transform: scale(1.02); 
+      z-index: 6; 
+      left: 40px;
     }
     .carousel-item:nth-child(9) { 
-      width: 160px; height: 160px; top: calc(50% + 240px); opacity: 0.85; 
-      transform: scale(0.95); z-index: 7; left: 40px;
+      top: calc(50% - 160px); 
+      width: 168px; height: 168px; 
+      opacity: 0.72; 
+      transform: scale(0.96); 
+      z-index: 5; 
+      left: 40px;
     }
     .carousel-item:nth-child(10) { 
-      width: 150px; height: 150px; top: calc(50% + 320px); opacity: 0.7; 
-      transform: scale(0.85); z-index: 6; left: 40px;
+      top: calc(50% - 240px); 
+      width: 156px; height: 156px; 
+      opacity: 0.64; 
+      transform: scale(0.90); 
+      z-index: 4; 
+      left: 40px;
     }
     .carousel-item:nth-child(11) { 
-      width: 140px; height: 140px; top: calc(50% + 400px); opacity: 0.6; 
-      transform: scale(0.8); z-index: 5; left: 40px;
+      top: calc(50% - 320px); 
+      width: 144px; height: 144px; 
+      opacity: 0.56; 
+      transform: scale(0.84); 
+      z-index: 3; 
+      left: 40px;
     }
     .carousel-item:nth-child(12) { 
-      width: 130px; height: 130px; top: calc(50% + 480px); opacity: 0.5; 
-      transform: scale(0.75); z-index: 4; left: 40px;
+      top: calc(50% - 400px); 
+      width: 132px; height: 132px; 
+      opacity: 0.48; 
+      transform: scale(0.78); 
+      z-index: 2; 
+      left: 40px;
     }
     /* Duplicate items for seamless loop - continue pattern */
     .carousel-item:nth-child(13) { 
-      width: 120px; height: 120px; top: calc(50% + 560px); opacity: 0.4; 
-      transform: scale(0.7); z-index: 3; left: 40px;
+      top: calc(50% - 480px); 
+      width: 120px; height: 120px; 
+      opacity: 0.4; 
+      transform: scale(0.72); 
+      z-index: 1; 
+      left: 40px;
     }
     .carousel-item:nth-child(14) { 
-      width: 110px; height: 110px; top: calc(50% + 640px); opacity: 0.3; 
-      transform: scale(0.65); z-index: 2; left: 40px;
+      top: calc(50% - 560px); 
+      width: 132px; height: 132px; 
+      opacity: 0.48; 
+      transform: scale(0.78); 
+      z-index: 2; 
+      left: 40px;
     }
     .carousel-item:nth-child(15) { 
-      width: 100px; height: 100px; top: calc(50% + 720px); opacity: 0.2; 
-      transform: scale(0.6); z-index: 1; left: 40px;
+      top: calc(50% - 640px); 
+      width: 144px; height: 144px; 
+      opacity: 0.56; 
+      transform: scale(0.84); 
+      z-index: 3; 
+      left: 40px;
     }
     .carousel-item:nth-child(16) { 
-      width: 100px; height: 100px; top: calc(50% + 800px); opacity: 0.2; 
-      transform: scale(0.6); z-index: 1; left: 40px;
+      top: calc(50% - 720px); 
+      width: 156px; height: 156px; 
+      opacity: 0.64; 
+      transform: scale(0.90); 
+      z-index: 4; 
+      left: 40px;
     }
     .carousel-item:nth-child(17) { 
-      width: 110px; height: 110px; top: calc(50% + 880px); opacity: 0.3; 
-      transform: scale(0.65); z-index: 2; left: 40px;
+      top: calc(50% - 800px); 
+      width: 168px; height: 168px; 
+      opacity: 0.72; 
+      transform: scale(0.96); 
+      z-index: 5; 
+      left: 40px;
     }
     .carousel-item:nth-child(18) { 
-      width: 120px; height: 120px; top: calc(50% + 960px); opacity: 0.4; 
-      transform: scale(0.7); z-index: 3; left: 40px;
+      top: calc(50% - 880px); 
+      width: 180px; height: 180px; 
+      opacity: 0.80; 
+      transform: scale(1.02); 
+      z-index: 6; 
+      left: 40px;
     }
     .carousel-item:nth-child(19) { 
-      width: 130px; height: 130px; top: calc(50% + 1040px); opacity: 0.5; 
-      transform: scale(0.75); z-index: 4; left: 40px;
+      top: calc(50% - 960px); 
+      width: 204px; height: 204px; 
+      opacity: 1.0; 
+      transform: scale(1.2); 
+      z-index: 8; 
+      left: 40px;
     }
     .carousel-item:nth-child(20) { 
-      width: 140px; height: 140px; top: calc(50% + 1120px); opacity: 0.6; 
-      transform: scale(0.8); z-index: 5; left: 40px;
+      top: calc(50% - 1040px); 
+      width: 180px; height: 180px; 
+      opacity: 0.80; 
+      transform: scale(1.02); 
+      z-index: 6; 
+      left: 40px;
     }
     .carousel-item:nth-child(21) { 
-      width: 150px; height: 150px; top: calc(50% + 1200px); opacity: 0.7; 
-      transform: scale(0.85); z-index: 6; left: 40px;
+      top: calc(50% - 1120px); 
+      width: 168px; height: 168px; 
+      opacity: 0.72; 
+      transform: scale(0.96); 
+      z-index: 5; 
+      left: 40px;
     }
     .carousel-item:nth-child(22) { 
-      width: 160px; height: 160px; top: calc(50% + 1280px); opacity: 0.85; 
-      transform: scale(0.95); z-index: 7; left: 40px;
+      top: calc(50% - 1200px); 
+      width: 156px; height: 156px; 
+      opacity: 0.64; 
+      transform: scale(0.90); 
+      z-index: 4; 
+      left: 40px;
     }
     .carousel-item:nth-child(23) { 
-      width: 170px; height: 170px; top: calc(50% + 1360px); opacity: 0.9; 
-      transform: scale(1); z-index: 8; left: 40px;
+      top: calc(50% - 1280px); 
+      width: 144px; height: 144px; 
+      opacity: 0.56; 
+      transform: scale(0.84); 
+      z-index: 3; 
+      left: 40px;
     }
     .carousel-item:nth-child(24) { 
-      width: 160px; height: 160px; top: calc(50% + 1440px); opacity: 0.85; 
-      transform: scale(0.95); z-index: 7; left: 40px;
+      top: calc(50% - 1360px); 
+      width: 132px; height: 132px; 
+      opacity: 0.48; 
+      transform: scale(0.78); 
+      z-index: 2; 
+      left: 40px;
     }
     .columns.view-mode-full .column-left .deck-controls-top {
       position: fixed;
@@ -1037,6 +1200,26 @@
           <div class="carousel-item">
             <img src="https://23160175.fs1.hubspotusercontent-na1.net/hub/23160175/hubfs/NBT6.jpg?width=900&amp;upscale=true&amp;name=NBT6.jpg" alt="Nayara Bocas del Toro" />
           </div>
+        </div>
+      </div>
+
+      <!-- Funnel Visual for Full-Screen Mode -->
+      <div class="funnel-visual">
+        <div class="funnel-stage">
+          👥
+          <div class="funnel-label">Leads</div>
+        </div>
+        <div class="funnel-stage">
+          📧
+          <div class="funnel-label">Email</div>
+        </div>
+        <div class="funnel-stage">
+          ⚙️
+          <div class="funnel-label">Process</div>
+        </div>
+        <div class="funnel-stage">
+          ✅
+          <div class="funnel-label">Convert</div>
         </div>
       </div>
 

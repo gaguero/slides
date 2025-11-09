@@ -189,12 +189,15 @@ function switchToSplitView() {
 function updateCarouselVisibility() {
   const columns = document.querySelector('.columns');
   const carousel = document.querySelector('.image-carousel');
-  if (!columns || !carousel) return;
+  const funnel = document.querySelector('.funnel-visual');
+  if (!columns) return;
   
   if (columns.classList.contains('view-mode-full')) {
-    carousel.classList.add('visible');
+    if (carousel) carousel.classList.add('visible');
+    if (funnel) funnel.style.display = 'flex';
   } else {
-    carousel.classList.remove('visible');
+    if (carousel) carousel.classList.remove('visible');
+    if (funnel) funnel.style.display = 'none';
   }
 }
 
