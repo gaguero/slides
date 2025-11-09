@@ -68,6 +68,8 @@
     .page-title p {
       font-size: 13px;
       color: #6b7280;
+      max-width: 900px;
+      margin: 0 auto;
     }
     .language-toggle {
       position: absolute;
@@ -77,7 +79,7 @@
       color: #f9fafb;
       border: none;
       border-radius: 999px;
-      padding: 6px 12px;
+      padding: 8px 14px;
       font-size: 12px;
       cursor: pointer;
       transition: background 0.2s ease, transform 0.2s ease;
@@ -189,8 +191,8 @@
     }
     .columns.view-mode-full .column-left .slide {
       max-width: 100%;
-      padding: 60px 28px 16px 28px;
-      line-height: 1.5;
+      padding: 45px 28px 10px 28px;
+      line-height: 1.4;
       display: none;
       flex-direction: column;
       height: calc(100vh - 140px);
@@ -208,21 +210,23 @@
       margin-top: 0;
     }
     .columns.view-mode-full .column-left .section-label {
-      font-size: 13px;
-      margin-top: 12px;
-      margin-bottom: 4px;
+      font-size: 12px;
+      margin-top: 10px;
+      margin-bottom: 3px;
     }
     .columns.view-mode-full .column-left .slide ul,
     .columns.view-mode-full .column-left .slide p {
-      font-size: 14px;
-      margin-bottom: 6px;
+      font-size: 13px;
+      margin-bottom: 5px;
     }
     .columns.view-mode-full .column-left .slide ul {
       padding-left: 20px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .columns.view-mode-full .column-left .slide ul li {
-      margin-bottom: 4px;
+      margin-bottom: 2px;
+      font-size: 13px;
+      line-height: 1.4;
     }
     .columns.view-mode-full .column-right {
       display: none;
@@ -1381,8 +1385,16 @@
                 <h2 class="slide-title" data-i18n="slides.left.2.title">Key Insights</h2>
                 <span class="slide-tag" data-i18n="slides.left.tag.findings">Findings</span>
               </div>
+              <div style="display: flex; gap: 20px; margin-bottom: 16px;">
+                <div style="flex: 1; border: 2px solid #fbbf24; border-radius: 8px; padding: 8px; background: #fffbeb;">
+                  <img src="GEO.png" alt="GEO Form" style="width: 100%; height: auto; border-radius: 4px;" />
+                </div>
+                <div style="flex: 1; border: 2px solid #fbbf24; border-radius: 8px; padding: 8px; background: #fffbeb;">
+                  <img src="YNA.png" alt="YNA Form" style="width: 100%; height: auto; border-radius: 4px;" />
+                </div>
+              </div>
               <ul>
-                <li data-i18n="slides.left.2.item1">The manual first email used by agents—refined by Kelly and Gerson over time—is proven to drive quick replies.</li>
+                <li data-i18n="slides.left.2.item1">The manual first email used by agents—refined by Kelly over time—is proven to drive quick replies.</li>
                 <li data-i18n="slides.left.2.item2">Dan expects very proactive outreach: immediate email, SMS and phone contact when a lead arrives.</li>
                 <li data-i18n="slides.left.2.item3">Guests who fill the YNA form often share dates and specific needs, and expect individualized help rather than a generic brochure style message.</li>
                 <li data-i18n="slides.left.2.item4">The main problem is not level of contact but lack of orchestration and consistent voice.</li>
@@ -1396,7 +1408,7 @@
               </div>
               <p class="section-label" data-i18n="slides.left.3.section1">Get Exclusive Offers (GEO form)</p>
               <ul>
-                <li data-i18n="slides.left.3.item1">Keep automatic enrollment in the drip campaign, but replace the old Email 1 with the new, tested first email created by Kelly &amp; Gerson.</li>
+                <li data-i18n="slides.left.3.item1">Keep automatic enrollment in the drip campaign, but replace the old Email 1 with the new, tested first email created by Kelly.</li>
                 <li data-i18n="slides.left.3.item2">Email 1 introduces the assigned agent, presents the current key promotion and rate table, and provides clear next steps.</li>
                 <li data-i18n="slides.left.3.item3">Emails 2 to 6 follow automatically as follow-up, all sent from the same assigned agent's email address.</li>
                 <li data-i18n="slides.left.3.item4">The promotional offers section only needs periodic updates, coordinated by the sales team with our HubSpot vendor.</li>
