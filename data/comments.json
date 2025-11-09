@@ -1,1 +1,30 @@
-[]
+[
+  {
+    "id": "1762671798994-ogu4mxmbcz",
+    "slideId": "email-5",
+    "selectionText": "Panama",
+    "firstName": "Gerson",
+    "lastName": "Aguero",
+    "comment": "test comment",
+    "color": "hsl(21, 80%, 80%)",
+    "range": {
+      "startPath": [
+        5,
+        1,
+        7,
+        13,
+        6
+      ],
+      "startOffset": 0,
+      "endPath": [
+        5,
+        1,
+        7,
+        13,
+        6
+      ],
+      "endOffset": 7
+    },
+    "createdAt": "2025-11-09T07:03:18.994Z"
+  }
+]

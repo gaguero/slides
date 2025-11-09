@@ -16,7 +16,7 @@ const STRINGS = {
     'welcome.firstNamePlaceholder': 'First name',
     'welcome.lastNamePlaceholder': 'Last name',
     'comments.instructions':
-      '<strong>Comments:</strong> Select text in the emails and then click the floating button to add your note with first and last name. Hover any highlight to read saved comments.',
+      '<strong>Comments:</strong> Select text in the emails and the comment form will open automatically. Add your note with first and last name. Hover any highlight to read saved comments.',
     'comments.floatingButton': 'Add comment',
     'comments.modalTitle': 'Add comment',
     'comments.selectedTextLabel': 'Selected text:',
@@ -38,7 +38,7 @@ const STRINGS = {
     'deck.status': (current, total) => `Slide ${current} of ${total}`,
     'deck.status.email': (current, total) => `Email ${current} of ${total}`,
     'subtitle.split':
-      'Left: Proposal slides with findings and recommendations. Right: Complete 6-email sequence in agent voice. Select any text to add comments.',
+      'Left: Proposal slides with findings and recommendations. Right: Complete 6-email sequence in agent voice. Select any text to add comments (form opens automatically).',
     'subtitle.split.es':
       'Izquierda: Diapositivas de propuesta con hallazgos y recomendaciones. Derecha: Secuencia completa de 6 correos en voz del agente. Selecciona cualquier texto para agregar comentarios.',
     'slides.left.1.title': 'Context and Problem',
@@ -170,7 +170,7 @@ const STRINGS = {
     'welcome.firstNamePlaceholder': 'Nombre',
     'welcome.lastNamePlaceholder': 'Apellido',
     'comments.instructions':
-      '<strong>Comentarios:</strong> Selecciona texto en los correos y luego haz clic en el botón flotante para añadir tu nota con nombre y apellido. Pasa el cursor sobre los resaltados para leer los comentarios guardados.',
+      '<strong>Comentarios:</strong> Selecciona texto en los correos y el formulario de comentarios se abrirá automáticamente. Añade tu nota con nombre y apellido. Pasa el cursor sobre los resaltados para leer los comentarios guardados.',
     'comments.floatingButton': 'Añadir comentario',
     'comments.modalTitle': 'Añadir comentario',
     'comments.selectedTextLabel': 'Texto seleccionado:',
@@ -192,7 +192,7 @@ const STRINGS = {
     'deck.status': (current, total) => `Slide ${current} de ${total}`,
     'deck.status.email': (current, total) => `Correo ${current} de ${total}`,
     'subtitle.split':
-      'Izquierda: Diapositivas de propuesta con hallazgos y recomendaciones. Derecha: Secuencia completa de 6 correos en voz del agente. Selecciona cualquier texto para agregar comentarios.',
+      'Izquierda: Diapositivas de propuesta con hallazgos y recomendaciones. Derecha: Secuencia completa de 6 correos en voz del agente. Selecciona cualquier texto para agregar comentarios (el formulario se abre automáticamente).',
     'slides.left.1.title': 'Contexto y Problema',
     'slides.left.1.section1': 'Configuración actual',
     'slides.left.1.section2': 'Problemas resultantes',
@@ -924,24 +924,9 @@ function initComments() {
   prefillCommentForm();
   let pendingSelection = null;
 
-  const hideFloatingButton = () => {
-    floatingBtn.hidden = true;
-    floatingBtn.style.top = '-9999px';
-    floatingBtn.style.left = '-9999px';
-  };
-
-  const showFloatingButton = (rect) => {
-    // Position button always on top side of selected area, centered horizontally, with 20px spacing
-    const buttonHeight = 32; // Approximate button height
-    const buttonWidth = 120; // Approximate button width
-    const spacing = 20; // 20 pixels separation from text to upper side
-    // Position button above selection with 20px gap
-    const top = rect.top - buttonHeight - spacing;
-    // Center horizontally over the selection
-    const left = rect.left + (rect.width / 2) - (buttonWidth / 2);
-    floatingBtn.style.top = `${top}px`;
-    floatingBtn.style.left = `${left}px`;
-    floatingBtn.hidden = false;
+  // Hide button (kept for compatibility, but button won't be shown)
+  const hideCommentButton = () => {
+    if (floatingBtn) floatingBtn.hidden = true;
   };
 
   const clearSelection = () => {
@@ -968,40 +953,83 @@ function initComments() {
     } else {
       announce(feedback, '', false);
     }
-    hideFloatingButton();
+    hideCommentButton();
     clearSelection();
   };
 
-  const handleSelectionChange = () => {
-    if (!commentModal.hidden) {
-      hideFloatingButton();
+  // Handle mouseup - automatically open modal when text is selected
+  document.addEventListener('mouseup', (event) => {
+    // Small delay to ensure selection is updated
+    setTimeout(() => {
+      if (!commentModal.hidden) {
+        return;
+      }
+
+      const selection = window.getSelection();
+      const selectionText = selection?.toString().trim();
+      
+      if (!selection || selection.isCollapsed || !selectionText) {
+        return;
+      }
+
+      const slideEl = findSlideFromSelection(selection);
+      if (!slideEl || !deckRight.contains(slideEl)) {
+        announce(feedback, getString('feedback.wrongColumn'), true);
+        return;
+      }
+
+      const range = selection.getRangeAt(0).cloneRange();
+      const rect = range.getBoundingClientRect();
+      if (!rect || (rect.top === 0 && rect.left === 0 && rect.width === 0 && rect.height === 0)) {
+        return;
+      }
+
+      const rangeInfo = serializeRange(range, slideEl);
+      if (!rangeInfo) {
+        return;
+      }
+
+      pendingSelection = {
+        slideId: slideEl.dataset.slideId,
+        text: selectionText,
+        rangeInfo,
+        range,
+      };
+
+      // Automatically open the modal
+      openModal();
+    }, 10);
+  });
+
+  // Handle keyboard selection - automatically open modal
+  document.addEventListener('keyup', (event) => {
+    if (event.key === 'Escape') {
+      cancelHandler();
       return;
     }
-
+    
+    // For keyboard selections, open modal directly
     const selection = window.getSelection();
     const selectionText = selection?.toString().trim();
+    
     if (!selection || selection.isCollapsed || !selectionText) {
-      hideFloatingButton();
       return;
     }
 
     const slideEl = findSlideFromSelection(selection);
     if (!slideEl || !deckRight.contains(slideEl)) {
-      hideFloatingButton();
-      announce(feedback, getString('feedback.wrongColumn'), true);
       return;
     }
 
     const range = selection.getRangeAt(0).cloneRange();
     const rect = range.getBoundingClientRect();
+    
     if (!rect || (rect.top === 0 && rect.left === 0 && rect.width === 0 && rect.height === 0)) {
-      hideFloatingButton();
       return;
     }
 
     const rangeInfo = serializeRange(range, slideEl);
     if (!rangeInfo) {
-      hideFloatingButton();
       return;
     }
 
@@ -1011,13 +1039,18 @@ function initComments() {
       rangeInfo,
       range,
     };
-    showFloatingButton(rect);
-  };
 
-  floatingBtn.addEventListener('click', () => {
-    floatingBtn.hidden = true;
+    // Automatically open the modal
     openModal();
   });
+
+  // Button click handler (kept for compatibility, but button is hidden)
+  if (floatingBtn) {
+    floatingBtn.addEventListener('click', () => {
+      if (floatingBtn) floatingBtn.hidden = true;
+      openModal();
+    });
+  }
 
   commentForm.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -1108,15 +1141,6 @@ function initComments() {
   cancelBtn?.addEventListener('click', cancelHandler);
   modalCloseBtn?.addEventListener('click', cancelHandler);
 
-  document.addEventListener('mouseup', handleSelectionChange);
-  document.addEventListener('keyup', (event) => {
-    if (event.key === 'Escape') {
-      cancelHandler();
-    } else {
-      handleSelectionChange();
-    }
-  });
-  document.addEventListener('selectionchange', handleSelectionChange);
 
   fetch('/comments')
     .then(async (res) => {

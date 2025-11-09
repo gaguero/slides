@@ -1030,6 +1030,7 @@
       cursor: pointer;
       box-shadow: 0 4px 12px rgba(5, 150, 105, 0.4);
       transition: background 0.2s ease, transform 0.2s ease;
+      pointer-events: auto;
     }
     .comment-floating-btn:hover {
       background: #047857;
@@ -1038,7 +1039,12 @@
     }
     .comment-modal {
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100vw;
+      height: 100vh;
       background: rgba(15, 23, 42, 0.55);
       backdrop-filter: blur(4px);
       display: flex;
@@ -1046,6 +1052,8 @@
       justify-content: center;
       padding: 20px;
       z-index: 30;
+      overflow-y: auto;
+      box-sizing: border-box;
     }
     .comment-modal-content {
       background: #ffffff;
@@ -1057,6 +1065,10 @@
       position: relative;
       display: grid;
       gap: 14px;
+      margin: auto;
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;
+      box-sizing: border-box;
     }
     .comment-modal-content h3 {
       margin: 0;
@@ -1319,9 +1331,14 @@
         font-size: 20px;
       }
       /* Comment modal */
+      .comment-modal {
+        padding: 20px;
+      }
       .comment-modal-content {
         padding: 16px;
         max-width: 90vw;
+        max-height: calc(100vh - 40px);
+        margin: auto;
       }
     }
     @media (max-width: 600px) {
@@ -1414,8 +1431,13 @@
       .welcome-content h2 {
         font-size: 18px;
       }
+      .comment-modal {
+        padding: 16px;
+      }
       .comment-modal-content {
         padding: 14px;
+        max-height: calc(100vh - 32px);
+        margin: auto;
       }
     }
   </style>
