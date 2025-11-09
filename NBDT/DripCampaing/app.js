@@ -931,13 +931,14 @@ function initComments() {
   };
 
   const showFloatingButton = (rect) => {
-    // Position button always on top side of selected area, centered horizontally, with more spacing
+    // Position button always on top side of selected area, centered horizontally, with 20px spacing
     const buttonHeight = 32; // Approximate button height
     const buttonWidth = 120; // Approximate button width
-    const spacing = 16; // Increased space between selection and button
-    const top = Math.max(window.scrollY + rect.top - buttonHeight - spacing, window.scrollY + 8);
+    const spacing = 20; // 20 pixels separation from text to upper side
+    // Position button above selection with 20px gap
+    const top = rect.top - buttonHeight - spacing;
     // Center horizontally over the selection
-    const left = window.scrollX + rect.left + (rect.width / 2) - (buttonWidth / 2);
+    const left = rect.left + (rect.width / 2) - (buttonWidth / 2);
     floatingBtn.style.top = `${top}px`;
     floatingBtn.style.left = `${left}px`;
     floatingBtn.hidden = false;
